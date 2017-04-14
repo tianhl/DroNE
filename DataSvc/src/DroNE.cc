@@ -46,6 +46,8 @@ bool DroNE::execute(){
 
     //trigger the EndEvent incident
     local_fire("EndEvent");
+    local_fire("hi");
+
   }
   catch (SniperStopped& e) {
     if ( ! m_isTop ) throw e;

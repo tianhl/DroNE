@@ -4,23 +4,19 @@
 
 # using the new Mgr.
 
-import Sniper
 import DataSvc
+import Sniper
+import CtrlTask
 
 if __name__ == "__main__":
 
-    #task = Sniper.Task("task")
-    #task.asTop()
-    #task.setLogLevel(0)
- 
-    #tmp = Sniper.Task("tmp")
-    task = DataSvc.DroNE("dd")
-    
-    #task = tmp.createTask("DroNE")
+    task = DataSvc.DroNE("task")
     task.asTop()
     task.setLogLevel(0)     
 
-    #import DataSvc
+    ct = CtrlTask.CtrlTask("ctrl")
+    #ct.run()
+
     task.property("svcs").append("DataSvc")
     task.property("svcs").append("RawDataInputSvc/DataInputSvc")
     task.property("svcs").append("FileInputSvc/DataProvideSvc")
@@ -41,5 +37,8 @@ if __name__ == "__main__":
     #alg = task.find("DumpAlg")
 
     #    
-    task.setEvtMax(10000000)
+    task.setEvtMax(10)
     task.run()
+
+    i = Sniper.Incident("CtrlTaskSayHi")
+    i.fire()
