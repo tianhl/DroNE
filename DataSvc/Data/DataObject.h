@@ -4,32 +4,6 @@
 #include <stdint.h>
 #include <deque>
 
-/** @class DataObject 
-
-    DataObject is a basic data class in DroNE.
-    All data object in DataSvc must be drived from this class. 
-
-    @author Haolai TIAN, CSNS, IHEP, CAS
-    @date 12/12/2016
-
-    Copyright &copy; 2016-now CSNS, IHEP, CAS
-
-    This file is part of DroNE.
-
-    DroNE is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 3 of the License, or
-    (at your option) any later version.
-
-    DroNE is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-*/
 class DataObject{
 	public:
 		virtual ~DataObject(){}

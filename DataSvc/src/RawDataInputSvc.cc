@@ -29,7 +29,7 @@
 DECLARE_SERVICE(RawDataInputSvc);
 
 RawDataInputSvc::RawDataInputSvc(const std::string& name)
-: SvcBase(name) {
+: DataInputSvc(name) {
 	declProp("BuffSize",  m_buffsize);
 	m_decoder = new DecodeRawData();
 
@@ -132,6 +132,7 @@ STARTNEXT:
 					break;
 				case DecodeRawData::PulseHdr11:
 					npulse->setT0(value);
+                                        //LogInfo << "T0 " << value << std::endl;
 					break;
 					//================ Rs1 ================
 				case DecodeRawData::PulseHdr12:
@@ -226,12 +227,16 @@ STARTNEXT:
 
 uint8_t* RawDataInputSvc::readByte(){
 	if(m_offset == m_currbuffsize) m_currbuffsize = nextSegment();
+        //std::cout << "raw data input svc m_offset: " << m_offset << std::endl;
+	//printf("ReadByte %x\n",*(m_dataBuff+m_offset));
 	if(0 == m_currbuffsize)return (uint8_t*)NULL;
 	else return (uint8_t*)(m_dataBuff+(m_offset++));
 }
 
 size_t RawDataInputSvc::nextSegment() {
+        //std::cout << "nextSegment" << std::endl;
 	m_offset = 0;
 	if (not m_dataPvdSvc->read(m_dataBuff, m_buffsize)) m_isLastSegment = true;
+        //std::cout << "nSegment get count: " << m_dataPvdSvc->count() << std::endl;
 	return m_dataPvdSvc->count();
 }

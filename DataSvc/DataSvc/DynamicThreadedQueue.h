@@ -5,6 +5,21 @@
 #include <queue>
 
 template<typename T>
+class DataItem{
+	public:
+		DataItem(T p, size_t s):m_pData(p),m_size(s){};
+		virtual ~DataItem(){};
+
+		T        getData(){return m_pData;};
+		size_t   getSize(){return m_size;};
+	private:
+		DataItem(){};
+		// set const?
+		T         m_pData;
+		size_t    m_size;
+};
+
+template<typename T>
 class DynamicThreadedQueue
 :boost::noncopyable
 {

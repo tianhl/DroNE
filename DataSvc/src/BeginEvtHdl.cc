@@ -1,6 +1,6 @@
 #include "DataSvc/BeginEvtHdl.h"
 #include "DataSvc/DataSvc.h"
-#include "DataSvc/RawDataInputSvc.h"
+#include "DataSvc/DataInputSvc.h"
 
 #include "SniperKernel/Incident.h"
 #include "SniperKernel/SniperPtr.h"
@@ -9,22 +9,25 @@
 #include "SniperKernel/SniperException.h"
 
 
-BeginEvtHdl::BeginEvtHdl(Task* par)
-    : m_par(par)
+	BeginEvtHdl::BeginEvtHdl(Task* par)
+: m_par(par)
 {
 
-    SniperPtr<RawDataInputSvc> pSvc("RawDataInputSvc");
-    if ( pSvc.invalid()) {
-            throw SniperException("RawData inputSvc is invalid!");
-    }
-    m_iSvc = pSvc.data();
+	SniperPtr<DataInputSvc> pSvc("DataInputSvc");
+	if ( pSvc.invalid()) {
+		throw SniperException("DataInputSvc is invalid!");
+	}
+	m_iSvc = pSvc.data();
 
 }
 
 bool BeginEvtHdl::handle(Incident& /*incident*/)
 {
-    if ( m_iSvc->next() ) {
-        return true;
-    }
-    return Incident::fire("StopRun");
+	if ( m_iSvc->next() ) {
+		return true;
+	}
+	//if (){
+	//	return Incident::fire("EndEvent");
+	//}
+	return Incident::fire("StopRun");
 }

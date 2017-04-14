@@ -30,6 +30,7 @@ class FileInputSvc : public DataProvideSvc{
 		std::vector<std::string>    m_inputFiles;
 		uint32_t                    m_offset;
 		uint32_t                    m_nFiles;
+		uint32_t                    m_count;
 };
 
 #endif

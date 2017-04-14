@@ -5,7 +5,7 @@
 
 class Task;
 class DataSvc;
-class RawDataInputSvc;
+class DataInputSvc;
 
 class BeginEvtHdl : public IIncidentHandler
 {
@@ -17,9 +17,9 @@ class BeginEvtHdl : public IIncidentHandler
 
     private :
 
-        Task*             m_par;
-        DataSvc*          m_dataSvc;
-        RawDataInputSvc*  m_iSvc;
+        Task*          m_par;
+        DataSvc*       m_dataSvc;
+        DataInputSvc*  m_iSvc;
 };
 
 #endif

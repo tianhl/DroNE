@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-# author: tianhl
-# for GPPD offline data processing
+# author: lintao
+
+# using the new Mgr.
 
 import Sniper
 
@@ -9,16 +10,16 @@ if __name__ == "__main__":
 
     task = Sniper.Task("task")
     task.asTop()
-    task.setLogLevel(1)
+    task.setLogLevel(0)
     
     import DataSvc
     task.property("svcs").append("DataSvc")
-    task.property("svcs").append("RawDataInputSvc")
+    task.property("svcs").append("RawDataInputSvc/DataInputSvc")
     task.property("svcs").append("FileInputSvc/DataProvideSvc")
-    iSvc = task.find("RawDataInputSvc")
+    iSvc = task.find("DataInputSvc")
     iPvd = task.find("DataProvideSvc")
 
-    filelist = ["20161022_tangb/2016_10_31_16_22_51_192.168.10.18_in.dat"]
+    filelist = ["16adjust.dat"]
     iPvd.property("InputFile").set(filelist) #"N_3Cdmaskslit.dat", 
     iSvc.property("BuffSize").set(5000)
 
@@ -26,11 +27,14 @@ if __name__ == "__main__":
     iPvd.show()
 
     import Algorithms
-    task.property("algs").append("GPPDMAPMTRecAlg")
-    task.property("algs").append("GPPDMAPMTMapAlg")
-    task.property("algs").append("DumpAlg")
-    dumpalg = task.find("DumpAlg")
-    dumpalg.property("OutputFileName").set("temp.txt")
+    task.property("algs").append("GPPDSNDRecAlg")
+    task.property("algs").append("GPPDSNDMapAlg")
+    task.property("algs").append("FileReadoutAlg")
+    alg = task.find("FileReadoutAlg")
+    alg.property("OutputFileName").set("16adjust.txt")
+    alg.property("initXNum").set(111)
+    alg.property("initYNum").set(48)
+
     #    
-    task.setEvtMax(200000000)
+    task.setEvtMax(10000000)
     task.run()

@@ -1,30 +1,55 @@
-project(DataSvc)
-cmake_minimum_required(VERSION 2.6)
+PROJECT(DataSvc)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
 # Build Type
-IF(NOT CMAKE_BUILD_TYPE)
-  SET(CMAKE_BUILD_TYPE "DEBUG") # RELEASE, RELWITHDEBINFO MINSIZEREL
+IF(CMAKE_BUILD_TYPE_INITIALIZED_TO_DEFAULT)
+  SET(CMAKE_BUILD_TYPE DEBUG) # RELEASE, RELWITHDEBINFO MINSIZEREL
 ENDIF()
 
 # Find Package
 SET(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/../CMake/Modules)
 
-FIND_PACKAGE(Dim REQUIRED)
-IF(DIM_FOUND)
-	INCLUDE_DIRECTORIES(${Dim_INCLUDE_DIRS})
-ELSEIF(NOT Dim_FOUND) 
-	MESSAGE(FATAL_ERROR "Unable to find Dim. Did you set Dim_ROOT?")
+
+OPTION(Dim "Dim" OFF)
+IF(Dim)
+    FIND_PACKAGE(Dim REQUIRED)
+    IF(DIM_FOUND)
+        INCLUDE_DIRECTORIES(${Dim_INCLUDE_DIRS})
+    ELSEIF(NOT Dim_FOUND) 
+        MESSAGE(FATAL_ERROR "Unable to find Dim. Did you set Dim_ROOT?")
+    ENDIF()
+ELSEIF(NOT Dim)
+    MESSAGE(STATUS "Did not call Dim.")
 ENDIF()
+
 FIND_PACKAGE(SniperKernel REQUIRED)
-#FIND_PACKAGE(Data REQUIRED)
-#IF(DATA_FOUND AND SNIPERKERNEL_FOUND)
 IF(SNIPERKERNEL_FOUND)
   INCLUDE_DIRECTORIES(${SniperKernel_INCLUDE_DIRS} ${Data_INCLUDE_DIRS})
 ELSEIF(NOT SniperKernel_FOUND) 
   MESSAGE(FATAL_ERROR "Unable to find SniperKernel. Did you set SniperKernel_ROOT?")
-  #ELSEIF(NOT DATA_FOUND) 
-  #  MESSAGE(FATAL_ERROR "Unable to find Data. Did you set Data_ROOT?")
 ENDIF()
+
+OPTION(Epics "Epics" OFF)
+IF(Epics)
+    FIND_PACKAGE(pvAccess REQUIRED)
+    FIND_PACKAGE(pvData REQUIRED)
+    FIND_PACKAGE(Base REQUIRED)
+    IF(pvAccess_FOUND AND pvData_FOUND)
+        IF(Base_FOUND)
+            INCLUDE_DIRECTORIES(${Base_INCLUDE_DIRS} ${Base_INCLUDE_DIRS}/compiler/gcc ${Base_INCLUDE_DIRS}/os/Linux ${pvAccess_INCLUDE_DIRS}/../ ${pvData_INCLUDE_DIRS}/../)
+        ELSEIF(NOT Base_FOUND)
+            MESSAGE(FATAL_ERROR "Unable to find base. Did you set BasePATH?")
+        ENDIF()
+    ELSEIF(NOT pvAccess_FOUND)
+        MESSAGE(FATAL_ERROR "Unable to find pvAccess. Did you set pvAccess_ROOT?")
+    ELSEIF(NOT pvData_FOUND)
+        MESSAGE(FATAL_ERROR "Unable to find pvData. Did you set pvData_ROOT?")
+    ENDIF()
+ELSEIF(NOT Epics)
+    MESSAGE(STATUS "Did not call Epics!")
+ENDIF()
+
+SET(Boost_NO_BOOST_CMAKE TRUE)
 
 # Find Package
 FIND_PACKAGE(Boost)
@@ -49,24 +74,47 @@ ELSE()
 ENDIF()
 
 # Search Source Files
-#include_directories(${PROJECT_SOURCE_DIR}/Data)
-#include_directories(${PROJECT_SOURCE_DIR}/DataSvc)
-include_directories(${PROJECT_SOURCE_DIR})
-include_directories(${PROJECT_SOURCE_DIR}/src)
-file(GLOB_RECURSE CPPLIB_SRC_LIST "src/*.cc")
-MESSAGE(STATUS CPPLIB = ${CPPLIB_SRC_LIST}  )
+INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR})
+INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/src)
+INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/src/EpicsV4Src)
+
+FILE(GLOB_RECURSE CPPLIB_SRC_LIST "src/*.cc")# "src/EpicsV4Src/*.cc")
+IF(NOT Dim AND NOT Epics)
+    list(REMOVE_ITEM CPPLIB_SRC_LIST
+${CMAKE_CURRENT_SOURCE_DIR}/src/DimRecvSvc.cc
+${CMAKE_CURRENT_SOURCE_DIR}/src/EpicsInputSvc.cc
+${CMAKE_CURRENT_SOURCE_DIR}/src/neutronClientStartMonitor.cc
+${CMAKE_CURRENT_SOURCE_DIR}/src/EpicsV4Src/neutronClientRequestAndMonitor.cc)
+    MESSAGE(STATUS ${CPPLIB_SRC_LIST})
+ELSEIF(NOT Dim AND Epics)
+    list(REMOVE_ITEM CPPLIB_SRC_LIST
+${CMAKE_CURRENT_SOURCE_DIR}/src/DimRecvSvc.cc)
+    MESSAGE(STATUS ${CPPLIB_SRC_LIST})
+ELSEIF(NOT Epics AND Dim)
+    list(REMOVE_ITEM CPPLIB_SRC_LIST ${CMAKE_CURRENT_SOURCE_DIR}/src/EpicsInputSvc.cc
+${CMAKE_CURRENT_SOURCE_DIR}/src/neutronClientStartMonitor.cc
+${CMAKE_CURRENT_SOURCE_DIR}/src/EpicsV4Src/neutronClientRequestAndMonitor.cc)
+    MESSAGE(STATUS ${CPPLIB_SRC_LIST})
+ENDIF()
 
 # Compile Library for CPP
-add_library(DataSvc SHARED ${CPPLIB_SRC_LIST})
-target_link_libraries(DataSvc ${Boost_LIBRARIES}) 
+ADD_LIBRARY(DataSvc SHARED ${CPPLIB_SRC_LIST})
+TARGET_LINK_LIBRARIES(DataSvc ${Boost_LIBRARIES}) 
 TARGET_LINK_LIBRARIES(DataSvc ${SniperKernel_LIBRARIES})
-#TARGET_LINK_LIBRARIES(DataSvc ${Data_LIBRARIES})
 TARGET_LINK_LIBRARIES(DataSvc ${Dim_LIBRARIES})
 
-# Output Path and Install Area
-set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 
-INSTALL(TARGETS DataSvc LIBRARY DESTINATION ${PROJECT_SOURCE_DIR}/../SniperInstall/lib)
-INSTALL(DIRECTORY DataSvc DESTINATION ${PROJECT_SOURCE_DIR}/../SniperInstall/include)
-INSTALL(DIRECTORY Data    DESTINATION ${PROJECT_SOURCE_DIR}/../SniperInstall/include)
-INSTALL(DIRECTORY python/DataSvc DESTINATION ${PROJECT_SOURCE_DIR}/../SniperInstall/pylib)
+# Compile Library for Python
+FILE(GLOB_RECURSE PYBLIB_SRC_LIST "src/binding/*.cc")
+ADD_LIBRARY(DataSvcPython SHARED ${PYBLIB_SRC_LIST})
+TARGET_LINK_LIBRARIES(DataSvcPython  ${Boost_LIBRARIES})
+TARGET_LINK_LIBRARIES(DataSvcPython  DataSvc)
+
+# Output Path and Install Area
+SET(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
+
+INSTALL(TARGETS DataSvc LIBRARY DESTINATION   ${PROJECT_SOURCE_DIR}/../DroNEInstall/lib)
+INSTALL(DIRECTORY DataSvc DESTINATION         ${PROJECT_SOURCE_DIR}/../DroNEInstall/include)
+INSTALL(DIRECTORY Data    DESTINATION         ${PROJECT_SOURCE_DIR}/../DroNEInstall/include)
+INSTALL(DIRECTORY python/DataSvc DESTINATION  ${PROJECT_SOURCE_DIR}/../DroNEInstall/pylib)
+INSTALL(TARGETS DataSvcPython LIBRARY DESTINATION ${PROJECT_SOURCE_DIR}/../DroNEInstall/pylib )

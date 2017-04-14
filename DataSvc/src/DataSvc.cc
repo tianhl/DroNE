@@ -1,5 +1,6 @@
 #include "DataSvc/DataSvc.h"
 #include "DataSvc/BeginEvtHdl.h"
+#include "DataSvc/EndEvtHdl.h"
 #include "SniperKernel/SvcFactory.h"
 #include "SniperKernel/Task.h"
 #include <iostream>
@@ -15,8 +16,6 @@ DECLARE_SERVICE(DataSvc);
 DataSvc::DataSvc(const std::string& name)
     : SvcBase(name)
 {
-
-	declProp("SimMode", m_mc);
 }
 
 DataSvc::~DataSvc()
@@ -39,15 +38,18 @@ bool DataSvc::initialize()
   this->find("/statistic")->branch("pixel_count");
   this->regObj("/statistic/pixel_count", new PixelCount);
 
-  if(not m_mc){
-	  Task* par = getScope();
-	  IIncidentHandler* bi = new BeginEvtHdl(par);
-	  if ( par->isTop() ) bi->regist("BeginEvent");
-	  else bi->regist(par->scope() + par->objName() + ":BeginEvent");
+  Task* par = getScope();
+  IIncidentHandler* bi = new BeginEvtHdl(par);
+  if ( par->isTop() ) bi->regist("BeginEvent");
+  else bi->regist(par->scope() + par->objName() + ":BeginEvent");
 
-	  m_icdts.push_back(bi);
-  }
-  std::cout << "simluation mode: " << m_mc << std::endl;
+  IIncidentHandler* ei = new EndEvtHdl(par);
+  if ( par->isTop() ) ei->regist("EndEvent");
+  else ei->regist(par->scope() + par->objName() + ":EndEvent");
+
+  m_icdts.push_back(bi);
+  m_icdts.push_back(ei);
+  std::cout << "incidents size: " << m_icdts.size() << std::endl;
 
   return true;
 }

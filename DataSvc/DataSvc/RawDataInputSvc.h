@@ -4,13 +4,13 @@
 #include <vector>
 #include <string>
 
-#include "SniperKernel/SvcBase.h"
+#include "DataSvc/DataInputSvc.h"
 
 class DataSvc;
 class DataProvideSvc;
 class DecodeRawData;
 
-class RawDataInputSvc : public SvcBase
+class RawDataInputSvc : public DataInputSvc
 {
     public :
 

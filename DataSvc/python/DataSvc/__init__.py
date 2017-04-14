@@ -4,4 +4,4 @@
 # python binding for DataSvc
 
 import Sniper
-Sniper.loadDll("libDataSvc.so")
+from libDataSvcPython import *

@@ -16,19 +16,21 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/thread/thread.hpp>
 
-class DataItem{
-	public:
-		DataItem(uint8_t* p, size_t s):m_pData(p),m_size(s){};
-		virtual ~DataItem(){};
+//class DataItem{
+//	public:
+//		DataItem(uint8_t* p, size_t s):m_pData(p),m_size(s){};
+//		virtual ~DataItem(){};
+//
+//		uint8_t* getData(){return m_pData;};
+//		size_t   getSize(){return m_size;};
+//	private:
+//		DataItem(){};
+//		// set const?
+//		uint8_t*  m_pData;
+//		size_t    m_size;
+//};
 
-		uint8_t* getData(){return m_pData;};
-		size_t   getSize(){return m_size;};
-	private:
-		DataItem(){};
-		// set const?
-		uint8_t*  m_pData;
-		size_t    m_size;
-};
+typedef DataItem<uint8_t*> Item;
 
 class DimRecvSvc : public DataProvideSvc{
 	public:
@@ -50,10 +52,11 @@ class DimRecvSvc : public DataProvideSvc{
 		void popDataItem();
 		bool copyBuff(uint8_t* destBuff, size_t size, uint8_t* srcBuff);
 	private:
-		static DynamicThreadedQueue<DataItem*> dataQueue;
-		DataItem* m_curDataItem;
+		static DynamicThreadedQueue<Item*> dataQueue;
+		Item* m_curDataItem;
 		uint8_t*  m_current;
 		size_t m_dataSize; // to upper
+                std::string m_dimServer;
 		size_t m_currSize;
 		size_t m_offset;   // dimbuff offset
 		boost::thread *m_client;

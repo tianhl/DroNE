@@ -16,13 +16,14 @@ extern "C"{
 
 DECLARE_SERVICE(DimRecvSvc);
 
-DynamicThreadedQueue<DataItem*> DimRecvSvc::dataQueue;
+DynamicThreadedQueue<Item*> DimRecvSvc::dataQueue;
 
 //=========================================================
 DimRecvSvc::DimRecvSvc(const std::string& name)
 : DataProvideSvc(name)
 {
 	declProp("DataSize", m_dataSize);
+        declProp("DimServerName", m_dimServer);
 
 	m_client = NULL;
 	m_curDataItem = NULL;
@@ -93,13 +94,16 @@ size_t DimRecvSvc::count() const{
 void DimRecvSvc::pushDataItem(uint8_t* item, size_t size) {
 	uint8_t* data = new uint8_t[size];
 	memcpy(data, (uint8_t*)item, size);
-	DataItem* dataItem = new DataItem(data, size);
+	Item* dataItem = new Item(data, size);
 	dataQueue.put(dataItem);
 }
 
 
 void functionWrapper(void* flag, void* buff, int* size){
 	if(1200 == *((int*)flag)) DimRecvSvc::pushDataItem((uint8_t*)buff, size_t(*size));
+        //for(int i = 0; i < *size; i++){
+        //    printf("functionWrapper: %x\n", *((unsigned char*)buff+i));
+        //}
 }
 
 void DimRecvSvc::dimClient(){
@@ -109,9 +113,10 @@ void DimRecvSvc::dimClient(){
 		LogInfo << "DIM_DNS_NODE: " << envNode << std::endl; 
 		LogInfo << "DIM_DNS_PORT: " << envPort << std::endl; 
 		static int no_link = -1;
-		static char aux[80];
-		sprintf(aux,"%s","dimserver/TEST_SWAP");
-		m_dimID = dic_info_service_stamped( aux, MONITORED, 0, 0, 0, functionWrapper, 1200, &no_link, 4 );  
+		//static char aux[80];
+		//sprintf(aux,"%s",m_dimServer.c_str());
+		m_dimID = dic_info_service_stamped( m_dimServer.c_str(), MONITORED, 0, 0, 0, functionWrapper, 1200, &no_link, 4 );  
+		//m_dimID = dic_info_service_stamped( aux, MONITORED, 0, 0, 0, functionWrapper, 1200, &no_link, 4 );  
 	}
 	else throw SniperException("DIM_DNS_NODE or DIM_DNS_PORT undefined!");
 }

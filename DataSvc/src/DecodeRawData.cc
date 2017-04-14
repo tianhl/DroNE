@@ -58,6 +58,7 @@ void DecodeRawData::Decode_PulseEnd00(uint8_t *Input){
 };
 
 uint32_t DecodeRawData::Decode_RawDataSegment(uint8_t *ReadRawData){
+        //printf("%x\n", *ReadRawData);
 
 	switch(m_status){
 		//================ Hdr ================

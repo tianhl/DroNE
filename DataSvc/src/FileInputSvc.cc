@@ -50,9 +50,14 @@ void FileInputSvc::close(){
 
 bool FileInputSvc::read(uint8_t* buff, uint32_t buffsize){
 	m_filestream.read((char*)buff, buffsize);
-	size_t size = count();
+	//size_t size = count();
+	size_t size = m_filestream.gcount();
+        m_count     = size;
 	if(size < buffsize){
-		if (next()) m_filestream.read((char*)(buff+size), buffsize-size);
+		if (next()) {
+                    m_filestream.read((char*)(buff+size), buffsize-size);
+                    m_count += m_filestream.gcount();
+                 }
 		else return false;
 	};
 	return true;
@@ -67,5 +72,5 @@ bool FileInputSvc::next(){
 }
 
 size_t FileInputSvc::count() const{
-	return m_filestream.gcount();
+        return m_count;
 }
