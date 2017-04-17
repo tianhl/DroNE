@@ -43,6 +43,7 @@ if __name__ == "__main__":
     i = Sniper.Incident("CtrlTaskSayHi")
     print i.name()
     i.fire()
-    h = Sniper.Incident("task:HeartBeat")
+    h = DataSvc.DroNEIncident("task:HeartBeat")
     print h.name()
     h.fire()
+    print h.getRetVal()

@@ -1,4 +1,5 @@
 #include "DataSvc/DroNE.h"
+#include "DataSvc/HeartBeatHdl.h"
 
 #include "SniperKernel/AlgBase.h"
 #include "SniperKernel/SvcBase.h"
@@ -15,7 +16,13 @@ SNIPER_DECLARE_DLE(DroNE);
 DroNE::DroNE(const std::string& name)
     : Task(name)
 {
-    declProp("is_online", m_onlinemode);
+	declProp("is_online", m_onlinemode);
+
+	IIncidentHandler* hbi = new HeartBeatHdl(this);
+	if ( this->isTop() ) hbi->regist("HeartBeat");
+	else hbi->regist(this->scope() + this->objName() + ":HeartBeat");
+	hbi->listening();
+
 }
 
 DroNE::~DroNE() {
@@ -23,38 +30,37 @@ DroNE::~DroNE() {
 
 bool DroNE::execute(){
 
-  int run = switchStatus(Running);
-  if ( run != 0 ) return (run > 0);
+	int run = switchStatus(Running);
+	if ( run != 0 ) return (run > 0);
 
-  ++m_loop;
-  LogTest << " drone executing " << m_loop << std::endl;
+	++m_loop;
+	LogTest << " drone executing " << m_loop << std::endl;
 
-  try {
-    //trigger the BeginEvent incident
-    local_fire("BeginEvent");
+	try {
+		//trigger the BeginEvent incident
+		local_fire("BeginEvent");
 
-    //executing algorithms
-    for ( std::list<AlgBase*>::iterator iAlg = m_algs.begin();
-	  iAlg != m_algs.end();
-	  ++iAlg ) {
-      if ( ! (*iAlg)->execute() ) {
-	LogError << "execute failed!" << std::endl;
-	//FIXME: this is not an elegant way...
-	Incident::fire("StopRun");
-      }
-    }
+		//executing algorithms
+		for ( std::list<AlgBase*>::iterator iAlg = m_algs.begin();
+				iAlg != m_algs.end();
+				++iAlg ) {
+			if ( ! (*iAlg)->execute() ) {
+				LogError << "execute failed!" << std::endl;
+				//FIXME: this is not an elegant way...
+				Incident::fire("StopRun");
+			}
+		}
 
-    //trigger the EndEvent incident
-    local_fire("EndEvent");
-    local_fire("hi");
+		//trigger the EndEvent incident
+		local_fire("EndEvent");
 
-  }
-  catch (SniperStopped& e) {
-    if ( ! m_isTop ) throw e;
-    LogInfo << "Stopping execution..." << std::endl;
-  }
+	}
+	catch (SniperStopped& e) {
+		if ( ! m_isTop ) throw e;
+		LogInfo << "Stopping execution..." << std::endl;
+	}
 
-  return true;
+	return true;
 
 }
 

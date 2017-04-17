@@ -1,13 +1,10 @@
 #include "DataSvc/HeartBeatHdl.h"
-
-#include "SniperKernel/Incident.h"
-#include "SniperKernel/SniperPtr.h"
-#include "SniperKernel/SniperDataPtr.h"
-#include "SniperKernel/SniperLog.h"
-#include "SniperKernel/SniperException.h"
+#include "DataSvc/DroNEIncident.h"
 
 #include <time.h>
 #include <stdio.h> 
+#include <sstream>
+#include <iostream>
 
 
 	HeartBeatHdl::HeartBeatHdl(Task* par)
@@ -16,9 +13,14 @@
 
 }
 
-bool HeartBeatHdl::handle(Incident& /*incident*/)
+bool HeartBeatHdl::handle(Incident& incident)
 {
 	time_t t = time(NULL);
-	std::cout << "local time: " << t << std::endl;
+	DroNEIncident* pIncident = dynamic_cast<DroNEIncident*>(&incident);
+	if (NULL==pIncident)return false;
+	std::stringstream retVal;
+	retVal << t;
+	std::string ret(retVal.str());
+	pIncident->setRetVal(ret);
 	return true;
 }

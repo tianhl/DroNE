@@ -16,7 +16,7 @@ class DroNEIncident: public Incident
 
         void  setRetVal(std::string& retValue); 
         const std::string& getRetVal();
-	virtual bool  fire();
+	//virtual bool  fire();
 
 
     protected :
