@@ -52,7 +52,7 @@ bool DroNE::execute(){
 		}
 
 		//trigger the EndEvent incident
-		local_fire("EndEvent");
+		local_fire("CtrlTask");
 
 	}
 	catch (SniperStopped& e) {

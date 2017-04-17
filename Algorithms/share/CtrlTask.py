@@ -1,19 +1,17 @@
 from libSniperPython import Task
 from libSniperPython import Incident
+import DataSvc
 
 class CtrlTask(Task) :
 
     def __init__(self, name) :
-        print "hello Ctrl Task"
         Task.__init__(self, name)
-        Task.regist(self, "CtrlTaskSayHi")
+        Task.regist(self, "CtrlTask")
 
-    def run(self) :
-        print "Hello World!"
+        self.__heartbeat = DataSvc.DroNEIncident("task:HeartBeat")
+        print self.__heartbeat.name()
 
     def handle(self, incident) :
-        if ( incident.name() == 'CtrlTaskSayHi' ) :
-            print "CtrlTask say: How are you doing ?"
-        if ( incident.name() == 'hi' ) :
-            print " How are you doing ?"
-        return Task.handle(self, incident)
+        self.__heartbeat.fire()
+        print "python without dict: ", self.__heartbeat.getRetVal()
+

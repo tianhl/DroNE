@@ -41,7 +41,7 @@ if __name__ == "__main__":
     task.run()
 
     # cpp call pyTask
-    i = Sniper.Incident("CtrlTaskSayHi")
+    i = Sniper.Incident("CtrlTask")
     print i.name()
     i.fire()
 
@@ -51,7 +51,7 @@ if __name__ == "__main__":
     h.fire()
     print "without dict: ", h.getRetVal()
 
-    # py call cppHdl with return value
-    print h.setPyDict({"times":3,"string":"Hello World"})
+    ## py call cppHdl with return value
+    h.setPyDict({"times":3,"string":"Hello World"})
     h.fire()
     print h.getRetVal()
