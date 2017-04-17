@@ -7,6 +7,12 @@ void DroNEIncident::setRetVal(std::string& retValue) {
 const std::string& DroNEIncident::getRetVal() { 
 	return m_ret; 
 };
-//bool DroNEIncident::fire(){
-//	return Incident::fire();
-//}
+
+void DroNEIncident::setPyDict(PyObject* obj){
+	if(m_dict)delete m_dict;
+	m_dict = obj;
+}
+
+PyObject* DroNEIncident::getPyDict(){
+	return m_dict;
+}

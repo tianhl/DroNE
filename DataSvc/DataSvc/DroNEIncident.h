@@ -2,6 +2,7 @@
 #define DRONE_INCIDENT_H
 
 #include "SniperKernel/Incident.h"
+#include <Python.h>
 
 class DroNEIncident: public Incident
 {
@@ -9,19 +10,21 @@ class DroNEIncident: public Incident
 
 
         DroNEIncident(const std::string& msg)
-            : Incident(msg) {}
+            : Incident(msg) {m_dict=NULL;}
 
         virtual ~DroNEIncident() {}
 
 
         void  setRetVal(std::string& retValue); 
         const std::string& getRetVal();
-	//virtual bool  fire();
+	void  setPyDict(PyObject* obj);
+	PyObject* getPyDict();
 
 
     protected :
 
         std::string  m_ret;
+	PyObject*    m_dict;
 };
 
 #endif

@@ -40,10 +40,18 @@ if __name__ == "__main__":
     task.setEvtMax(10)
     task.run()
 
+    # cpp call pyTask
     i = Sniper.Incident("CtrlTaskSayHi")
     print i.name()
     i.fire()
+
+    # py call cppHdl with return value
     h = DataSvc.DroNEIncident("task:HeartBeat")
     print h.name()
+    h.fire()
+    print "without dict: ", h.getRetVal()
+
+    # py call cppHdl with return value
+    print h.setPyDict({"times":3,"string":"Hello World"})
     h.fire()
     print h.getRetVal()
