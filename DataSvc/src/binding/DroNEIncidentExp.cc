@@ -14,5 +14,6 @@ void export_DroNE_Incident()
 				return_value_policy<copy_const_reference>())
 		.def("setPyDict", &DroNEIncident::setPyDict,
 				return_value_policy<copy_const_reference>())
+		.def("clearPyDict", &DroNEIncident::clearPyDict)
 		;
 }

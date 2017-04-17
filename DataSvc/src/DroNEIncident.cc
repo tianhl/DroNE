@@ -1,4 +1,5 @@
 #include "DataSvc/DroNEIncident.h"
+#include <iostream>
 
 void DroNEIncident::setRetVal(std::string& retValue) { 
 	m_ret = retValue; 
@@ -9,10 +10,14 @@ const std::string& DroNEIncident::getRetVal() {
 };
 
 void DroNEIncident::setPyDict(PyObject* obj){
-	if(m_dict)delete m_dict;
+	clearPyDict();
 	m_dict = obj;
 }
 
 PyObject* DroNEIncident::getPyDict(){
 	return m_dict;
+}
+
+void DroNEIncident::clearPyDict(){
+	if(m_dict) m_dict = NULL;
 }
