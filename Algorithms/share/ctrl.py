@@ -41,4 +41,8 @@ if __name__ == "__main__":
     task.run()
 
     i = Sniper.Incident("CtrlTaskSayHi")
+    print i.name()
     i.fire()
+    h = Sniper.Incident("task:HeartBeat")
+    print h.name()
+    h.fire()
