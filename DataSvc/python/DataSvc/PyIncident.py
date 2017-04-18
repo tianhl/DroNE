@@ -9,12 +9,11 @@ class PyIncident(DataSvc.DroNEIncident):
         super(PyIncident, self).__init__(name)
 
     def fire(self, params = None):
+        super(PyIncident, self).clearRetVal()
         if(params is not None):
             self.setPyDict(params)
         super(PyIncident, self).fire()
         ret = super(PyIncident, self).getRetVal()
         super(PyIncident, self).clearPyDict()
-        if(ret is None):
-            ret = True
         return ret    
 

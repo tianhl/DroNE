@@ -12,6 +12,7 @@ void export_DroNE_Incident()
 		("DroNEIncident", init<const std::string&>())
 		.def("getRetVal", &DroNEIncident::getRetVal,
 				return_value_policy<copy_const_reference>())
+		.def("clearRetVal", &DroNEIncident::clearRetVal)
 		.def("setPyDict", &DroNEIncident::setPyDict,
 				return_value_policy<copy_const_reference>())
 		.def("clearPyDict", &DroNEIncident::clearPyDict)

@@ -17,9 +17,11 @@ class DroNEIncident: public Incident
 
         void  setRetVal(std::string& retValue); 
         const std::string& getRetVal();
+	void  clearRetVal();
+
 	void  setPyDict(PyObject* obj);
-	void  clearPyDict();
 	PyObject* getPyDict();
+	void  clearPyDict();
 
 
     protected :

@@ -3,7 +3,6 @@
 # author: tianhl
 
 import DataSvc
-import CtrlTask
 
 
 if __name__ == "__main__":
@@ -12,8 +11,7 @@ if __name__ == "__main__":
     task.asTop()
     task.setLogLevel(0)     
 
-    ct = CtrlTask.CtrlTask("ctrl")
-    #ct.run()
+    ct = DataSvc.CtrlTask("ctrl")
 
     task.property("svcs").append("DataSvc")
     task.property("svcs").append("RawDataInputSvc/DataInputSvc")
