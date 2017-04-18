@@ -3,6 +3,20 @@
 # author: tianhl
 
 import DataSvc
+import DataSvc.PyIncident as PI
+class HelloIncident(PI.PyIncident):
+    def __init__(self, name):
+        super(HelloIncident, self).__init__(name)
+        
+    def execute(self):         
+        return self.fire({"string":" Hello PyIncident ", "times":2})
+
+class HelloCronIncident(PI.PyCronIncident):
+    def __init__(self, name, cron = 0, repeatable = False):
+        super(HelloCronIncident, self).__init__(name, cron, repeatable)
+        
+    def execute(self):         
+        return self.fire({"string":" Hello PyCronIncident ", "times":2})
 
 
 if __name__ == "__main__":
@@ -12,6 +26,10 @@ if __name__ == "__main__":
     task.setLogLevel(0)     
 
     ct = DataSvc.CtrlTask("ctrl")
+    hi = HelloIncident('task:HeartBeat')
+    hc = HelloCronIncident("task:HeartBeat", cron = 2, repeatable = True)
+    ct.add(hi)
+    ct.add(hc)
 
     task.property("svcs").append("DataSvc")
     task.property("svcs").append("RawDataInputSvc/DataInputSvc")
@@ -33,6 +51,6 @@ if __name__ == "__main__":
     #alg = task.find("DumpAlg")
 
     #    
-    task.setEvtMax(10)
+    task.setEvtMax(1000000)
     task.run()
 

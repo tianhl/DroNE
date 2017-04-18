@@ -8,9 +8,20 @@ class CtrlTask(Task) :
         Task.__init__(self, name)
         Task.regist(self, "CtrlTask")
 
-        self.__heartbeat = PyIncident.PyIncident("task:HeartBeat")
-        print self.__heartbeat.name()
+        self.__incidentList = []
+
+    def add(self, icd = None):
+        if(isinstance(icd, PyIncident.PyIncident)):
+            self.__incidentList.append(icd)
+            print "This instancei ", icd.name(), " is added successfully!"
+        else:
+            print "Error Type, this instance is NOT PyIncident"
+        #self.__heartbeat = PyIncident.PyCronIncident("task:HeartBeat", cron = 2, repeatable = True)
+        #self.__heartbeat = PyIncident.PyIncident("task:HeartBeat")
+        #print "incident name: ", self.__heartbeat.name()
 
     def handle(self, incident) :
-        print self.__heartbeat.fire({"string":" pyIncident hello ", "times":2})
+	for eachitem in self.__incidentList:
+		print eachitem.execute()
+        #print self.__heartbeat.fire({"string":" pyIncident hello ", "times":2})
 
