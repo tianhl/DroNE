@@ -1,11 +1,11 @@
 #ifndef HEART_BEAT_HANDLER_H
 #define HEART_BEAT_HANDLER_H
 
-#include "SniperKernel/IIncidentHandler.h"
+#include "DataSvc/DroNEIncidentHandler.h"
 
 class Task;
 
-class HeartBeatHdl : public IIncidentHandler
+class HeartBeatHdl : public DroNEIncidentHandler
 {
     public :
 
@@ -13,9 +13,9 @@ class HeartBeatHdl : public IIncidentHandler
 
         bool handle(Incident& incident);
 
-    private :
+//    private :
 
-        Task*          m_par;
+  //      Task*          m_par;
 };
 
 #endif
