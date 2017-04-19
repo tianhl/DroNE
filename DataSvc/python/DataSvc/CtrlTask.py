@@ -13,7 +13,7 @@ class CtrlTask(Task) :
     def add(self, icd = None):
         if(isinstance(icd, PyIncident.PyIncident)):
             self.__incidentList.append(icd)
-            print "This instancei ", icd.name(), " is added successfully!"
+            print "This instance ", icd.name(), " is added successfully!"
         else:
             print "Error Type, this instance is NOT PyIncident"
         #self.__heartbeat = PyIncident.PyCronIncident("task:HeartBeat", cron = 2, repeatable = True)
@@ -22,6 +22,8 @@ class CtrlTask(Task) :
 
     def handle(self, incident) :
 	for eachitem in self.__incidentList:
-		print eachitem.execute()
+		ret = eachitem.execute()
+                if(ret):
+                    print ret
         #print self.__heartbeat.fire({"string":" pyIncident hello ", "times":2})
 
