@@ -69,8 +69,6 @@ char* DroNEIncidentHandler::getChar(const char* kname){
 
 bool DroNEIncidentHandler::handle(Incident& incident)
 {
-
-	if(false == getDroNEIncident(incident))return false;
-
+	if(NULL == getDroNEIncident(incident))return false;
 	return true;
 }
