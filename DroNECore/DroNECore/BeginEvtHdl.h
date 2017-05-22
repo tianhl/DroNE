@@ -4,7 +4,6 @@
 #include "SniperKernel/IIncidentHandler.h"
 
 class Task;
-class DataSvc;
 class DataInputSvc;
 
 class BeginEvtHdl : public IIncidentHandler
@@ -18,7 +17,6 @@ class BeginEvtHdl : public IIncidentHandler
     private :
 
         Task*          m_par;
-        DataSvc*       m_dataSvc;
         DataInputSvc*  m_iSvc;
 };
 

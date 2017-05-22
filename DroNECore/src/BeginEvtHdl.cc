@@ -1,6 +1,5 @@
-#include "DataSvc/BeginEvtHdl.h"
-#include "DataSvc/DataSvc.h"
-#include "DataSvc/DataInputSvc.h"
+#include "DroNECore/BeginEvtHdl.h"
+#include "DroNECore/DataInputSvc.h"
 
 #include "SniperKernel/Incident.h"
 #include "SniperKernel/SniperPtr.h"

@@ -1,7 +1,6 @@
-#include "DataSvc/DataInputSvc.h"
+#include "DroNECore/DataInputSvc.h"
 
 #include "SniperKernel/Incident.h"
-#include "DataSvc/DecodeRawData.h"
 #include "SniperKernel/SniperPtr.h"
 #include "SniperKernel/SniperDataPtr.h"
 #include "SniperKernel/SniperLog.h"
@@ -22,8 +21,6 @@ DataInputSvc::~DataInputSvc() {
 bool DataInputSvc::initialize() {
 	return true;
 }
-
-
 
 bool DataInputSvc::finalize() {
 	return true;

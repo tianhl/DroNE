@@ -1,5 +1,5 @@
-#include "DataSvc/DroNE.h"
-#include "DataSvc/HeartBeatHdl.h"
+#include "DroNECore/DroNE.h"
+//#include "DataSvc/HeartBeatHdl.h"
 
 #include "SniperKernel/AlgBase.h"
 #include "SniperKernel/SvcBase.h"
@@ -18,10 +18,10 @@ DroNE::DroNE(const std::string& name)
 {
 	declProp("is_online", m_onlinemode);
 
-	IIncidentHandler* hbi = new HeartBeatHdl(this);
-	if ( this->isTop() ) hbi->regist("HeartBeat");
-	else hbi->regist(this->scope() + this->objName() + ":HeartBeat");
-	hbi->listening();
+	//IIncidentHandler* hbi = new HeartBeatHdl(this);
+	//if ( this->isTop() ) hbi->regist("HeartBeat");
+	//else hbi->regist(this->scope() + this->objName() + ":HeartBeat");
+	//hbi->listening();
 
 }
 
