@@ -18,8 +18,8 @@ class DataSvc : public SvcBase, public DynamicTree<DataObject>
       bool initialize();
       bool finalize();
 
-    private :
-      std::list<IIncidentHandler*> m_icdts;
+    //private :
+    //  std::list<IIncidentHandler*> m_icdts;
 
 };
 
