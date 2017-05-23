@@ -24,7 +24,7 @@ if __name__ == "__main__":
 
     task = DroNECore.DroNE("task")
     task.asTop()
-    task.setLogLevel(2)     
+    task.setLogLevel(0)     
 
     ct = DroNECore.CtrlTask("ctrl")
     hi = HelloIncident('HeartBeat')

@@ -1,6 +1,4 @@
-#include "DataSvc/GPPDDataSvc.h"
-#include "DroNECore/BeginEvtHdl.h"
-#include "DroNECore/EndEvtHdl.h"
+#include "DataSvc/DataSvc.h"
 #include "SniperKernel/SvcFactory.h"
 #include "SniperKernel/Task.h"
 #include <iostream>
@@ -39,16 +37,6 @@ bool DataSvc::initialize()
   this->regObj("/statistic/pixel_count", new PixelCount);
 
   Task* par = getScope();
-  IIncidentHandler* bi = new BeginEvtHdl(par);
-  if ( par->isTop() ) bi->regist("BeginEvent");
-  else bi->regist(par->scope() + par->objName() + ":BeginEvent");
-
-  IIncidentHandler* ei = new EndEvtHdl(par);
-  if ( par->isTop() ) ei->regist("EndEvent");
-  else ei->regist(par->scope() + par->objName() + ":EndEvent");
-
-  m_icdts.push_back(bi);
-  m_icdts.push_back(ei);
   std::cout << "incidents size: " << m_icdts.size() << std::endl;
 
   return true;

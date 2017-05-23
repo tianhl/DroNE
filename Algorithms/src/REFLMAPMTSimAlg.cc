@@ -1,5 +1,5 @@
 #include "REFLMAPMTSimAlg.h"
-#include "DataSvc/GPPDDataSvc.h"
+#include "DataSvc/DataSvc.h"
 #include "SniperKernel/AlgFactory.h"
 #include "SniperKernel/SniperLog.h"
 #include "SniperKernel/SniperPtr.h"

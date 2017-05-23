@@ -1,7 +1,6 @@
+#include "DataSvc/DataSvc.h"
 #include "DataSvc/RawDataInputSvc.h"
-#include "DataSvc/GPPDDataSvc.h"
 #include "DataSvc/DecodeRawData.h"
-#include "DroNECore/BeginEvtHdl.h"
 #include "DroNECore/DataProvideSvc.h"
 
 #include "SniperKernel/Incident.h"

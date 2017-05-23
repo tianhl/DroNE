@@ -1,5 +1,5 @@
-#ifndef GPPD_CTRL_SVC_H
-#define GPPD_CTRL_SVC_H
+#ifndef CTRL_SVC_H
+#define CTRL_SVC_H
 
 #include "SniperKernel/SvcBase.h"
 #include "SniperKernel/IIncidentHandler.h"

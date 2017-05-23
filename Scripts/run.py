@@ -13,7 +13,9 @@ if __name__ == "__main__":
     task.setLogLevel(0)
     
     import DataSvc
+    import CtrlSvc
     task.property("svcs").append("DataSvc")
+    task.property("svcs").append("CtrlSvc")
     task.property("svcs").append("RawDataInputSvc/DataInputSvc")
     task.property("svcs").append("FileInputSvc/DataProvideSvc")
     iSvc = task.find("DataInputSvc")

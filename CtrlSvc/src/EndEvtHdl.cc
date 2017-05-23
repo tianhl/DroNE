@@ -1,4 +1,4 @@
-#include "DroNECore/EndEvtHdl.h"
+#include "CtrlSvc/EndEvtHdl.h"
 
 #include "SniperKernel/Incident.h"
 #include "SniperKernel/SniperPtr.h"

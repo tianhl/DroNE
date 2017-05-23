@@ -1,4 +1,4 @@
-#include "DroNECore/BeginEvtHdl.h"
+#include "CtrlSvc/BeginEvtHdl.h"
 #include "DroNECore/DataInputSvc.h"
 
 #include "SniperKernel/Incident.h"
@@ -20,7 +20,7 @@
 
 }
 
-bool BeginEvtHdl::handle(Incident& /*incident*/)
+bool BeginEvtHdl::handle(Incident& incident)
 {
 	if ( m_iSvc->next() ) {
 		return true;
