@@ -1,5 +1,3 @@
-#include "CtrlSvc/HeartBeatHdl.h"
-
 #include "SniperKernel/AlgBase.h"
 #include "SniperKernel/SvcBase.h"
 #include "SniperKernel/DataMemSvc.h"
@@ -8,6 +6,8 @@
 #include "SniperKernel/SniperException.h"
 #include "SniperKernel/SniperLog.h"
 #include <algorithm>
+
+#include "DroNECore/DroNE.h"
 
 SNIPER_DECLARE_DLE(DroNE);
 
