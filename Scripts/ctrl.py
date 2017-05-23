@@ -2,8 +2,9 @@
 # -*- coding:utf-8 -*-
 # author: tianhl
 
-import DataSvc
-import DataSvc.PyIncident as PI
+import DroNECore
+import DroNECore.PyIncident as PI
+
 class HelloIncident(PI.PyIncident):
     def __init__(self, name):
         super(HelloIncident, self).__init__(name)
@@ -21,17 +22,20 @@ class HelloCronIncident(PI.PyCronIncident):
 
 if __name__ == "__main__":
 
-    task = DataSvc.DroNE("task")
+    task = DroNECore.DroNE("task")
     task.asTop()
-    task.setLogLevel(0)     
+    task.setLogLevel(2)     
 
-    ct = DataSvc.CtrlTask("ctrl")
-    hi = HelloIncident('task:HeartBeat')
-    hc = HelloCronIncident("task:HeartBeat", cron = 2, repeatable = True)
+    ct = DroNECore.CtrlTask("ctrl")
+    hi = HelloIncident('HeartBeat')
+    hc = HelloCronIncident("HeartBeat", cron = 2, repeatable = True)
     ct.add(hi)
     ct.add(hc)
 
+    import DataSvc
+    import CtrlSvc
     task.property("svcs").append("DataSvc")
+    task.property("svcs").append("CtrlSvc")
     task.property("svcs").append("RawDataInputSvc/DataInputSvc")
     task.property("svcs").append("FileInputSvc/DataProvideSvc")
     iSvc = task.find("DataInputSvc")

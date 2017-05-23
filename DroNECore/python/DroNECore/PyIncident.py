@@ -2,9 +2,9 @@
 # -*- coding:utf-8 -*-
 # author: tianhl
 
-import DataSvc
+import DroNECore
 
-class PyIncident(DataSvc.DroNEIncident):
+class PyIncident(DroNECore.DroNEIncident):
     def __init__(self, name):
         super(PyIncident, self).__init__(name)
 

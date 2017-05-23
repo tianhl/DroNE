@@ -1,5 +1,6 @@
-#include "DataSvc/HeartBeatHdl.h"
+#include "CtrlSvc/HeartBeatHdl.h"
 #include "DroNECore/DroNEIncident.h"
+#include "SniperKernel/Task.h"
 
 #include <time.h>
 #include <stdio.h> 
@@ -12,6 +13,7 @@ HeartBeatHdl::HeartBeatHdl(Task* par)
 {
 
 }
+
 
 bool HeartBeatHdl::handle(Incident& incident)
 {
