@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <vector>
 
-#include "DataObject.h"
+#include "DroNECore/DataObject.h"
 using namespace std;
 
 class NeutronPulse:public DataObject{

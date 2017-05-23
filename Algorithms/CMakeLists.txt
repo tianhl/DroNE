@@ -9,12 +9,18 @@ ENDIF()
 # Find Package
 SET(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/../CMake/Modules)
 
+FIND_PACKAGE(DroNECore REQUIRED)
+IF(DRONECORE_FOUND)
+  INCLUDE_DIRECTORIES(${DroNECore_INCLUDE_DIRS})
+ELSEIF(NOT DroNECore_FOUND) 
+  MESSAGE(FATAL_ERROR "Unable to find DroNECore. Did you set DroNECore_ROOT?")
+ENDIF()
+
 FIND_PACKAGE(SniperKernel REQUIRED)
 IF(SNIPERKERNEL_FOUND)
   INCLUDE_DIRECTORIES(${SniperKernel_INCLUDE_DIRS})
 ELSEIF(NOT SniperKernel_FOUND) 
-  MESSAGE(FATAL_ERROR "Unable to find SniperKernel. Did you set
-SniperKernel_ROOT?")
+  MESSAGE(FATAL_ERROR "Unable to find SniperKernel. Did you set SniperKernel_ROOT?")
 ENDIF()
 
 SET(Boost_NO_BOOST_CMAKE TRUE)

@@ -4,8 +4,8 @@
 #include <vector>
 #include <string>
 
-#include "DataSvc/DataInputSvc.h"
-#include "DataSvc/DynamicThreadedQueue.h"
+#include "DroNECore/DataInputSvc.h"
+#include "DroNECore/DynamicThreadedQueue.h"
 #include "DataSvc/EpicsV4Hh/neutronClientStartMonitor.hh" 
 
 

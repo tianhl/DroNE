@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "DataSvc/DataProvideSvc.h"
+#include "DroNECore/DataProvideSvc.h"
 
 class FileInputSvc : public DataProvideSvc{
 	public:

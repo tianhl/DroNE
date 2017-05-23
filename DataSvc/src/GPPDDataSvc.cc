@@ -1,6 +1,6 @@
-#include "DataSvc/DataSvc.h"
-#include "DataSvc/BeginEvtHdl.h"
-#include "DataSvc/EndEvtHdl.h"
+#include "DataSvc/GPPDDataSvc.h"
+#include "DroNECore/BeginEvtHdl.h"
+#include "DroNECore/EndEvtHdl.h"
 #include "SniperKernel/SvcFactory.h"
 #include "SniperKernel/Task.h"
 #include <iostream>

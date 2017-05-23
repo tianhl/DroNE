@@ -1,9 +1,4 @@
-
 #include "DataSvc/EpicsV4Hh/neutronClientRequestAndMonitor.hh"
-
-
-
-
 
 using namespace epics::pvData;
 using namespace epics::pvAccess;

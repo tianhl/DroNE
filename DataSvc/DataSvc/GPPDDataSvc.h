@@ -3,8 +3,8 @@
 
 #include "SniperKernel/SvcBase.h"
 #include "SniperKernel/IIncidentHandler.h"
-#include "DynamicTreeNode.h"
-#include "Data/DataObject.h"
+#include "DroNECore/DynamicTreeNode.h"
+#include "DroNECore/DataObject.h"
 #include <map>
 #include <list>
 

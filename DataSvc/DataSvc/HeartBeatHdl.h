@@ -1,7 +1,7 @@
 #ifndef HEART_BEAT_HANDLER_H
 #define HEART_BEAT_HANDLER_H
 
-#include "DataSvc/DroNEIncidentHandler.h"
+#include "DroNECore/DroNEIncidentHandler.h"
 
 class Task;
 

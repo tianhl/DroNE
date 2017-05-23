@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 
-#include "DataSvc/DataInputSvc.h"
+#include "DroNECore/DataInputSvc.h"
 
 class DataSvc;
 class DataProvideSvc;

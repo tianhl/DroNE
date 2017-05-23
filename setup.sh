@@ -13,5 +13,6 @@ export  CMAKE_MODULE_PATH=/home/tianhl/workarea/Codes/DroNE/CMake:$CMAKE_MODULE_
 
 export LD_LIBRARY_PATH=$CMAKE_LIBRARY_PATH:$LD_LIBRARY_PATH
 
+export CMAKE_INCLUDE_PATH=/home/tianhl/workarea/Codes/DroNE/DroNEInstall/include:$CMAKE_INCLUDE_PATH
 export    LD_LIBRARY_PATH=/home/tianhl/workarea/Codes/DroNE/DroNEInstall/lib:$LD_LIBRARY_PATH
 export         PYTHONPATH=/home/tianhl/workarea/Codes/DroNE/DroNEInstall/pylib:$PYTHONPATH

@@ -9,9 +9,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "DataSvc/DataProvideSvc.h"
-#include "DataSvc/DynamicThreadedQueue.h"
-#include "DataSvc/DynamicSingleton.h"
+#include "DroNECore/DataProvideSvc.h"
+#include "DroNECore/DynamicThreadedQueue.h"
+#include "DroNECore/DynamicSingleton.h"
 
 #include <boost/shared_ptr.hpp>
 #include <boost/thread/thread.hpp>
