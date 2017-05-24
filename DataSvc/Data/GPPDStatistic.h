@@ -48,5 +48,28 @@ class PixelCount:public DataObject{
 };
 
 
+class RunningInf:public DataObject{
+     public:
+		RunningInf(){m_hitcnt=0;m_evtcnt=0;m_plscnt=0;};
+		virtual ~RunningInf(){};
+
+		const uint64_t getHitCnt() const {return m_hitcnt;}
+		void setHitCnt(uint64_t hitcnt){m_hitcnt  = hitcnt;}
+		void addHitCnt(uint64_t hitcnt){m_hitcnt += hitcnt;}
+
+		const uint64_t getEvtCnt() const {return m_evtcnt;}
+		void setEvtCnt(uint64_t evtcnt){m_evtcnt  = evtcnt;}
+		void addEvtCnt(uint64_t evtcnt){m_evtcnt += evtcnt;}
+
+		const uint64_t getPulseCnt() const {return m_plscnt;}
+		void setPulseCnt(uint64_t plscnt){m_plscnt  = plscnt;}
+		void addPulseCnt(uint64_t plscnt){m_plscnt += plscnt;}
+     private:
+		uint64_t m_hitcnt;
+		uint64_t m_evtcnt;
+		uint64_t m_plscnt;
+};
+
+
 
 #endif

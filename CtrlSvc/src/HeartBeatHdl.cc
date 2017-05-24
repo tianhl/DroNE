@@ -1,6 +1,9 @@
 #include "CtrlSvc/HeartBeatHdl.h"
+#include "DataSvc/DataSvc.h"
 #include "DroNECore/DroNEIncident.h"
 #include "SniperKernel/Task.h"
+#include "SniperKernel/SniperPtr.h"
+#include "SniperKernel/SniperException.h"
 
 #include <time.h>
 #include <stdio.h> 
@@ -11,7 +14,11 @@
 HeartBeatHdl::HeartBeatHdl(Task* par)
 : DroNEIncidentHandler(par)
 {
-
+	SniperPtr<DataSvc> pSvc("DataSvc");
+	if ( pSvc.invalid()) {
+		throw SniperException("DataInputSvc is invalid!");
+	}
+	m_svc = pSvc.data();
 }
 
 

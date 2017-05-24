@@ -34,7 +34,9 @@ bool DataSvc::initialize()
   this->branch("statistic");
 
   this->find("/statistic")->branch("pixel_count");
+  this->find("/statistic")->branch("running_inf");
   this->regObj("/statistic/pixel_count", new PixelCount);
+  this->regObj("/statistic/running_inf", new RunningInf);
 
   //Task* par = getScope();
   //std::cout << "incidents size: " << m_icdts.size() << std::endl;

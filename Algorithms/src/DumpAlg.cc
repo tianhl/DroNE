@@ -83,7 +83,6 @@ DumpAlg::execute()
 		Evt* evt = evtcol->at(i);
 		//std::cout << std::dec <<  evt->getPixelID() << " " << evt->getX() << ", " << evt->getY() << ",  " << evt->getTOF() << "," << evt->getPixelID() << std::endl;
 		//if(1100000==evt->getPixelID()) std::cout << "ERROR: " << std::endl;
-		pc->addCount(evt->getPixelID(), 1);
 	}
 
 	//LogInfo << "Pulse T0:  " << pulse->getT0()  << ". " << hitcol->size() << " hits are collected, " << evtcol->size() << " evts are reconstructed in this pulse"<< std::endl;

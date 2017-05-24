@@ -4,6 +4,7 @@
 #include "DroNECore/DroNEIncidentHandler.h"
 
 class Task;
+class DataSvc;
 
 class HeartBeatHdl : public DroNEIncidentHandler
 {
@@ -13,9 +14,10 @@ class HeartBeatHdl : public DroNEIncidentHandler
 
         bool handle(Incident& incident);
 
-//    private :
+    private :
 
-  //      Task*          m_par;
+	DataSvc* m_svc;
+	Task*          m_par;
 };
 
 #endif
