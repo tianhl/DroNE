@@ -1,5 +1,6 @@
 #include "CtrlSvc/CtrlSvc.h"
 #include "CtrlSvc/HeartBeatHdl.h"
+#include "CtrlSvc/HelloDroNEHdl.h"
 #include "CtrlSvc/BeginEvtHdl.h"
 #include "CtrlSvc/EndEvtHdl.h"
 #include "SniperKernel/SvcFactory.h"
@@ -23,24 +24,25 @@ bool CtrlSvc::initialize()
 
 	Task* par = getScope();
 
-	IIncidentHandler* hbi = new HeartBeatHdl(par);
-	if ( par->isTop() ) hbi->regist("HeartBeat");
-	else hbi->regist(par->scope() + par->objName() + ":HeartBeat");
-	hbi->listening();
+	IIncidentHandler* hi = new HeartBeatHdl(par);
+	if ( par->isTop() ) hi->regist("HeartBeat");
+	else hi->regist(par->scope() + par->objName() + ":HeartBeat");
+	hi->listening();
+
+	IIncidentHandler* di = new HelloDroNEHdl(par);
+	if ( par->isTop() ) di->regist("HelloDroNE");
+	else di->regist(par->scope() + par->objName() + ":HelloDroNE");
+	di->listening();
 
 	IIncidentHandler* bi = new BeginEvtHdl(par);
-	//if ( par->isTop() ) bi->regist("BeginEvent");
-	//else bi->regist(par->scope() + par->objName() + ":BeginEvent");
 	bi->regist("BeginEvent");
 	bi->listening();
 
 	IIncidentHandler* ei = new EndEvtHdl(par);
 	ei->regist("EndEvent");
-	//if ( par->isTop() ) ei->regist("EndEvent");
-	//else ei->regist(par->scope() + par->objName() + ":EndEvent");
 	ei->listening();
 
-	m_icdts.push_back(hbi);
+	m_icdts.push_back(hi);
 	m_icdts.push_back(bi);
 	m_icdts.push_back(ei);
 

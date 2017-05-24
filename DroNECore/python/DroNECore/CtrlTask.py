@@ -16,9 +16,6 @@ class CtrlTask(Task) :
             print "This instance ", icd.name(), " is added successfully!"
         else:
             print "Error Type, this instance is NOT PyIncident"
-        #self.__heartbeat = PyIncident.PyCronIncident("task:HeartBeat", cron = 2, repeatable = True)
-        #self.__heartbeat = PyIncident.PyIncident("task:HeartBeat")
-        #print "incident name: ", self.__heartbeat.name()
 
     def handle(self, incident) :
 	for eachitem in self.__incidentList:
