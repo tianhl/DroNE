@@ -5,3 +5,5 @@
 
 import Sniper
 Sniper.loadDll("libCtrlSvc.so")
+import HelloDroNEIncident
+import HeartBeatIncident

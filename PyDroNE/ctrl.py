@@ -6,55 +6,7 @@ import DroNECore
 import DroNECore.PyIncident as PI
 import NEON
 import json
-
-def encodeHeartBeat(status, hit, event, pulse, idx):
-    import json, time
-    formattime = time.strftime("%Y-%m-%dT%H:%M:%S.000%Z", time.localtime())
-    formatuuid = idx
-    formatstat = status 
-    formathitct= hit
-    formatevent= event
-    formatpulse= pulse
-    heartbeatdata   = json.dumps({
-         'timestamp': formattime,
-         'uuid'     : formatuuid,
-         'status'   : formatstat,
-         'hit'      : formathitct,
-         'event'    : formatevent,
-         'pulse'    : formatpulse
-         })
-    return heartbeatdata
-
-class HelloIncident(PI.PyIncident):
-    def __init__(self, name):
-        super(HelloIncident, self).__init__(name)
-        
-    def execute(self):         
-        return self.fire({"string":" Hello PyIncident ", "times":2})
-
-class HelloCronIncident(PI.PyCronIncident):
-    def __init__(self, name, cron = 0, repeatable = False):
-        super(HelloCronIncident, self).__init__(name, cron, repeatable)
-        
-    def execute(self):         
-        return self.fire({"string":" Hello PyCronIncident ", "times":2})
-
-class HeartBeatCronIncident(PI.PyCronIncident):
-    def __init__(self, name, cron = 0, repeatable = False, remotedata = None):
-        super(HeartBeatCronIncident, self).__init__(name, cron, repeatable)
-        self.remotedata = remotedata
-        
-    def execute(self):         
-        retval = self.fire()
-        if(retval):
-            hitcnt, evtcnt, plscnt = retval.split(":")
-            index = json.loads(self.remotedata.getData())['uuid']
-            heartbeatdata = encodeHeartBeat(status='running', \
-                                            hit = int(hitcnt), event = int(evtcnt), \
-                                            pulse = int(plscnt), idx = index)
-            self.remotedata.setData(heartbeatdata)
-            self.remotedata.dump()
-        return retval
+import CtrlSvc.HeartBeatIncident as HBI
 
 
 if __name__ == "__main__":
@@ -64,7 +16,8 @@ if __name__ == "__main__":
     task.setLogLevel(0)     
     
     import uuid    
-    heartbeatdata = encodeHeartBeat(status='configuring', hit = 0, event = 0, pulse = 0, idx = str(uuid.uuid1()))
+    heartbeatdata = HBI.HeartBeatCronIncident.encodeHeartBeat(status='configuring', \
+                                           hit = 0, event = 0, pulse = 0, idx = str(uuid.uuid1()))
     m_neonRedis     = NEON.Neon.NeonRedis(host='localhost', port=9999, db = 0, isWritable = True) # server mode, set msgs to Redis
     m_taskheartbeat = NEON.Data.SingleValue(m_neonRedis, '/GPPD/hearbeat/detector/192.168.0.1:drone01', \
                                            description='192.168.0.1:01', data=heartbeatdata)
@@ -72,13 +25,13 @@ if __name__ == "__main__":
 
     ct = DroNECore.CtrlTask("ctrl")
     #di = HelloIncident('HelloDroNE')
-    hi = HeartBeatCronIncident("HeartBeat", cron = 2, repeatable = True, remotedata = m_taskheartbeat)
+    hi = HBI.HeartBeatCronIncident("HeartBeat", cron = 2, repeatable = True, remotedata = m_taskheartbeat)
     #ct.add(di)
     ct.add(hi)
     #ct.add(hc)
-
-    import DataSvc
     import CtrlSvc
+    import DataSvc
+
     task.property("svcs").append("DataSvc")
     task.property("svcs").append("CtrlSvc")
     task.property("svcs").append("RawDataInputSvc/DataInputSvc")
@@ -107,7 +60,7 @@ if __name__ == "__main__":
     hitct = json.loads(m_taskheartbeat.getData())['hit']
     evtct = json.loads(m_taskheartbeat.getData())['event']
     plsct = json.loads(m_taskheartbeat.getData())['pulse']
-    m_taskheartbeat.setData(encodeHeartBeat(status='stopping', \
+    m_taskheartbeat.setData(HBI.HeartBeatCronIncident.encodeHeartBeat(status='stopping', \
                                     hit = int(hitct), event = int(evtct), \
                                     pulse = int(plsct), idx = index))
     m_taskheartbeat.dump()
