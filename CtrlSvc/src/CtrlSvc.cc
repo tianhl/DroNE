@@ -1,6 +1,7 @@
 #include "CtrlSvc/CtrlSvc.h"
 #include "CtrlSvc/HeartBeatHdl.h"
 #include "CtrlSvc/HelloDroNEHdl.h"
+#include "CtrlSvc/PushHistHdl.h"
 #include "CtrlSvc/BeginEvtHdl.h"
 #include "CtrlSvc/EndEvtHdl.h"
 #include "SniperKernel/SvcFactory.h"
@@ -34,6 +35,11 @@ bool CtrlSvc::initialize()
 	else di->regist(par->scope() + par->objName() + ":HelloDroNE");
 	di->listening();
 
+	IIncidentHandler* pi = new PushHistHdl(par);
+	if ( par->isTop() ) pi->regist("PushHist");
+	else pi->regist(par->scope() + par->objName() + ":PushHist");
+	pi->listening();
+
 	IIncidentHandler* bi = new BeginEvtHdl(par);
 	bi->regist("BeginEvent");
 	bi->listening();
@@ -43,6 +49,8 @@ bool CtrlSvc::initialize()
 	ei->listening();
 
 	m_icdts.push_back(hi);
+	m_icdts.push_back(di);
+	m_icdts.push_back(pi);
 	m_icdts.push_back(bi);
 	m_icdts.push_back(ei);
 

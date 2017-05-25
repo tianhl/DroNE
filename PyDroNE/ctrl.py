@@ -7,6 +7,8 @@ import DroNECore.PyIncident as PI
 import NEON
 import json
 import CtrlSvc.HeartBeatIncident as HBI
+import CtrlSvc.HelloDroNEIncident as HDI
+import CtrlSvc.PushHistIncident as PHI
 
 
 if __name__ == "__main__":
@@ -23,11 +25,18 @@ if __name__ == "__main__":
                                            description='192.168.0.1:01', data=heartbeatdata)
     m_taskheartbeat.dump()
 
+    xbins = range(0,111*48)
+    m_taskhist      = NEON.Data.Hist1D(m_neonRedis, '/GPPD/workspace/detector/module001', \
+                                           xAxis= xbins, data='')
+    m_taskhist.dump()
+
     ct = DroNECore.CtrlTask("ctrl")
-    #di = HelloIncident('HelloDroNE')
+    #di = HDI.HelloIncident('HelloDroNE')
     hi = HBI.HeartBeatCronIncident("HeartBeat", cron = 2, repeatable = True, remotedata = m_taskheartbeat)
+    pi = PHI.PushHistCronIncident("PushHist", cron = 2, repeatable = True, remotedata = m_taskhist)
     #ct.add(di)
     ct.add(hi)
+    ct.add(pi)
     #ct.add(hc)
     import CtrlSvc
     import DataSvc
@@ -69,4 +78,7 @@ if __name__ == "__main__":
     m_taskheartbeat2= NEON.Data.SingleValue(m_neonRediscli, '/GPPD/hearbeat/detector/192.168.0.1:drone01')
     m_taskheartbeat2.load()
     print m_taskheartbeat2.getData()
+    m_taskhist2= NEON.Data.Hist1D(m_neonRediscli, '/GPPD/workspace/detector/module001')
+    m_taskhist2.load()
+    print m_taskhist2.getData()
 
