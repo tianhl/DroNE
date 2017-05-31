@@ -1,3 +1,19 @@
+// @(#)DroNE/DroNECore:$Id$
+// Authors: H.L. TIAN 2017
+/**********************************************************************
+ *                                                                    *
+ * Copyright (c) 2017 Data Analysis & Instrument Software, CSNS       *
+ *                                                                    *
+ *                                                                    *
+ **********************************************************************/
+//
+//  DroNE.cc
+//  
+//
+//  Created by Haolai TIAN 31th May 2017.
+//
+//
+
 #include "SniperKernel/AlgBase.h"
 #include "SniperKernel/SvcBase.h"
 #include "SniperKernel/DataMemSvc.h"

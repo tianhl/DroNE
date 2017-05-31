@@ -4,6 +4,7 @@
 #  DataSvc_INCLUDE_DIRS - where to find DataSvc/DataSvc.h, etc.
 #  DataSvc_LIBRARIES    - List of libraries when using DataSvcWorld.
 #  DataSvc_FOUND        - True if DataSvc found.
+# author: H.L. TIAN 2017
 
 # Look for the header file.
 SET(CMAKE_INCLUDE_PATH ${CMAKE_INSTALL_PREFIX}/include)

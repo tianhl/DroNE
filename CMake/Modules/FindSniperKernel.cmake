@@ -4,6 +4,7 @@
 #  SniperKernel_INCLUDE_DIRS - where to find SniperKernel/Sniper.h, etc.
 #  SniperKernel_LIBRARIES    - List of libraries when using SniperKernelWorld.
 #  SniperKernel_FOUND        - True if SniperKernel found.
+# author: H.L. TIAN 2017
 
 # Look for the header file.
 SET(CMAKE_INCLUDE_PATH ${CMAKE_INSTALL_PREFIX}/include)

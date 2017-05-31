@@ -1,3 +1,18 @@
+// @(#)DroNE/CtrlSvc:$Id$
+// Authors: H.L. TIAN 2017
+/**********************************************************************
+ *                                                                    *
+ * Copyright (c) 2017 Data Analysis & Instrument Software, CSNS       *
+ *                                                                    *
+ *                                                                    *
+ **********************************************************************/
+//
+//  HelloDroNEHdl.cc
+//  
+//
+//  Created by Haolai TIAN 31th May 2017.
+//
+//
 #include "CtrlSvc/HelloDroNEHdl.h"
 #include "DataSvc/DataSvc.h"
 #include "DroNECore/DroNEIncident.h"

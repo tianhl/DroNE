@@ -1,5 +1,20 @@
 #ifndef DYNAMIC_SINGLETON_H
 #define DYNAMIC_SINGLETON_H
+// @(#)DroNE/DroNECore:$Id$
+// Authors: H.L. TIAN 2017
+/**********************************************************************
+ *                                                                    *
+ * Copyright (c) 2017 Data Analysis & Instrument Software, CSNS       *
+ *                                                                    *
+ *                                                                    *
+ **********************************************************************/
+//
+//  DynamicSingleton.h
+//  
+//
+//  Created by Haolai TIAN 31th May 2017.
+//
+//
 
 #include <cstdlib>
 #include <cassert>

@@ -1,3 +1,18 @@
+// @(#)DroNE/Algorithms:$Id$
+// Authors: H.L. TIAN & B. TANG 2017
+/**********************************************************************
+ *                                                                    *
+ * Copyright (c) 2017 Data Analysis & Instrument Software, CSNS       *
+ *                                                                    *
+ *                                                                    *
+ **********************************************************************/
+//
+//  GPPDSNDRecAlg.cc
+//  
+//
+//  Created by Haolai TIAN & Bin TANG 31th May 2017.
+//
+//
 #include "GPPDSNDRecAlg.h"
 #include "DataSvc/DataSvc.h"
 #include "SniperKernel/AlgFactory.h"

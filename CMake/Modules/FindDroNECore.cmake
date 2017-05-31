@@ -1,9 +1,10 @@
-# - Find DataSvc
-# Find the native DataSvcWorld headers and libraries.
+# - Find DroNECOre3
+# Find the native DroNECoreWorld headers and libraries.
 #
-#  DataSvc_INCLUDE_DIRS - where to find DataSvc/DataSvc.h, etc.
-#  DataSvc_LIBRARIES    - List of libraries when using DataSvcWorld.
-#  DataSvc_FOUND        - True if DataSvc found.
+#  DroNECore_INCLUDE_DIRS - where to find DroNECore/DroNE.h, etc.
+#  DroNECore_LIBRARIES    - List of libraries when using DroNECoreWorld.
+#  DroNECore_FOUND        - True if DroNECore found.
+# author: H.L. TIAN 2017
 
 # Look for the header file.
 SET(CMAKE_INCLUDE_PATH ${CMAKE_INSTALL_PREFIX}/include)

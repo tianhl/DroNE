@@ -1,3 +1,18 @@
+// @(#)DroNE/CtrlSvc:$Id$
+// Authors: H.L. TIAN 2017
+/**********************************************************************
+ *                                                                    *
+ * Copyright (c) 2017 Data Analysis & Instrument Software, CSNS       *
+ *                                                                    *
+ *                                                                    *
+ **********************************************************************/
+//
+//  EndEvtHdl.cc
+//  
+//
+//  Created by Haolai TIAN 31th May 2017.
+//
+//
 #include "CtrlSvc/EndEvtHdl.h"
 
 #include "SniperKernel/Incident.h"

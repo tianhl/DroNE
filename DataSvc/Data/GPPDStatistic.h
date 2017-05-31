@@ -1,5 +1,20 @@
 #ifndef GPPD_STATISTIC_H
 #define GPPD_STATISTIC_H
+// @(#)DroNE/DataSvc:$Id$
+// Authors: H.L. TIAN 2017
+/**********************************************************************
+ *                                                                    *
+ * Copyright (c) 2017 Data Analysis & Instrument Software, CSNS       *
+ *                                                                    *
+ *                                                                    *
+ **********************************************************************/
+//
+//  GPPDStatistic.h
+//  
+//
+//  Created by Haolai TIAN 31th May 2017.
+//
+//
 
 // how to get binary string
 //#include <bitset>

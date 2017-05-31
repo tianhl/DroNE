@@ -1,3 +1,18 @@
+// @(#)DroNE/DroNECore:$Id$
+// Authors: H.L. TIAN 2017
+/**********************************************************************
+ *                                                                    *
+ * Copyright (c) 2017 Data Analysis & Instrument Software, CSNS       *
+ *                                                                    *
+ *                                                                    *
+ **********************************************************************/
+//
+//  binding/DroNEExp.cc
+//  
+//
+//  Created by Haolai TIAN 31th May 2017.
+//
+//
 #include "DroNECore/DroNE.h"
 #include "SniperKernel/Incident.h"
 

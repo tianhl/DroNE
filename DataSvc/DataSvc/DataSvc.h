@@ -1,5 +1,20 @@
-#ifndef SNIPER_DATA_SVC_H
-#define SNIPER_DATA_SVC_H
+#ifndef DRONE_DATA_SVC_H
+#define DRONE_DATA_SVC_H
+// @(#)DroNE/DataSvc:$Id$
+// Authors: H.L. TIAN 2017
+/**********************************************************************
+ *                                                                    *
+ * Copyright (c) 2017 Data Analysis & Instrument Software, CSNS       *
+ *                                                                    *
+ *                                                                    *
+ **********************************************************************/
+//
+//  DataSvc.h
+//  
+//
+//  Created by Haolai TIAN 31th May 2017.
+//
+//
 
 #include "SniperKernel/SvcBase.h"
 #include "SniperKernel/IIncidentHandler.h"

@@ -1,6 +1,20 @@
 #ifndef DATA_INPUT_SVC_H
 #define DATA_INPUT_SVC_H
-
+// @(#)DroNE/DroNECore:$Id$
+// Authors: H.L. TIAN 2017
+/**********************************************************************
+ *                                                                    *
+ * Copyright (c) 2017 Data Analysis & Instrument Software, CSNS       *
+ *                                                                    *
+ *                                                                    *
+ **********************************************************************/
+//
+//  DataInputSvc.h
+//  
+//
+//  Created by Haolai TIAN 31th May 2017.
+//
+//
 #include <vector>
 #include <string>
 

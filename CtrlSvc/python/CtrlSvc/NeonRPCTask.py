@@ -1,3 +1,7 @@
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+# author: H.L. TIAN 2017
+
 from libSniperPython import Task
 #from libSniperPython import Incident
 #import PyIncident
@@ -9,7 +13,7 @@ class RPCMethods(NEON.Neon.NeonService.NeonRPC.MethodCall):
         pass
 
     def Stop(self, params=None):
-        print "==========================STOPRUN"
+        print "NEON RPC RECV & EVEC STOPRUN COMMAND"
         ic = PI.PyIncident("StopRun")
         ic.fire('StopRun')
         return "Ready"
@@ -28,5 +32,4 @@ class NeonRPCTask(Task) :
             neonid, method, parameters = rpcitem
             print "uuid: ", neonid, " method: ", method, " parameters: ", parameters
             returnValue, errorCode = self.rpcmethod.execute(method, parameters)
-            #self.rpcserver.sndRSLT(neonid, returnValue, error = errorCode)
-            self.rpcserver.sndRSLT(neonid, "return OK", error = "None ERROR")
+            self.rpcserver.sndRSLT(neonid, returnValue = "return OK", error = "None ERROR")

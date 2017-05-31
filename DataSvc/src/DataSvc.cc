@@ -1,3 +1,18 @@
+// @(#)DroNE/DataSvc:$Id$
+// Authors: H.L. TIAN 2017
+/**********************************************************************
+ *                                                                    *
+ * Copyright (c) 2017 Data Analysis & Instrument Software, CSNS       *
+ *                                                                    *
+ *                                                                    *
+ **********************************************************************/
+//
+//  DataSvc.cc
+//  
+//
+//  Created by Haolai TIAN 31th May 2017.
+//
+//
 #include "DataSvc/DataSvc.h"
 #include "SniperKernel/SvcFactory.h"
 #include "SniperKernel/Task.h"

@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-# author: lintao
-
-# using the new Mgr.
+# author: H.L. TIAN 2017
 
 import Sniper
 

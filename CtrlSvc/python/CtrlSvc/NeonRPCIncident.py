@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-# author: tianhl
+# author: H.L. TIAN 2017
 
 #import DroNECore
 import DroNECore.PyIncident as PI

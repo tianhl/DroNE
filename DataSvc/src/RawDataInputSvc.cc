@@ -1,3 +1,18 @@
+// @(#)DroNE/DataSvc:$Id$
+// Authors: H.L. TIAN 2017
+/**********************************************************************
+ *                                                                    *
+ * Copyright (c) 2017 Data Analysis & Instrument Software, CSNS       *
+ *                                                                    *
+ *                                                                    *
+ **********************************************************************/
+//
+//  RawDataInputSvc.cc
+//  
+//
+//  Created by Haolai TIAN 31th May 2017.
+//
+//
 #include "DataSvc/DataSvc.h"
 #include "DataSvc/RawDataInputSvc.h"
 #include "DataSvc/DecodeRawData.h"

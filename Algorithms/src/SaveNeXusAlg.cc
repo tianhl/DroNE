@@ -1,3 +1,18 @@
+// @(#)DroNE/Algorithms:$Id$
+// Authors: H.L. TIAN 2017
+/**********************************************************************
+ *                                                                    *
+ * Copyright (c) 2017 Data Analysis & Instrument Software, CSNS       *
+ *                                                                    *
+ *                                                                    *
+ **********************************************************************/
+//
+//  SaveNeXusAlg.cc
+//  
+//
+//  Created by Haolai TIAN 31th May 2017.
+//
+//
 #include "SaveNeXusAlg.h"
 #include "DataSvc/DataSvc.h"
 #include "SniperKernel/AlgFactory.h"

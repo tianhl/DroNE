@@ -1,9 +1,10 @@
-# - Find SniperKernelWorld
-# Find the native SniperKernelWorld headers and libraries.
+# - Find DimWorld
+# Find the native DimWorld headers and libraries.
 #
-#  SniperKernel_INCLUDE_DIRS - where to find SniperKernel/Sniper.h, etc.
-#  SniperKernel_LIBRARIES    - List of libraries when using SniperKernelWorld.
-#  SniperKernel_FOUND        - True if SniperKernel found.
+#  Dim_INCLUDE_DIRS - where to find Dim.h, etc.
+#  Dim_LIBRARIES    - List of libraries when using DimWorld.
+#  Dim_FOUND        - True if DimWorld found.
+# author: H.L. TIAN 2017
 
 # Look for the header file.
 SET(CMAKE_INCLUDE_PATH ${CMAKE_INSTALL_PREFIX})

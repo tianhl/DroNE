@@ -1,5 +1,20 @@
 #ifndef DIFF_SCINTILLANT_H
 #define DIFF_SCINTILLANT_H
+// @(#)DroNE/DataSvc:$Id$
+// Authors: H.L. TIAN 2017
+/**********************************************************************
+ *                                                                    *
+ * Copyright (c) 2017 Data Analysis & Instrument Software, CSNS       *
+ *                                                                    *
+ *                                                                    *
+ **********************************************************************/
+//
+//  Hit.h
+//  
+//
+//  Created by Haolai TIAN 31th May 2017.
+//
+//
 
 // how to get binary string
 //#include <bitset>

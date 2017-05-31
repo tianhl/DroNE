@@ -1,5 +1,20 @@
 #ifndef EPICS_INPUT_SVC_H
 #define EPICS_INPUT_SVC_H
+// @(#)DroNE/DataSvc:$Id$
+// Authors: H.L. TIAN 2017
+/**********************************************************************
+ *                                                                    *
+ * Copyright (c) 2017 Data Analysis & Instrument Software, CSNS       *
+ *                                                                    *
+ *                                                                    *
+ **********************************************************************/
+//
+//  EpicsInputSvc.h
+//  
+//
+//  Created by Haolai TIAN 31th May 2017.
+//
+//
 
 #include <vector>
 #include <string>

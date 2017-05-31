@@ -1,5 +1,21 @@
 #ifndef DYNAMIC_THREADED_QUEUE_h 
 #define DYNAMIC_THREADED_QUEUE_h 
+// @(#)DroNE/DroNECore:$Id$
+// Authors: H.L. TIAN 2017
+/**********************************************************************
+ *                                                                    *
+ * Copyright (c) 2017 Data Analysis & Instrument Software, CSNS       *
+ *                                                                    *
+ *                                                                    *
+ **********************************************************************/
+//
+//  DynamicThreadedQueue.h
+//  
+//
+//  Created by Haolai TIAN 31th May 2017.
+//
+//
+
 #include <boost/thread.hpp>
 #include <boost/noncopyable.hpp>
 #include <queue>

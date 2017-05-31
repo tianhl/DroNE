@@ -1,5 +1,20 @@
 #ifndef DRONE_INCIDENT_H
 #define DRONE_INCIDENT_H
+// @(#)DroNE/DroNECore:$Id$
+// Authors: H.L. TIAN 2017
+/**********************************************************************
+ *                                                                    *
+ * Copyright (c) 2017 Data Analysis & Instrument Software, CSNS       *
+ *                                                                    *
+ *                                                                    *
+ **********************************************************************/
+//
+//  DroNEIncident.h
+//  
+//
+//  Created by Haolai TIAN 31th May 2017.
+//
+//
 
 #include "SniperKernel/Incident.h"
 #include <Python.h>

@@ -1,5 +1,20 @@
 #ifndef DIFF_EVENT_H
 #define DIFF_EVENT_H
+// @(#)DroNE/DataSvc:$Id$
+// Authors: H.L. TIAN 2017
+/**********************************************************************
+ *                                                                    *
+ * Copyright (c) 2017 Data Analysis & Instrument Software, CSNS       *
+ *                                                                    *
+ *                                                                    *
+ **********************************************************************/
+//
+//  Evt.h
+//  
+//
+//  Created by Haolai TIAN 31th May 2017.
+//
+//
 
 #include "DroNECore/DataObject.h"
 

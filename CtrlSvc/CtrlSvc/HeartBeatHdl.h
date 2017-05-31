@@ -1,5 +1,20 @@
 #ifndef HEART_BEAT_HANDLER_H
 #define HEART_BEAT_HANDLER_H
+// @(#)DroNE/CtrlSvc:$Id$
+// Authors: H.L. TIAN 2017
+/**********************************************************************
+ *                                                                    *
+ * Copyright (c) 2017 Data Analysis & Instrument Software, CSNS       *
+ *                                                                    *
+ *                                                                    *
+ **********************************************************************/
+//
+//  HeartBeatHdl.h
+//  
+//
+//  Created by Haolai TIAN 31th May 2017.
+//
+//
 
 #include "DroNECore/DroNEIncidentHandler.h"
 

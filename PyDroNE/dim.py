@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-# author: lintao
+# author: H.L. TIAN 2017
 
 # using the new Mgr.
 

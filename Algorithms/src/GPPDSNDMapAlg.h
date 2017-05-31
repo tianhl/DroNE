@@ -1,5 +1,20 @@
 #ifndef GPPDSNDMapAlg_h
 #define GPPDSNDMapAlg_h
+// @(#)DroNE/Algorithms:$Id$
+// Authors: H.L. TIAN 2017
+/**********************************************************************
+ *                                                                    *
+ * Copyright (c) 2017 Data Analysis & Instrument Software, CSNS       *
+ *                                                                    *
+ *                                                                    *
+ **********************************************************************/
+//
+//  GPPDSNDMapAlg.h
+//  
+//
+//  Created by Haolai TIAN 31th May 2017.
+//
+//
 
 #include "SniperKernel/AlgBase.h"
 
