@@ -15,28 +15,6 @@
 //  Created by Haolai TIAN 31th May 2017.
 //
 //
-#include <vector>
-#include <string>
-
-#include "SniperKernel/SvcBase.h"
-
-
-class DataInputSvc : public SvcBase
-{
-    public :
-
-      DataInputSvc(const std::string& name);
-      virtual ~DataInputSvc();
-
-      virtual bool initialize();
-      virtual bool finalize();
-      virtual bool next();
-
-};
-
-
-#endif
-
 #include "SniperKernel/IIncidentHandler.h"
 #include "SniperKernel/SniperException.h"
 #include "Python.h"
