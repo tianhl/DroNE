@@ -14,7 +14,7 @@ import CtrlSvc.NeonRPCTask        as NRT
 import time
 
 
-
+import uuid    
 def app(Server, RPC):
     Task = DroNECore.DroNE("task")
     if(not Task.isTop()):
@@ -22,11 +22,10 @@ def app(Server, RPC):
     Task.setLogLevel(2)     
     
 ###############################################################################
-    import uuid    
-    heartbeatdata = HBI.HeartBeatCronIncident.encodeHeartBeat(status='configuring', \
-                                           hit = 0, event = 0, pulse = 0, idx = str(uuid.uuid1()))
     m_taskheartbeat = NEON.Data.SingleValue(Server, '/GPPD/hearbeat/detector/192.168.0.1:drone01', \
-                                           description='192.168.0.1:01', data=heartbeatdata)
+                                           description='192.168.0.1:01')
+    m_taskheartbeat.setData(HBI.HeartBeatCronIncident.encodeHeartBeat(status='configuring', \
+                                    hit = 0, event = 0, pulse = 0, idx = str(uuid.uuid1())))
     m_taskheartbeat.dump()
 ###############################################################################
 
@@ -38,19 +37,21 @@ def app(Server, RPC):
 ###############################################################################
 
 ###############################################################################
-    nr = NRT.NeonRPCTask("NeonRPC", RPC)
+    nr = NRT.NeonRPCTask("NeonRPC", RPC, remotedata = m_taskheartbeat)
 
 ###############################################################################
 
     ct = DroNECore.CtrlTask("ctrl")
-    #di = HDI.HelloIncident('HelloDroNE')
+    di = HDI.HelloIncident('HelloDroNE')
     ni = NRI.NeonRPCCronIncident("NeonRPC", cron = 2, repeatable = True)
     hi = HBI.HeartBeatCronIncident("HeartBeat", cron = 2, repeatable = True, remotedata = m_taskheartbeat)
     pi = PHI.PushHistCronIncident("PushHist", cron = 2, repeatable = True, remotedata = m_taskhist)
+    ct.add(di)
     ct.add(ni)
-    #ct.add(hi)
-    #ct.add(pi)
-    #ct.add(hc)
+    ct.add(hi)
+    ct.add(pi)
+    
+
     import DataSvc
     import CtrlSvc
 
@@ -62,7 +63,7 @@ def app(Server, RPC):
     iPvd = Task.find("DataProvideSvc")
 
     filelist = []
-    for i in xrange(1):
+    for i in xrange(100):
         filelist.append("16adjust.dat")
     iPvd.property("InputFile").set(filelist) #"N_3Cdmaskslit.dat", 
     iSvc.property("BuffSize").set(5000)
@@ -79,7 +80,7 @@ def app(Server, RPC):
     #    
     Task.setEvtMax(1000000)
     Task.run()
-    Task.run()
+    #Task.run()
 
     print "stop run"
     index = json.loads(m_taskheartbeat.getData())['uuid']
@@ -115,6 +116,11 @@ class RPCMethods(NEON.Neon.NeonService.NeonRPC.MethodCall):
 
 
 def rpcserver(Server, RPC):
+    heartbeatdata = HBI.HeartBeatCronIncident.encodeHeartBeat(status='stopping', \
+                                           hit = 0, event = 0, pulse = 0, idx = str(uuid.uuid1()))
+    m_taskheartbeat = NEON.Data.SingleValue(Server, '/GPPD/hearbeat/detector/192.168.0.1:drone01', \
+                                           description='192.168.0.1:01', data=heartbeatdata)
+    m_taskheartbeat.dump()
    
     rpcmethod = RPCMethods(Server=Server, RPC=RPC)
     while(True):
@@ -130,6 +136,7 @@ if __name__ == "__main__":
     m_neonRedis = NEON.Neon.NeonRedis(host='localhost', port=9999, db = 0, isWritable = True) # server mode, set msgs to Redis
     servpob = NEON.Neon.NeonService.POBox(m_neonRedis, '/GPPD/process/detector', '192.168.0.1:drone01')
     servrpc = NEON.Neon.NeonService.NeonRPC(sendPOBox = servpob, recvPOBox = servpob, isServer=True)
+    #app(Server=m_neonRedis, RPC=servrpc)
     
     rpcserver(Server = m_neonRedis, RPC=servrpc)
 
