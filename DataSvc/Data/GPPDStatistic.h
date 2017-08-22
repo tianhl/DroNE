@@ -86,5 +86,6 @@ class RunningInf:public DataObject{
 };
 
 
+typedef DataList<PixelCount> PixelCountList;
 
 #endif

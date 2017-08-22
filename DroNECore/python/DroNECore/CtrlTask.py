@@ -24,7 +24,7 @@ class CtrlTask(Task) :
     def handle(self, incident) :
 	for eachitem in self.__incidentList:
 		ret = eachitem.execute()
-                if(ret):
-                    print ret
+                #if(ret):
+                    #print ret
         #print self.__heartbeat.fire({"string":" pyIncident hello ", "times":2})
 

@@ -1,6 +1,6 @@
-#ifndef DRONE_DATA_SVC_H
-#define DRONE_DATA_SVC_H
-// @(#)DroNE/DataSvc:$Id$
+#ifndef PUSH_Martix_HANDLER_H
+#define PUSH_Martix_HANDLER_H
+// @(#)DroNE/CtrlSvc:$Id$
 // Authors: H.L. TIAN 2017
 /**********************************************************************
  *                                                                    *
@@ -9,34 +9,30 @@
  *                                                                    *
  **********************************************************************/
 //
-//  DataSvc.h
+//  PushMatrixHdl.h
 //  
 //
 //  Created by Haolai TIAN 31th May 2017.
 //
 //
 
-#include "SniperKernel/SvcBase.h"
-#include "SniperKernel/IIncidentHandler.h"
-#include "DroNECore/DynamicTreeNode.h"
-#include "DroNECore/DataObject.h"
-#include <map>
-#include <list>
+#include "DroNECore/DroNEIncidentHandler.h"
 
-class DataSvc : public SvcBase, public DynamicTree<DataObject>
+class Task;
+class DataSvc;
+
+class PushMatrixHdl : public DroNEIncidentHandler
 {
     public :
 
-      DataSvc(const std::string& name);
-      virtual ~DataSvc();
+        PushMatrixHdl(Task* par);
 
-      bool initialize();
-      bool finalize();
+        bool handle(Incident& incident);
 
     private :
-      //uint32_t         m_tofbins;
 
+	DataSvc*       m_svc;
+	Task*          m_par;
 };
-
 
 #endif

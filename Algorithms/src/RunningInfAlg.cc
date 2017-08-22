@@ -31,6 +31,8 @@ DECLARE_ALGORITHM(RunningInfAlg);
 RunningInfAlg::RunningInfAlg(const std::string& name)
     : AlgBase(name)
 {
+        declProp("TofBins", m_tofbins);
+        declProp("TofStep", m_tofstep);
 }
 
 RunningInfAlg::~RunningInfAlg()
@@ -45,6 +47,9 @@ RunningInfAlg::initialize()
 	SniperPtr<DataSvc> pSvc("DataSvc");
 	if ( pSvc.invalid()) return false;
 	m_svc = pSvc.data();
+
+	PixelCountList* pcs = m_svc->getObj<PixelCountList>("/statistic/pixel_counts");
+        for(uint32_t i = 0; i < m_tofbins; i++) pcs->add_item();
 
 	return true;
 }
@@ -61,10 +66,15 @@ RunningInfAlg::execute()
         ri->addEvtCnt(evtcol->size());
         ri->addPulseCnt(1);
 
-	PixelCount* pc  = m_svc->getObj<PixelCount>("/statistic/pixel_count");
+	PixelCount*     pc  = m_svc->getObj<PixelCount>("/statistic/pixel_count");
+	PixelCountList* pcs = m_svc->getObj<PixelCountList>("/statistic/pixel_counts");
 	for(uint32_t i = 0; i < evtcol->size(); i++){
 		Evt* evt = evtcol->at(i);
 		pc->addCount(evt->getPixelID(), 1);
+		uint32_t time = evt->getTOF();
+                uint32_t chan = time/m_tofstep;
+                if(chan>m_tofbins)continue; 
+                pcs->at(chan)->addCount(evt->getPixelID(), 1);
 	}
 
 

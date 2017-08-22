@@ -8,6 +8,7 @@ import NEON
 import json
 import CtrlSvc.HeartBeatIncident  as HBI
 import CtrlSvc.PushHistIncident   as PHI
+import CtrlSvc.PushMatrixIncident as PMI
 import CtrlSvc.HelloDroNEIncident as HDI
 import CtrlSvc.NeonRPCIncident    as NRI
 import CtrlSvc.NeonRPCTask        as NRT
@@ -45,11 +46,12 @@ def app(Server, RPC):
     di = HDI.HelloIncident('HelloDroNE')
     ni = NRI.NeonRPCCronIncident("NeonRPC", cron = 2, repeatable = True)
     hi = HBI.HeartBeatCronIncident("HeartBeat", cron = 2, repeatable = True, remotedata = m_taskheartbeat)
-    pi = PHI.PushHistCronIncident("PushHist", cron = 2, repeatable = True, remotedata = m_taskhist)
+    #pi = PHI.PushHistCronIncident("PushHist", cron = 2, repeatable = True, remotedata = m_taskhist)
+    #pi = PMI.PushMatrixCronIncident("PushMatrix", cron = 5, repeatable = True, remotedata = m_taskhist)
     ct.add(di)
     ct.add(ni)
     ct.add(hi)
-    ct.add(pi)
+    #ct.add(pi)
     
 
     import DataSvc
