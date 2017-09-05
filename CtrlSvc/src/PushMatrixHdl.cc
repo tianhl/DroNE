@@ -47,14 +47,16 @@ bool PushMatrixHdl::handle(Incident& incident)
 	if(pIncident == NULL) return false;
 
 	std::stringstream retVal;
+        int pidstart(getInt("pidstart"));
+        int pidsize(getInt("pidsize"));
 	//KEYS& pids = pc->getPixelIDs();
         retVal << "[";
-	for(uint32_t i = 0; i < 111*48; i++){
+	for(uint32_t i = 0; i < uint32_t(pidsize); i++){
 		if(0<i)retVal << ","; 
 		retVal << "[";
 		for(uint32_t j = 0; j < size; j++){
                         if(0<j)retVal << ",";
-			retVal << pcs->at(j)->getCount(i+1100000);
+			retVal << pcs->at(j)->getCount(i+pidstart);
 		}
 		retVal << "]";
 	}

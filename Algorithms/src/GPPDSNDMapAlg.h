@@ -40,8 +40,12 @@ class GPPDSNDMapAlg: public AlgBase
 	NeutronPulse* m_pulse;
 	DataSvc* m_svc;
     private:
-	void getModInfo(uint32_t module, uint32_t& bank, uint32_t& row, uint32_t& column);
-	uint64_t getPixelID(uint32_t& bank, uint32_t& row, uint32_t& column, uint32_t& x, uint32_t& y);
+	uint64_t getPixelID(uint32_t& module, uint32_t& x, uint32_t& y);
+
+	std::string m_configfile;
+	typedef std::map<int, int> MODULE2PID;
+	MODULE2PID m_m2p;
+
 
 };
 

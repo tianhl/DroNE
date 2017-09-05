@@ -31,6 +31,7 @@ DECLARE_ALGORITHM(RunningInfAlg);
 RunningInfAlg::RunningInfAlg(const std::string& name)
     : AlgBase(name)
 {
+        declProp("TofStart", m_tofstart);
         declProp("TofBins", m_tofbins);
         declProp("TofStep", m_tofstep);
 }
@@ -71,9 +72,10 @@ RunningInfAlg::execute()
 	for(uint32_t i = 0; i < evtcol->size(); i++){
 		Evt* evt = evtcol->at(i);
 		pc->addCount(evt->getPixelID(), 1);
-		uint32_t time = evt->getTOF();
+		uint32_t time = evt->getTOF()-m_tofstart;
                 uint32_t chan = time/m_tofstep;
                 if(chan>m_tofbins)continue; 
+                //std::cout << "chan: " << chan << " pixle: " << evt->getPixelID() << std::endl;
                 pcs->at(chan)->addCount(evt->getPixelID(), 1);
 	}
 

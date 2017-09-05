@@ -1,0 +1,40 @@
+./onlinefile.py module131 &
+sleep 1s
+./onlinefile.py module132 &
+sleep 1s
+./onlinefile.py module133 &
+sleep 1s
+./onlinefile.py module231 &
+sleep 1s
+./onlinefile.py module232 &
+sleep 1s
+./onlinefile.py module233 &
+sleep 1s
+./onlinefile.py module322 &
+sleep 1s
+./onlinefile.py module331 &
+sleep 1s
+./onlinefile.py module332 &
+sleep 1s
+./onlinefile.py module333 &
+sleep 1s
+./onlinefile.py module341 &
+sleep 1s
+./onlinefile.py module342 &
+sleep 1s
+./onlinefile.py module343 &
+sleep 1s
+./onlinefile.py module422 &
+sleep 1s
+./onlinefile.py module431 &
+sleep 1s
+./onlinefile.py module432 &
+sleep 1s
+./onlinefile.py module433 &
+sleep 1s
+./onlinefile.py module441 &
+sleep 1s
+./onlinefile.py module442 &
+sleep 1s
+./onlinefile.py module443 &
+sleep 1s

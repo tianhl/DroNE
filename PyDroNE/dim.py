@@ -20,7 +20,8 @@ if __name__ == "__main__":
     iPvd = task.find("DataProvideSvc")
 
     iPvd.property("DataSize").set(1000000)
-    iPvd.property("DimServerName").set("dimserver/TEST_SWAP")
+    dimsrvname = "dimserver/TEST_SWAP_2"
+    iPvd.property("DimServerName").set(dimsrvname)
     iSvc.property("BuffSize").set(1000000)
 
     iSvc.show()
@@ -29,12 +30,12 @@ if __name__ == "__main__":
     import Algorithms
     task.property("algs").append("GPPDSNDRecAlg")
     task.property("algs").append("GPPDSNDMapAlg")
-    task.property("algs").append("DumpAlg")
+    #task.property("algs").append("DumpAlg")
     #task.property("algs").append("SaveNeXusAlg")
-    dumpalg = task.find("DumpAlg")
-    dumpalg.property("OutputFileName").set("tempdim.txt")
-    dumpalg.property("initXNum").set(111)
-    dumpalg.property("initYNum").set(48)
+    #dumpalg = task.find("DumpAlg")
+    #dumpalg.property("OutputFileName").set("tempdim.txt")
+    #dumpalg.property("initXNum").set(111)
+    #dumpalg.property("initYNum").set(48)
 
     task.setEvtMax(-1)
     task.initialize()

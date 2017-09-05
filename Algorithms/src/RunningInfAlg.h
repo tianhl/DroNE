@@ -38,6 +38,7 @@ class RunningInfAlg: public AlgBase
 	DataSvc* m_svc;
         uint32_t m_tofbins;
         uint32_t m_tofstep;
+        uint32_t m_tofstart;
 };
 
 #endif

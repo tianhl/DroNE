@@ -1,0 +1,15 @@
+./onlinedim.py module331 &   #moduleNum 2 
+sleep 1
+./onlinedim.py module441 &   #moduleNum 3
+sleep 1
+./onlinedim.py module332 &   #moduleNum 4
+sleep 1
+./onlinedim.py module333 &   #moduleNum 5
+sleep 1
+./onlinedim.py module432 &   #moduleNum 6
+sleep 1
+./onlinedim.py module531 &   #moduleNum 7
+sleep 1
+./onlinedim.py module232 &   #moduleNum 8
+sleep 1
+./onlinedim.py module343 &   #moduleNum 9

@@ -18,14 +18,17 @@
 #include "SniperKernel/AlgFactory.h"
 #include "SniperKernel/SniperLog.h"
 #include "SniperKernel/SniperPtr.h"
-
+#include "tinyxml.h"
 #include <math.h>
+#include "boost/lexical_cast.hpp"
+#include <map>
 
 DECLARE_ALGORITHM(GPPDSNDMapAlg);
 
 GPPDSNDMapAlg::GPPDSNDMapAlg(const std::string& name)
     : AlgBase(name)
 {
+	declProp("ConfigFileName",m_configfile);
 }
 
 GPPDSNDMapAlg::~GPPDSNDMapAlg()
@@ -42,6 +45,20 @@ GPPDSNDMapAlg::initialize()
       return false;
     }
 
+    TiXmlDocument doc;
+    doc.LoadFile(m_configfile.c_str());
+    //doc.Print();
+    TiXmlElement* root = doc.FirstChildElement();
+    for(TiXmlElement* bank = root->FirstChildElement("type")     ; bank != NULL; bank = bank->NextSiblingElement("type"))
+    for(TiXmlElement* mdul = bank->FirstChildElement("component"); mdul != NULL; mdul = mdul->NextSiblingElement("component"))
+    m_m2p.insert(MODULE2PID::value_type(boost::lexical_cast<int>(mdul->Attribute("moduleNum")),boost::lexical_cast<int>(mdul->Attribute("idstart"))));
+    MODULE2PID::iterator it;
+    for(it=m_m2p.begin(); it!=m_m2p.end(); it++){
+        std::cout << "module: " << it->first << " pid: " << it->second << std::endl;
+    }
+
+
+
     m_svc = pSvc.data();
 
     m_pulse = m_svc->getObj<NeutronPulse>("/pulse");
@@ -54,7 +71,6 @@ bool GPPDSNDMapAlg::execute()
 {
 
 	uint32_t x, y, module;
-	uint32_t bank, row, column;
 	uint64_t pixelID;
 	uint32_t size = m_evtcol->size();
 
@@ -64,8 +80,7 @@ bool GPPDSNDMapAlg::execute()
 		x = evt->getX();
 		y = evt->getY();
 		module = m_pulse->getModule();
-		getModInfo(module, bank, row, column);
-		pixelID = getPixelID(bank, row, column, x, y);
+		pixelID = getPixelID(module, x, y);
 		evt->setPixelID(pixelID);
 
 	}
@@ -84,21 +99,7 @@ bool GPPDSNDMapAlg::finalize()
 	return true;
 }
 
-void GPPDSNDMapAlg::getModInfo(uint32_t module, uint32_t& bank, uint32_t& row, uint32_t& column)
+uint64_t GPPDSNDMapAlg::getPixelID(uint32_t& module, uint32_t& x, uint32_t& y)
 {
-	bank   = 1;
-	row    = 1;
-	column = module;
-}
-
-uint64_t GPPDSNDMapAlg::getPixelID(uint32_t& bank, uint32_t& row, uint32_t& column, uint32_t& x, uint32_t& y)
-{
-	uint64_t ret_val = 0;
-	ret_val =    bank*1000000;
-	ret_val +=    row* 100000;
-	ret_val += column*  10000;
-	ret_val += (uint64_t(y/4)*111+uint64_t(x/4));	
-
-	//std::cout << "bank: " << bank << " row: " << row << " column: " << column << " x: " << x << " y: " << y  << " return: " << ret_val << std::endl;
-	return ret_val;
+	return uint64_t(m_m2p.find(module)->second) + (uint64_t(y/4)*111+uint64_t(x/4));	
 }
