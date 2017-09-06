@@ -51,11 +51,11 @@ GPPDSNDMapAlg::initialize()
     TiXmlElement* root = doc.FirstChildElement();
     for(TiXmlElement* bank = root->FirstChildElement("type")     ; bank != NULL; bank = bank->NextSiblingElement("type"))
     for(TiXmlElement* mdul = bank->FirstChildElement("component"); mdul != NULL; mdul = mdul->NextSiblingElement("component"))
-    m_m2p.insert(MODULE2PID::value_type(boost::lexical_cast<int>(mdul->Attribute("moduleNum")),boost::lexical_cast<int>(mdul->Attribute("idstart"))));
-    MODULE2PID::iterator it;
-    for(it=m_m2p.begin(); it!=m_m2p.end(); it++){
-        std::cout << "module: " << it->first << " pid: " << it->second << std::endl;
-    }
+    m_m2p.insert(MODULE2PID::value_type(boost::lexical_cast<int>(mdul->Attribute("moduleNum")),
+                                        boost::lexical_cast<int>(mdul->Attribute("idstart"))));
+
+    //for(MODULE2PID::iterator it=m_m2p.begin(); it!=m_m2p.end(); it++) 
+    //    std::cout << "module: " << it->first << " pid: " << it->second << std::endl;
 
 
 

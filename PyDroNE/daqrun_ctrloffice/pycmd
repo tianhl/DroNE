@@ -1,15 +1,25 @@
 ./onlinedim.py module331 &   #moduleNum 2 
-sleep 1
 ./onlinedim.py module441 &   #moduleNum 3
-sleep 1
 ./onlinedim.py module332 &   #moduleNum 4
-sleep 1
 ./onlinedim.py module333 &   #moduleNum 5
-sleep 1
 ./onlinedim.py module432 &   #moduleNum 6
-sleep 1
 ./onlinedim.py module531 &   #moduleNum 7
-sleep 1
 ./onlinedim.py module232 &   #moduleNum 8
-sleep 1
 ./onlinedim.py module343 &   #moduleNum 9
+./onlinedim.py module633 &   #moduleNum 28
+./onlinedim.py module642 &   #moduleNum 29
+./onlinedim.py module422 &   #moduleNum 30
+./onlinedim.py module233 &   #moduleNum 31
+./onlinedim.py module521 &   #moduleNum 32 
+./onlinedim.py module231 &   #moduleNum 33
+./onlinedim.py module641 &   #moduleNum 34
+./onlinedim.py module621 &   #moduleNum 35
+./onlinedim.py module543 &   #moduleNum 36
+#./onlinedim.py module531 &   #moduleNum 7
+#./onlinedim.py module232 &   #moduleNum 8
+#./onlinedim.py module343 &   #moduleNum 9
+#./onlinedim.py module633 &   #moduleNum 28
+#./onlinedim.py module642 &   #moduleNum 29
+#./onlinedim.py module422 &   #moduleNum 30
+#./onlinedim.py module233 &   #moduleNum 31
+~                                          

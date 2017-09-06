@@ -15,8 +15,7 @@
 //
 #include "DataSvc/EpicsInputSvc.h"
 #include "DataSvc/EpicsV4Hh/neutronClientStartMonitor.hh"
-#include "DataSvc/GPPDDataSvc.h"
-#include "DroNECore/BeginEvtHdl.h"
+#include "DataSvc/DataSvc.h"
 
 #include "SniperKernel/Incident.h"
 #include "SniperKernel/SniperPtr.h"
@@ -44,8 +43,6 @@ DECLARE_SERVICE(EpicsInputSvc);
 DynamicThreadedQueue<MonitorItem*> EpicsInputSvc::dataQueue;
 EpicsInputSvc::EpicsInputSvc(const std::string& name)
 : DataInputSvc(name) {
-	//declProp("BuffSize",  m_buffsize);
-	//m_decoder = new DecodeRawData();
 
 	m_EpicsMonitor= NULL;
 	m_curDataItem = NULL;
@@ -79,11 +76,9 @@ bool EpicsInputSvc::finalize() {
 
 bool EpicsInputSvc::next() {
 	NeutronPulse* npulse = m_dataSvc->getObj<NeutronPulse>("/pulse");
-	HitList* hitcol      = m_dataSvc->getObj<HitList>("/pulse/hits");
 	EvtList* evtcol      = m_dataSvc->getObj<EvtList>("/pulse/evts");
-	hitcol->clear();
 	evtcol->clear();
-	Hit* hit;
+	Evt* evt;
 
 	popDataItem();
 
@@ -97,9 +92,11 @@ bool EpicsInputSvc::next() {
 	//uint32_t hitCnt       = pData->pPulse->mHitCounts;
 
 	for(uint32_t idx = 0; idx < pData->pPulse->mHitCounts; idx++){
-		hit = hitcol->add_item();
-		hit->setChannel(pData->pPIDList[idx]);
-		hit->setTOF(pData->pTOFList[idx]);
+		evt = evtcol->add_item();
+		evt->setPixelID(pData->pPIDList[idx]);
+		evt->setTOF(pData->pTOFList[idx]);
+                evt->setX(0);
+                evt->setY(0);
 	}
 
 	eraseDataItem();

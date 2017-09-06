@@ -7,8 +7,10 @@ import DroNECore
 import DroNECore.PyIncident as PI
 import CtrlSvc.PushMatrixIncident as PMI
 import CtrlSvc.PushHistIncident as PHI
+import CtrlSvc.HeartBeatIncident  as HBI
 import redis
 import json
+import uuid
 
 
 class RedisRemoteData:
@@ -21,6 +23,12 @@ class RedisRemoteData:
 
     def dump(self):
        self.server.set(self.path, self.data)
+
+    def getData(self):
+       return self.data 
+ 
+    def load(self):
+       self.data = self.server.get(self.path)
 
 def App(in_module='', in_ip='', in_port=0, in_cron=1):
 
@@ -50,18 +58,35 @@ def App(in_module='', in_ip='', in_port=0, in_cron=1):
     toflist = [m_tofstep+i*m_tofstep for i in xrange(m_tofbins+1)]
     m_taskTOF.setData(json.dumps(toflist))
     m_taskTOF.dump()
-    pidlist = [i+int(m_moduleinfo['idstart']) for i in xrange(int(m_moduleinfo['pixels']))]
+
+    import socket, os
+    m_taskheartbeat = RedisRemoteData(m_ipadress, m_port, \
+                    '/GPPD/heartbeat/detector/'+socket.gethostbyname(socket.gethostname())+':'+m_modulename)
+    m_taskheartbeat.setData(HBI.HeartBeatCronIncident.encodeHeartBeat(status='configuring', \
+                                    hit = 0, event = 0, pulse = 0, idx = os.getpid()))
+    m_taskheartbeat.dump()
+    
+
+    idstart = int(m_moduleinfo['idstart'])
+    idsize  = int(m_moduleinfo['pixels'])
+    pidlist = [i+idstart for i in xrange(idsize)]
+    print pidlist
     m_taskPID.setData(json.dumps(pidlist))
     m_taskPID.dump()
 
+    m_configure = {"pidstart":idstart,"pidsize":idsize}
     task = DroNECore.DroNE("task")
     task.asTop()
-    task.setLogLevel(2)
+    task.setLogLevel(0)
     
     import CtrlSvc
     ct = DroNECore.CtrlTask("ctrl")
-    pi = PMI.PushMatrixCronIncident("PushMatrix", cron = m_cron, repeatable = True, remotedata = m_taskMatrix)
+    pi = PMI.PushMatrixCronIncident("PushMatrix", cron = m_cron, \
+                                    repeatable = True, remotedata = m_taskMatrix,\
+                                    configure = m_configure)
+    hi = HBI.HeartBeatCronIncident("HeartBeat", cron = 2, repeatable = True, remotedata = m_taskheartbeat)
     ct.add(pi)
+    ct.add(hi)
 
     import DataSvc
     task.property("svcs").append("DataSvc")
@@ -95,6 +120,8 @@ def App(in_module='', in_ip='', in_port=0, in_cron=1):
     iRun.property("TofStart").set(m_tofstart)
     iRun.property("TofBins").set(m_tofbins)
     iRun.property("TofStep").set(m_tofstep)
+    iMap = task.find("GPPDSNDMapAlg")
+    iMap.property("ConfigFileName").set("configure.xml")
 
     #    
     task.setEvtMax(-1)
