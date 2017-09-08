@@ -18,7 +18,7 @@ class neutronClientStartMonitor
 {
 	public:
 
-		neutronClientStartMonitor();
+		neutronClientStartMonitor(std::string channel_name);
 		typedef void (*P)(NeutronPulseData*); 
 		void doMonitor(string const &name, string const &request, double timeout, short priority, int limit, bool quiet,P p);
 	

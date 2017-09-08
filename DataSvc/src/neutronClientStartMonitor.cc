@@ -26,9 +26,9 @@ using namespace epics::pvData;
 using namespace epics::pvAccess;
 
 
-neutronClientStartMonitor::neutronClientStartMonitor()
+neutronClientStartMonitor::neutronClientStartMonitor(std::string channel_name)
 {
-  channel = "neutrons";
+  channel = channel_name;
   request = "record[queueSize=100]field()";
   timeout = 2.0;
   monitor = false;

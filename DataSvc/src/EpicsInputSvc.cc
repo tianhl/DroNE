@@ -43,6 +43,7 @@ DECLARE_SERVICE(EpicsInputSvc);
 DynamicThreadedQueue<MonitorItem*> EpicsInputSvc::dataQueue;
 EpicsInputSvc::EpicsInputSvc(const std::string& name)
 : DataInputSvc(name) {
+	declProp("Channel", m_epicsChannel);
 
 	m_EpicsMonitor= NULL;
 	m_curDataItem = NULL;
@@ -75,6 +76,7 @@ bool EpicsInputSvc::finalize() {
 }
 
 bool EpicsInputSvc::next() {
+        std::cout << "EpicsInputSvc::next" << std::endl;
 	NeutronPulse* npulse = m_dataSvc->getObj<NeutronPulse>("/pulse");
 	EvtList* evtcol      = m_dataSvc->getObj<EvtList>("/pulse/evts");
 	evtcol->clear();
@@ -83,7 +85,7 @@ bool EpicsInputSvc::next() {
 	popDataItem();
 
 	MonitorData* pData = m_curDataItem->getData();
-	//size_t       pSize = m_curDataItem->getSize();
+	std::cout << "evt size: " << m_curDataItem->getSize() << std::endl;
 	npulse->setInstrument(pData->pPulse->mSpecID);
 	npulse->setDetector(pData->pPulse->mDetTypeID);
 	//npulse->(pData->pPulse->mProtonCharge;
@@ -127,10 +129,11 @@ void EpicsInputSvc::pushDataItem(NeutronPulseData* pNeutronPulseData){
 }
 
 void functionWrapper(NeutronPulseData* pNeutronPulseData){
+        std::cout << "funtionWrapper" << std::endl;
 	EpicsInputSvc::pushDataItem(pNeutronPulseData);
 }
 void EpicsInputSvc::epicsClient(){
-	m_EpicsMonitor = new neutronClientStartMonitor();
+	m_EpicsMonitor = new neutronClientStartMonitor(m_epicsChannel);
 	m_EpicsMonitor->startMonitor(functionWrapper);
 
 }

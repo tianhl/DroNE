@@ -61,6 +61,7 @@ class EpicsInputSvc : public DataInputSvc
       neutronClientStartMonitor* m_EpicsMonitor;
       MonitorItem* m_curDataItem;
       boost::thread *m_client;
+      std::string m_epicsChannel;
 
 };
 
