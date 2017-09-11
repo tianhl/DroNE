@@ -1,0 +1,22 @@
+===DroNE
+cd DroNECore/build
+ccmake -DCMAKE_INSTALL_PREFIX=/opt/shared/library/DroNE -DSniperKernel_INCLUDE_DIR=/opt/shared/library/sniper-1.0/include -DSniperKernel_LIBRARY=/opt/shared/library/sniper-1.0/lib ..
+cmake ..
+make
+make install
+
+cd DataSvc/build
+ccmake -DCMAKE_INSTALL_PREFIX=/opt/shared/library/DroNE -DSniperKernel_INCLUDE_DIR=/opt/shared/library/sniper-1.0/include/ -DSniperKernel_LIBRARY=/opt/shared/library/sniper-1.0/lib -DDroNECore_INCLUDE_DIR=/opt/shared/library/DroNE/include/ -DDroNECore_LIBRARY=/opt/shared/library/DroNE/lib -DDim_LIBRARY=/opt/shared/library/dim_v20r17/linux -DDim_INCLUDE_DIR=/opt/shared/library/dim_v20r17/dim -DpvAccess_LIBRARY=/opt/shared/library/epics/EPICS4/pvAccessCPP/lib/linux-x86_64 -DpvAccess_INCLUDE_DIR=/opt/shared/library/epics/EPICS4/pvAccessCPP/include -DBase_LIBRARY=/opt/shared/library/epics/base-3.14.12/lib/linux-x86_64 -DBase_INCLUDE_DIR=/opt/shared/library/epics/base-3.14.12/include -DpvData_INCLUDE_DIR=/opt/shared/library/epics/EPICS4/pvDataCPP/include -DpvData_LIBRARY=/opt/shared/library/epics/EPICS4/pvDataCPP/lib/linux-x86_64 -DDim=ON -DEpics=ON ..
+cmake ..
+make
+make install
+
+cd CtrlSvc/build
+ccmake -DCMAKE_INSTALL_PREFIX=/opt/shared/library/DroNE -DSniperKernel_INCLUDE_DIR=/opt/shared/library/sniper-1.0/include/ -DSniperKernel_LIBRARY=/opt/shared/library/sniper-1.0/lib -DDroNECore_INCLUDE_DIR=/opt/shared/library/DroNE/include/ -DDroNECore_LIBRARY=/opt/shared/library/DroNE/lib -DDataSvc_INCLUDE_DIR=/opt/shared/library/DroNE/include/ -DDataSvc_LIBRARY=/opt/shared/library/DroNE/lib ..
+cmake ..
+make
+make install
+
+cd Algorithms/build
+ccmake -DCMAKE_INSTALL_PREFIX=/opt/shared/library/DroNE -DSniperKernel_INCLUDE_DIR=/opt/shared/library/sniper-1.0/include/ -DSniperKernel_LIBRARY=/opt/shared/library/sniper-1.0/lib -DDroNECore_INCLUDE_DIR=/opt/shared/library/DroNE/include/ -DDroNECore_LIBRARY=/opt/shared/library/DroNE/lib -DDataSvc_INCLUDE_DIR=/opt/shared/library/DroNE/include/ -DDataSvc_LIBRARY=/opt/shared/library/DroNE/lib -DTinyXML_INCLUDE_DIR=/opt/shared/library/tinyxml -DTinyXML_LIBRARY=/opt/shared/library/tinyxml ..
+
