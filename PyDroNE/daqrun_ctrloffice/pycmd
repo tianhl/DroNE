@@ -6,9 +6,8 @@
 ./onlinedim.py module531 &   #moduleNum 7
 ./onlinedim.py module232 &   #moduleNum 8
 ./onlinedim.py module343 &   #moduleNum 9
-./onlinedim.py module621 &   #moduleNum 11
-#./onlinedim.py module643 &   #moduleNum 10
-#./onlinedim.py module322 &   #moduleNum 11
+./onlinedim.py module643 &   #moduleNum 10
+./onlinedim.py module322 &   #moduleNum 11
 ./onlinedim.py module341 &   #moduleNum 12
 ./onlinedim.py module532 &   #moduleNum 13
 ./onlinedim.py module431 &   #moduleNum 14
@@ -37,4 +36,3 @@
 ./onlinedim.py module342 &   #moduleNum 38
 ./onlinedim.py module132 &   #moduleNum 39
 ./onlinedim.py module522 &   #moduleNum 40
-~                                          

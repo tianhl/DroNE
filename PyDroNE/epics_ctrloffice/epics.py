@@ -17,7 +17,7 @@ if __name__ == "__main__":
     task.property("svcs").append("CtrlSvc")
     task.property("svcs").append("EpicsInputSvc/DataInputSvc")
     iSvc = task.find("DataInputSvc")
-    iSvc.property("Channel").set("neutrons")
+    iSvc.property("Channel").set("monitor3")
 
     import Algorithms
     task.property("algs").append("DumpAlg")

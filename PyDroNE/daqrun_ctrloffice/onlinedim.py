@@ -104,7 +104,7 @@ def App(in_module='', in_ip='', in_port=0, in_cron=1):
     #iPvd.property("InputFile").set(filelist) 
     iPvd.property("DataSize").set(1000000)
     #dimsrvname = "dimserver/TEST_SWAP_"+m_moduleinfo['moduleNum']
-    dimsrvname = "dimserver"+m_moduleinfo['dimserver']+"/TEST_SWAP_"+m_moduleinfo['moduleNum']
+    dimsrvname = "dimserver"+m_moduleinfo['server']+"/TEST_SWAP_"+m_moduleinfo['num']
     iPvd.property("DimServerName").set(dimsrvname)
     #:dimsrvname = '111/TEST_SWAP'
     print dimsrvname
@@ -117,6 +117,7 @@ def App(in_module='', in_ip='', in_port=0, in_cron=1):
     task.property("algs").append("GPPDSNDRecAlg")
     task.property("algs").append("GPPDSNDMapAlg")
     task.property("algs").append("RunningInfAlg")
+    task.property("algs").append("DumpAlg")
     iRun = task.find("RunningInfAlg")
     iRun.property("TofStart").set(m_tofstart)
     iRun.property("TofBins").set(m_tofbins)
