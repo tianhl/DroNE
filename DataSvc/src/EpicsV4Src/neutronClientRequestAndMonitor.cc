@@ -140,80 +140,93 @@ void MyMonitorRequester::monitorEvent(MonitorPtr const & monitor)
         checkUpdate(update->pvStructurePtr);
          epics::pvData::PVUIntArrayPtr pixelsPtr_client = update->pvStructurePtr->getSubField<epics::pvData::PVUIntArray>("pixel.value");
          epics::pvData::PVUIntArrayPtr tofPtr_client = update->pvStructurePtr->getSubField<epics::pvData::PVUIntArray>("time_of_flight.value");
-         if(pixelsPtr_client && tofPtr_client) {
-         
-            pixelsLength = pixelsPtr_client->getLength();
-            pixelsData = pixelsPtr_client->view();
-            tofData = tofPtr_client->view();
-            // ---------GET the DATA-----------  
-            mNeutronPulseDataTem.mMonitorNeutronEventData.pTimeOfFlight = new uint32_t[pixelsLength];
-            mNeutronPulseDataTem.mMonitorNeutronEventData.pPixelID = new uint32_t[pixelsLength];
-            for(int list_num_pixel = 0; list_num_pixel<pixelsLength; list_num_pixel++){
-            mNeutronPulseDataTem.mMonitorNeutronEventData.pTimeOfFlight[list_num_pixel]= tofData[list_num_pixel];
-            mNeutronPulseDataTem.mMonitorNeutronEventData.pPixelID[list_num_pixel]= tofData[list_num_pixel];           
-        
-            mNeutronPulseDataTem.mHitCounts = pixelsLength;
+         if(pixelsPtr_client || tofPtr_client) {
 
-	    pSetFunc(&mNeutronPulseDataTem);	
-            
-	   }
-		
-            //  ----- -- --- --- -- --------------------------
-            cout << " the pixels Data is ::  "<< pixelsData[0] <<endl;
-            cout <<  " the tof Data is ::" << tofData[0] << endl;
-        }      
+		 if(pixelsPtr_client)
+			 pixelsLength = pixelsPtr_client->getLength();
+		 else
+			 pixelsLength = tofPtr_client->getLength();
+		 if(pixelsPtr_client)
+			 pixelsData   = pixelsPtr_client->view();
+		 if(tofPtr_client)
+			 tofData      = tofPtr_client->view();
+		 // ---------GET the DATA-----------  
+		 mNeutronPulseDataTem.mMonitorNeutronEventData.pTimeOfFlight = new uint32_t[pixelsLength];
+		 mNeutronPulseDataTem.mMonitorNeutronEventData.pPixelID = new uint32_t[pixelsLength];
+		 for(int list_num_pixel = 0; list_num_pixel<pixelsLength; list_num_pixel++){
+			 if(tofPtr_client)
+				 mNeutronPulseDataTem.mMonitorNeutronEventData.pTimeOfFlight[list_num_pixel]= tofData[list_num_pixel];
+			 else
+				 mNeutronPulseDataTem.mMonitorNeutronEventData.pTimeOfFlight[list_num_pixel]= 0;
 
-	//pSetFunc = ;
-        //neutronV4Interface* mNeutronV4Interface= new neutronV4Interface();
-        //mNeutronV4Interface->getPulseData(&mNeutronPulseDataTem);
-        // update->changedBitSet indicates which elements have changed.
-        // update->overrunBitSet indicates which elements have changed more than once,
-        // i.e. we missed one (or more !) updates.
+			 if(pixelsPtr_client)
+				 mNeutronPulseDataTem.mMonitorNeutronEventData.pPixelID[list_num_pixel]= pixelsData[list_num_pixel];           
+			 else
+				 mNeutronPulseDataTem.mMonitorNeutronEventData.pPixelID[list_num_pixel]= 0;           
 
-        if (! update->overrunBitSet->isEmpty())
-            ++overruns;
-        if (quiet)
-        {
-            epicsTime now(epicsTime::getCurrent());
-            if (now >= next_run)
-            {
-                double received_perc = 100.0 * updates / (updates + missing_pulses);
-         
-                overruns = 0;
-                missing_pulses = 0;
-                updates = 0;
-                array_size_differences = 0;
+
+			 //cout << list_num_pixel<<" the pixels Data is ::  "<< pixelsData[list_num_pixel] <<endl;
+			 //cout << list_num_pixel<<" the tof Data is ::" << tofData[list_num_pixel] << endl;
+		 }
+		 mNeutronPulseDataTem.mHitCounts = pixelsLength;
+		 pSetFunc(&mNeutronPulseDataTem);	
+
+
+
+		 //  ----- -- --- --- -- --------------------------
+	 }      
+
+	 //pSetFunc = ;
+	 //neutronV4Interface* mNeutronV4Interface= new neutronV4Interface();
+	 //mNeutronV4Interface->getPulseData(&mNeutronPulseDataTem);
+	 // update->changedBitSet indicates which elements have changed.
+	 // update->overrunBitSet indicates which elements have changed more than once,
+	 // i.e. we missed one (or more !) updates.
+
+	 if (! update->overrunBitSet->isEmpty())
+		 ++overruns;
+	 if (quiet)
+	 {
+		 epicsTime now(epicsTime::getCurrent());
+		 if (now >= next_run)
+		 {
+			 double received_perc = 100.0 * updates / (updates + missing_pulses);
+
+			 overruns = 0;
+			 missing_pulses = 0;
+			 updates = 0;
+			 array_size_differences = 0;
 
 #               ifdef TIME_IT
-                cout << "Time for value lookup: " << value_timer << endl;
+			 cout << "Time for value lookup: " << value_timer << endl;
 #               endif
 
-                next_run = now + 10.0;
-            }
-        }
-        // else
-        // {
-        //     //  用于输出structure结构
-        //     // cout << "Monitor:\n";
+			 next_run = now + 10.0;
+		 }
+	 }
+	 // else
+	 // {
+	 //     //  用于输出structure结构
+	 //     // cout << "Monitor:\n";
 
-        //     // cout << "Changed: " << *update->changedBitSet.get() << endl;
-        //     // cout << "Overrun: " << *update->overrunBitSet.get() << endl;
-        //     // important point  here  here 
-        //     //update->pvStructurePtr->dumpValue(cout);
-        //     cout << endl;
-        // }
-        monitor->release(update);
-        delete mNeutronPulseDataTem.mMonitorNeutronEventData.pTimeOfFlight;
-        delete mNeutronPulseDataTem.mMonitorNeutronEventData.pPixelID;
+	 //     // cout << "Changed: " << *update->changedBitSet.get() << endl;
+	 //     // cout << "Overrun: " << *update->overrunBitSet.get() << endl;
+	 //     // important point  here  here 
+	 //     //update->pvStructurePtr->dumpValue(cout);
+	 //     cout << endl;
+	 // }
+	 monitor->release(update);
+	 delete mNeutronPulseDataTem.mMonitorNeutronEventData.pTimeOfFlight;
+	 delete mNeutronPulseDataTem.mMonitorNeutronEventData.pPixelID;
     }
     ++ monitors;
-     cout << " 222222...... "<<endl;
+    cout << " 222222...... "<<endl;
     if (limit > 0  &&  monitors >= limit)
     {
-    	cout << "Received " << monitors << " monitors" << endl;
-    	done_event.signal();
+	    cout << "Received " << monitors << " monitors" << endl;
+	    done_event.signal();
     }
-    
+
     //cout << "pass pass go  go " <<endl;
 }
 
@@ -228,73 +241,73 @@ void MyMonitorRequester::monitorEvent(MonitorPtr const & monitor)
 void MyMonitorRequester::checkUpdate(shared_ptr<PVStructure> const &pvStructure)
 {
 #   ifdef TIME_IT
-    value_timer.start();
+	value_timer.start();
 #   endif
 
-    // Time for value lookup when re-using offset: 2us
-    shared_ptr<PVInt> value = dynamic_pointer_cast<PVInt>(pvStructure->getSubField(user_tag_offset));
+	// Time for value lookup when re-using offset: 2us
+	shared_ptr<PVInt> value = dynamic_pointer_cast<PVInt>(pvStructure->getSubField(user_tag_offset));
 
-    // Compare: Time for value lookup when using name: 12us
-    // shared_ptr<PVInt> value = pvStructure->getIntField("timeStamp.userTag");
-    if (! value)
-    {
-        cout << "No 'timeStamp.userTag'" << endl;
-        return;
-    }
+	// Compare: Time for value lookup when using name: 12us
+	// shared_ptr<PVInt> value = pvStructure->getIntField("timeStamp.userTag");
+	if (! value)
+	{
+		cout << "No 'timeStamp.userTag'" << endl;
+		return;
+	}
 
 #   ifdef TIME_IT
-    value_timer.stop();
+	value_timer.stop();
 #   endif
 
-    // Check pulse ID for skipped updates
-    uint64 pulse_id = static_cast<uint64>(value->get());
-    if (last_pulse_id != 0)
-    {
-        int missing = pulse_id - 1 - last_pulse_id;
-        if (missing > 0)
-            missing_pulses += missing;
-    }
-    last_pulse_id = pulse_id;
+	// Check pulse ID for skipped updates
+	uint64 pulse_id = static_cast<uint64>(value->get());
+	if (last_pulse_id != 0)
+	{
+		int missing = pulse_id - 1 - last_pulse_id;
+		if (missing > 0)
+			missing_pulses += missing;
+	}
+	last_pulse_id = pulse_id;
 
-    // Compare lengths of tof and pixel arrays
-    shared_ptr<PVUIntArray> tof =
-     dynamic_pointer_cast<PVUIntArray>(pvStructure->getSubField(tof_offset));
-    epics::pvData::shared_vector<const epics::pvData::uint32> tofData = tof->view();
-    if (!tof)
-    {
-        cout << "No 'time_of_flight' array" << endl;
-        return;
-    }
+	// Compare lengths of tof and pixel arrays
+	shared_ptr<PVUIntArray> tof =
+		dynamic_pointer_cast<PVUIntArray>(pvStructure->getSubField(tof_offset));
+	epics::pvData::shared_vector<const epics::pvData::uint32> tofData = tof->view();
+	if (!tof)
+	{
+		cout << "No 'time_of_flight' array" << endl;
+		return;
+	}
 
-    shared_ptr<PVUIntArray> pixel = dynamic_pointer_cast<PVUIntArray>(pvStructure->getSubField(pixel_offset));
-    if (!pixel)
-    {
-        cout << "No 'pixel' array" << endl;
-        return;
-    }
+	shared_ptr<PVUIntArray> pixel = dynamic_pointer_cast<PVUIntArray>(pvStructure->getSubField(pixel_offset));
+	if (!pixel)
+	{
+		cout << "No 'pixel' array" << endl;
+		return;
+	}
 
-    if (tof->getLength() != pixel->getLength())
-    {
-        ++array_size_differences;
-        if (! quiet)
-        {
-            cout << "time_of_flight: " << tof->getLength() << " elements" << endl;
-            shared_vector<const uint32> tof_data;
-            tof->getAs(tof_data);
-            cout << tof_data << endl;
+	if (tof->getLength() != pixel->getLength())
+	{
+		++array_size_differences;
+		if (! quiet)
+		{
+			cout << "time_of_flight: " << tof->getLength() << " elements" << endl;
+			shared_vector<const uint32> tof_data;
+			tof->getAs(tof_data);
+			cout << tof_data << endl;
 
-            cout << "pixel: " << pixel->getLength() << " elements" << endl;
-            shared_vector<const uint32> pixel_data;
-            pixel->getAs(pixel_data);
-            cout << pixel_data << endl;
-        }
-    }
+			cout << "pixel: " << pixel->getLength() << " elements" << endl;
+			shared_vector<const uint32> pixel_data;
+			pixel->getAs(pixel_data);
+			cout << pixel_data << endl;
+		}
+	}
 }
 
 
 void MyMonitorRequester::unlisten(MonitorPtr const & monitor)
 {
-    cout << "Monitor unlistens" << endl;
+	cout << "Monitor unlistens" << endl;
 }
 
 

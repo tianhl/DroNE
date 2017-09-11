@@ -101,5 +101,5 @@ bool GPPDSNDMapAlg::finalize()
 
 uint64_t GPPDSNDMapAlg::getPixelID(uint32_t& module, uint32_t& x, uint32_t& y)
 {
-	return uint64_t(m_m2p.find(module)->second) + (uint64_t(y/4)*111+uint64_t(x/4));	
+	return uint64_t(m_m2p.find(module+1)->second) + (uint64_t(y/4)*111+uint64_t(x/4));	
 }

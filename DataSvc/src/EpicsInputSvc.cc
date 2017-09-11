@@ -76,7 +76,6 @@ bool EpicsInputSvc::finalize() {
 }
 
 bool EpicsInputSvc::next() {
-        std::cout << "EpicsInputSvc::next" << std::endl;
 	NeutronPulse* npulse = m_dataSvc->getObj<NeutronPulse>("/pulse");
 	EvtList* evtcol      = m_dataSvc->getObj<EvtList>("/pulse/evts");
 	evtcol->clear();
@@ -85,7 +84,6 @@ bool EpicsInputSvc::next() {
 	popDataItem();
 
 	MonitorData* pData = m_curDataItem->getData();
-	std::cout << "evt size: " << m_curDataItem->getSize() << std::endl;
 	npulse->setInstrument(pData->pPulse->mSpecID);
 	npulse->setDetector(pData->pPulse->mDetTypeID);
 	//npulse->(pData->pPulse->mProtonCharge;
@@ -126,10 +124,13 @@ void EpicsInputSvc::pushDataItem(NeutronPulseData* pNeutronPulseData){
 	pMonitorData->pPIDList = pidList;
 	MonitorItem* dataItem = new MonitorItem(pMonitorData, 1);
 	dataQueue.put(dataItem);
+	//for(int i = 0; i < hitCnt; i++){
+        //  std::cout << "RAW TOF1: " << tofList[i] << " RAW PID1: " << pidList[i] << std::endl; 
+        //  std::cout << "RAW TOF2: " << pNeutronPulseData->mMonitorNeutronEventData.pTimeOfFlight[i] << " RAW PID2: " << pNeutronPulseData->mMonitorNeutronEventData.pPixelID[i] << std::endl; 
+	//}
 }
 
 void functionWrapper(NeutronPulseData* pNeutronPulseData){
-        std::cout << "funtionWrapper" << std::endl;
 	EpicsInputSvc::pushDataItem(pNeutronPulseData);
 }
 void EpicsInputSvc::epicsClient(){

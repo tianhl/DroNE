@@ -67,7 +67,6 @@ DumpAlg::initialize()
 DumpAlg::execute()
 {
 	++m_count;
-	//if((m_count%100000)==0) LogInfo << "Hello world: count: " << m_count << std::endl;
 
 	NeutronPulse* pulse = m_svc->getObj<NeutronPulse>("/pulse");
 	//LogInfo << "Instrument: " << pulse->getInstrument() << std::endl;
@@ -84,10 +83,12 @@ DumpAlg::execute()
 	//}
 
 	EvtList* evtcol = m_svc->getObj<EvtList>("/pulse/evts");
-	//std::cout << evtcol->size() << " evts are collected!" << std::endl;
 	for(uint32_t i = 0; i < evtcol->size(); i++){
 		Evt* evt = evtcol->at(i);
-		std::cout << std::dec << " =====  "<<evt->getX() << ", " << evt->getY() << std::endl;
+		LogInfo << "Module:      " << pulse->getModule() << std::endl;
+		std::cout << hitcol->size() << " hits are collected!" << std::endl;
+		std::cout << evtcol->size() << " evts are collected!" << std::endl;
+		std::cout << std::dec << " TOF  "<<evt->getTOF() << " PID " << evt->getPixelID() << std::endl;
 		//if(1100000==evt->getPixelID()) std::cout << "ERROR: " << std::endl;
 	}
 
@@ -137,7 +138,7 @@ DumpAlg::finalize()
 	time(&now);
 	m_ofstream << now << " " << m_count << " " << m_evtnum << " " << m_hitnum << std::endl;
 	KEYS& pids = pc->getPixelIDs();
-//	for(KEYS::iterator it = pids.begin(); it < pids.end(); it++){
+	//	for(KEYS::iterator it = pids.begin(); it < pids.end(); it++){
 
 	for(int i = 0; i < 111*48; i++){
 		m_ofstream <<  i  << " " << pc->getCount(i+1100000) << std::endl;
@@ -149,12 +150,12 @@ DumpAlg::finalize()
 		m_ofstream <<  i  << " " <<rand()/10000000 << std::endl;
 	}
 
-/*
-		int p = (*it)%10000;
-		m_ofstream <<  *it  << " " << (p%111)*4 <<" " << ceil(p/111)*4	
-			<< " " << pc->getCount(*it) << std::endl;
-	}
-*/
+	/*
+	   int p = (*it)%10000;
+	   m_ofstream <<  *it  << " " << (p%111)*4 <<" " << ceil(p/111)*4	
+	   << " " << pc->getCount(*it) << std::endl;
+	   }
+	   */
 	m_ofstream.close();
 
 	m_finish = clock();
