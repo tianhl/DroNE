@@ -38,20 +38,34 @@ DataSvc::~DataSvc()
 bool DataSvc::initialize()
 {
 
+//============================
+// Pulse/Hit/Evt
+//============================
   this->branch("pulse");
   this->find("/pulse")->branch("hits");
   this->find("/pulse")->branch("evts");
 
-  this->regObj("/pulse", new NeutronPulse);
+  this->regObj("/pulse",      new NeutronPulse);
   this->regObj("/pulse/hits", new HitList);
   this->regObj("/pulse/evts", new EvtList);
 
-  this->branch("statistic");
+//============================
+// Simulation
+//============================
+  this->branch("simulation");
+  this->find("/simulation")->branch("evts");
 
+  this->regObj("/simulation/evts", new EvtList);
+
+//============================
+// Statistic
+//============================
+  this->branch("statistic");
   this->find("/statistic")->branch("running_inf");
   this->find("/statistic")->branch("pixel_count");
   this->find("/statistic")->branch("pixel_counts");
-  this->regObj("/statistic/running_inf", new RunningInf);
+
+  this->regObj("/statistic/running_inf",  new RunningInf);
   this->regObj("/statistic/pixel_count",  new PixelCount);
   this->regObj("/statistic/pixel_counts", new PixelCountList);
 
