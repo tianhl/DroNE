@@ -59,6 +59,8 @@ GPPDSNDFastSimAlg::execute()
 {
     ++m_count;
     m_hitcol->clear();
+    m_svc->getObj<EvtList>("/pulse/evts")->clear();
+
     uint32_t size = m_evtcol->size();
 
     for(uint32_t i = 0; i < size; i++){

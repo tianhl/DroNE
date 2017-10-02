@@ -93,6 +93,8 @@ GPPDSNDRecAlg::execute()
 
     m_buffer.clear();
 
+    LogInfo << "Num of Pulse: " << m_count << " , includeing " 
+	    << m_hitcol->size() << " hits and " << m_evtcol->size() << " evts reconstruced" << std::endl;
     return true;
 }
 
@@ -172,11 +174,11 @@ int GPPDSNDRecAlg::calculation(int &X,int &Y,int &Effect)
 int GPPDSNDRecAlg::scan(int *Pos,int l,int &ThePosition,int &Real){
 	//std::cout << "scan" << std::endl;
 	Real=0;
-        if(l<1||l>10){
-          Real=0; return 0;
-         }
+	if(l<1||l>10){
+		Real=0; return 0;
+	}
 
-        sort(Pos,l);
+	sort(Pos,l);
 	int Now=Pos[0];
 	for(int i=1;i<l;i++)	
 	{

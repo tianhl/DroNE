@@ -28,6 +28,7 @@ if __name__ == "__main__":
 
     import Algorithms
     task.property("algs").append("GPPDSNDFastSimAlg")
+    task.property("algs").append("GPPDSNDRecAlg")
     #    
     task.setEvtMax(-1)
     task.run()
