@@ -100,37 +100,32 @@ bool SimNeutronGunInputSvc::next()
 	uint32_t maxevt   = m_maxevt;//4000;
 	if(m_curcnt == m_totcnt) Incident::fire("StopRun");
 
-	for(int i = 0; i < m_maxtof; i++){
-		for(int j = 0; j < m_maxdet; j++){
-			uint32_t detid = mapIdx(i,j);
+	for(int i = 0; i < m_maxdet; i++){
+		for(int j = 0; j < m_maxtof; j++){
+			uint32_t detid = mapIdx(j,i);
 			double rdn = (rand()%100)/100.0;
-			if((0<m_cmap[detid]) and (rdn<(m_cmap[detid]/double(m_totcnt-m_curcnt)))){
+                        uint32_t r = m_totcnt-m_curcnt;
+                        double psb = m_cmap[detid]/double(r);
+                        if(r<(maxevt*10))psb=1.0;
+			if((0<m_cmap[detid]) and (rdn<psb)){
 				m_cmap[detid] = m_cmap[detid] - 1;
 				evtcount++;
 				m_curcnt++;
-				if(evtcount >= maxevt)goto ENDPULSE;
 				//std::cout << "add evt tof: [" << i << "]" << m_tmap[i] 
                                 //          << "; det: [" << j << "]" << m_dmap[j] << std::endl;
 				evt = evtcol->add_item();
-				evt->setPixelID(m_dmap[j]);
-				evt->setTOF(m_tmap[i]);
+				evt->setPixelID(m_dmap[i]);
+				evt->setTOF(m_tmap[j]);
+				if(evtcount >= maxevt)goto ENDPULSE;
+                                break;
 			}
 		}
 
 	}
-	//pulse->setInstrument();
-	//pulse->setDetector();
-	//pulse->setModule(value);
-	//pulse->setRunMode(value);
-	//pulse->setFrame(value);
-	//pulse->setVersion(value);
-	//pulse->setT0(m_count);
+
 ENDPULSE:
 	LogInfo << "END NEW PULSE tot: " << m_totcnt << " provided evts: " << m_curcnt 
 		<< " evts in this pulse:"<< evtcount << std::endl;
-
-	//pulse->setStatus(value);
-	//pulse->setCount();
 
 	return true;
 }

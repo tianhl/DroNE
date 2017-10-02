@@ -24,10 +24,10 @@ if __name__ == "__main__":
     iSvc.property("MaxTof").set(7375)
     iSvc.property("MaxDet").set(6400)
     iSvc.property("MaxEvt").set(1000)
-    
-
     iSvc.show()
 
+    import Algorithms
+    task.property("algs").append("GPPDSNDFastSimAlg")
     #    
     task.setEvtMax(-1)
     task.run()
