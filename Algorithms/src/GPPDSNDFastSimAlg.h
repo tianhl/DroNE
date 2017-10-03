@@ -46,7 +46,7 @@ class GPPDSNDFastSimAlg: public AlgBase
 //	std::vector<int> m_buffer;
 	void getXYChannel(uint32_t pid, uint32_t &xchannel, uint32_t &ychannel);
 	void simulation(uint32_t xchannel, uint32_t ychannel, uint32_t tdata);
-        void calculation(uint32_t position, uint32_t timedata);
+        void calculation(uint32_t position, uint32_t timedata, bool setoffset);
 //	int scan(int *Pos,int l,int &ThePosition,int &Real); 
 //	int sort(int *src, int len);
 //	int calculation(int &X,int &Y,int &Effect);

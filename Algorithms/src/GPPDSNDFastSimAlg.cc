@@ -94,25 +94,29 @@ void GPPDSNDFastSimAlg::getXYChannel(uint32_t pid, uint32_t& xchannel, uint32_t&
 void GPPDSNDFastSimAlg::simulation(uint32_t xchan, uint32_t ychan, uint32_t tdata){
 	int position;
 	uint32_t xsize = uint32_t(rand()%5);
+        ychan = ychan + 127;
+        calculation(xchan, tdata, false);
+        calculation(ychan, tdata, false);
 	for(uint32_t i = 0; i < xsize; i++){
 		position = xchan + i;
-		if(position<=111)calculation(position, tdata);
+		if(position<=111)calculation(position, tdata, true);
 		position = xchan - i;
-		if(position>=1  )calculation(position, tdata);
+		if(position>=1  )calculation(position, tdata, true);
 	}
 	uint32_t ysize = uint32_t(rand()%5);
 	for(uint32_t i = 0; i < ysize; i++){
-		position = 127 + ychan + i;
-		if(position<=175)calculation(position, tdata);
-		position = 127 + ychan - i;
-		if(position>=128)calculation(position, tdata);
+		position = ychan + i;
+		if(position<=175)calculation(position, tdata, true);
+		position = ychan - i;
+		if(position>=128)calculation(position, tdata, true);
 	}
 }
 
-void GPPDSNDFastSimAlg::calculation(uint32_t position, uint32_t timedata){
-	uint32_t time_offset = uint32_t(rand()%70);
+void GPPDSNDFastSimAlg::calculation(uint32_t position, uint32_t timedata, bool addoffset){
+	uint32_t time_offset = uint32_t(rand()%10);
 	Hit* hit = m_hitcol->add_item();
 	hit->setChannel(position);
-	hit->setTOF(timedata+time_offset);
+        if(addoffset)timedata=timedata+time_offset;
+	hit->setTOF(timedata);
 }
 
