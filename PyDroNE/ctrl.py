@@ -57,7 +57,7 @@ def app(Server, RPC):
     import DataSvc
     import CtrlSvc
 
-    Task.property("svcs").append("DataSvc")
+    Task.property("svcs").append("GPPDDataSvc/DataSvc")
     Task.property("svcs").append("CtrlSvc")
     Task.property("svcs").append("RawDataInputSvc/DataInputSvc")
     Task.property("svcs").append("FileInputSvc/DataProvideSvc")

@@ -13,10 +13,11 @@
 //  Created by Haolai TIAN 31th May 2017.
 //
 //
-#include "DataSvc/DataSvc.h"
 #include "DataSvc/RawDataInputSvc.h"
 #include "DataSvc/DecodeRawData.h"
+
 #include "DroNECore/DataProvideSvc.h"
+#include "DroNECore/DataSvc.h"
 
 #include "SniperKernel/Incident.h"
 #include "SniperKernel/SniperPtr.h"

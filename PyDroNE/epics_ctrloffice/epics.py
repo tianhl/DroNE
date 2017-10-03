@@ -13,7 +13,7 @@ if __name__ == "__main__":
     
     import DataSvc
     import CtrlSvc
-    task.property("svcs").append("DataSvc")
+    task.property("svcs").append("GPPDDataSvc/DataSvc")
     task.property("svcs").append("CtrlSvc")
     task.property("svcs").append("EpicsInputSvc/DataInputSvc")
     iSvc = task.find("DataInputSvc")

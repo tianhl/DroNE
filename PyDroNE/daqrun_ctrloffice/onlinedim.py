@@ -89,7 +89,7 @@ def App(in_module='', in_ip='', in_port=0, in_cron=1):
     ct.add(hi)
 
     import DataSvc
-    task.property("svcs").append("DataSvc")
+    task.property("svcs").append("GPPDDataSvc/DataSvc")
     task.property("svcs").append("CtrlSvc")
     task.property("svcs").append("RawDataInputSvc/DataInputSvc")
     #task.property("svcs").append("FileInputSvc/DataProvideSvc")

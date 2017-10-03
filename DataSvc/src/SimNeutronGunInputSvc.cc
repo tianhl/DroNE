@@ -23,7 +23,7 @@
 
 #include "Data/Evt.h"
 #include "DataSvc/SimNeutronGunInputSvc.h"
-#include "DataSvc/DataSvc.h"
+#include "DroNECore/DataSvc.h"
 
 #include "stdlib.h"
 #include <vector>

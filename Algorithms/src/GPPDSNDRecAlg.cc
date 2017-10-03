@@ -14,7 +14,7 @@
 //
 //
 #include "GPPDSNDRecAlg.h"
-#include "DataSvc/DataSvc.h"
+#include "DroNECore/DataSvc.h"
 #include "SniperKernel/AlgFactory.h"
 #include "SniperKernel/SniperLog.h"
 #include "SniperKernel/SniperPtr.h"

@@ -15,7 +15,7 @@
 //
 #include "DataSvc/EpicsInputSvc.h"
 #include "DataSvc/EpicsV4Hh/neutronClientStartMonitor.hh"
-#include "DataSvc/DataSvc.h"
+#include "DroNECore/DataSvc.h"
 
 #include "SniperKernel/Incident.h"
 #include "SniperKernel/SniperPtr.h"

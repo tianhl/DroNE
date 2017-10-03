@@ -4,7 +4,7 @@
 
 # using the new Mgr.
 
-import Sniper
+import DroNECore
 
 if __name__ == "__main__":
 
@@ -13,7 +13,7 @@ if __name__ == "__main__":
     task.setLogLevel(0)
     
     import DataSvc
-    task.property("svcs").append("DataSvc")
+    task.property("svcs").append("GPPDDataSvc/DataSvc")
     task.property("svcs").append("RawDataInputSvc/DataInputSvc")
     task.property("svcs").append("DimRecvSvc/DataProvideSvc")
     iSvc = task.find("DataInputSvc")

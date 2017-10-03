@@ -64,7 +64,7 @@ if __name__ == "__main__":
     ct.add(pi)
 
     import DataSvc
-    task.property("svcs").append("DataSvc")
+    task.property("svcs").append("GPPDDataSvc/DataSvc")
     task.property("svcs").append("CtrlSvc")
     task.property("svcs").append("RawDataInputSvc/DataInputSvc")
     #task.property("svcs").append("FileInputSvc/DataProvideSvc")
