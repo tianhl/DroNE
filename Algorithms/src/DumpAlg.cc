@@ -22,7 +22,7 @@
 #include "stdlib.h"
 #include "Data/Pulse.h"
 #include "Data/Evt.h"
-#include "Data/Hit.h"
+#include "Data/SNDHit.h"
 #include "Data/GPPDStatistic.h"
 
 
@@ -74,7 +74,7 @@ DumpAlg::execute()
 	//LogInfo << "Count:      " << pulse->getCount() << std::endl;
 
 
-	HitList* hitcol = m_svc->getObj<HitList>("/pulse/hits");
+	SNDHitList* hitcol = m_svc->getObj<SNDHitList>("/pulse/hits");
 	//std::cout << hitcol->size() << " hits are collected!" << std::endl;
 	m_hitnum += hitcol->size();
 	//for(uint32_t i = 0; i < hitcol->size(); i++){
@@ -94,9 +94,9 @@ DumpAlg::execute()
 
 	m_evtnum += evtcol->size();
 
-	PixelCount* pc  = m_svc->getObj<PixelCount>("/statistic/pixel_count");
+	//PixelCount* pc  = m_svc->getObj<PixelCount>("/statistic/pixel_count");
 	for(uint32_t i = 0; i < evtcol->size(); i++){
-		Evt* evt = evtcol->at(i);
+		//Evt* evt = evtcol->at(i);
 		//std::cout << std::dec <<  evt->getPixelID() << " " << evt->getX() << ", " << evt->getY() << ",  " << evt->getTOF() << "," << evt->getPixelID() << std::endl;
 		//if(1100000==evt->getPixelID()) std::cout << "ERROR: " << std::endl;
 	}
@@ -137,7 +137,7 @@ DumpAlg::finalize()
 	time_t now;
 	time(&now);
 	m_ofstream << now << " " << m_count << " " << m_evtnum << " " << m_hitnum << std::endl;
-	KEYS& pids = pc->getPixelIDs();
+	//KEYS& pids = pc->getPixelIDs();
 	//	for(KEYS::iterator it = pids.begin(); it < pids.end(); it++){
 
 	for(int i = 0; i < 111*48; i++){

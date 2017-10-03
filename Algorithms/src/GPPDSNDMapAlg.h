@@ -20,7 +20,6 @@
 
 #include "Data/Pulse.h"
 #include "Data/Evt.h"
-#include "Data/Hit.h"
 
 class DataSvc;
 

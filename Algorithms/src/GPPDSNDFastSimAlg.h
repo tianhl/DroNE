@@ -20,7 +20,7 @@
 
 #include "Data/Pulse.h"
 #include "Data/Evt.h"
-#include "Data/Hit.h"
+#include "Data/SNDHit.h"
 
 class DataSvc;
 
@@ -37,8 +37,8 @@ class GPPDSNDFastSimAlg: public AlgBase
 
     private:
 	int m_count;
-	HitList* m_hitcol;
-	EvtList* m_evtcol;
+	SNDHitList*   m_hitcol;
+	EvtList*      m_evtcol;
 	NeutronPulse* m_pulse;
 	DataSvc* m_svc;
 

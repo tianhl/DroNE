@@ -34,11 +34,11 @@ if __name__ == "__main__":
 
     import Algorithms
     task.property("algs").append("GPPDSNDRecAlg")
-    task.property("algs").append("GPPDSNDMapAlg")
-    task.property("algs").append("RunningInfAlg")
-    iRun = task.find("RunningInfAlg")
-    iRun.property("TofBins").set(10000)
-    iRun.property("TofStep").set(1000)
+    #task.property("algs").append("GPPDSNDMapAlg")
+    #task.property("algs").append("RunningInfAlg")
+    #iRun = task.find("RunningInfAlg")
+    #iRun.property("TofBins").set(10000)
+    #iRun.property("TofStep").set(1000)
 
     #    
     task.setEvtMax(10000000)

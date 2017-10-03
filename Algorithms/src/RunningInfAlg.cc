@@ -22,7 +22,7 @@
 #include "stdlib.h"
 #include "Data/Pulse.h"
 #include "Data/Evt.h"
-#include "Data/Hit.h"
+#include "Data/SNDHit.h"
 #include "Data/GPPDStatistic.h"
 
 
@@ -58,9 +58,9 @@ RunningInfAlg::initialize()
 	bool
 RunningInfAlg::execute()
 {
-	NeutronPulse* pulse = m_svc->getObj<NeutronPulse>("/pulse");
-	HitList* hitcol = m_svc->getObj<HitList>("/pulse/hits");
-	EvtList* evtcol = m_svc->getObj<EvtList>("/pulse/evts");
+	//NeutronPulse* pulse = m_svc->getObj<NeutronPulse>("/pulse");
+	SNDHitList*   hitcol = m_svc->getObj<SNDHitList>("/pulse/hits");
+	EvtList*      evtcol = m_svc->getObj<EvtList>("/pulse/evts");
 
 	RunningInf* ri  = m_svc->getObj<RunningInf>("/statistic/running_inf");
         ri->addHitCnt(hitcol->size());

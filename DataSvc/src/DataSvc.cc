@@ -22,7 +22,7 @@
 #include "Data/GPPDStatistic.h"
 #include "Data/Pulse.h"
 #include "Data/Evt.h"
-#include "Data/Hit.h"
+#include "Data/SNDHit.h"
 
 DECLARE_SERVICE(DataSvc);
 
@@ -46,7 +46,7 @@ bool DataSvc::initialize()
   this->find("/pulse")->branch("evts");
 
   this->regObj("/pulse",      new NeutronPulse);
-  this->regObj("/pulse/hits", new HitList);
+  this->regObj("/pulse/hits", new SNDHitList);
   this->regObj("/pulse/evts", new EvtList);
 
 //============================

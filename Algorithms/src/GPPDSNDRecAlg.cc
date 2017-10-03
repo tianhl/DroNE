@@ -47,7 +47,7 @@ GPPDSNDRecAlg::initialize()
     std::cout << "get DataSvc " << m_svc->objName() << std::endl;
 
     m_pulse = m_svc->getObj<NeutronPulse>("/pulse");
-    m_hitcol = m_svc->getObj<HitList>("/pulse/hits");
+    m_hitcol = m_svc->getObj<SNDHitList>("/pulse/hits");
     m_evtcol = m_svc->getObj<EvtList>("/pulse/evts");
 
     return true;
@@ -66,7 +66,7 @@ GPPDSNDRecAlg::execute()
     uint32_t size = m_hitcol->size();
 
     for(uint32_t i = 0; i < size; i++){
-	    Hit* hit = m_hitcol->at(i);
+	    SNDHit* hit = m_hitcol->at(i);
 	    if(0==i){
 		    m_buffer.clear();
 		    m_buffer.push_back(hit->getChannel());

@@ -37,7 +37,7 @@
 
 #include "Data/Pulse.h"
 #include "Data/Evt.h"
-#include "Data/Hit.h"
+#include "Data/SNDHit.h"
 
 
 DECLARE_SERVICE(RawDataInputSvc);
@@ -84,7 +84,7 @@ bool RawDataInputSvc::finalize() {
 bool RawDataInputSvc::next() {
 	uint8_t *ReadRawData = NULL;
 	uint32_t value = 0;
-	Hit* hit;
+	SNDHit* hit;
 	enum Status{
 		hdr0,
 		hdr1,
@@ -98,8 +98,8 @@ bool RawDataInputSvc::next() {
 STARTNEXT:
 	//std::cout << "=========== new pulse ready =============" << std::endl;
 	NeutronPulse* npulse = m_dataSvc->getObj<NeutronPulse>("/pulse");
-	HitList* hitcol      = m_dataSvc->getObj<HitList>("/pulse/hits");
-	EvtList* evtcol      = m_dataSvc->getObj<EvtList>("/pulse/evts");
+	SNDHitList*   hitcol = m_dataSvc->getObj<SNDHitList>("/pulse/hits");
+	EvtList*      evtcol = m_dataSvc->getObj<EvtList>("/pulse/evts");
 	hitcol->clear();
 	evtcol->clear();
 	m_decoder->Set_ProStatus(DecodeRawData::PExecReady);

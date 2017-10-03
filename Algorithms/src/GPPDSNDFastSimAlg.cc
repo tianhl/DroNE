@@ -48,7 +48,7 @@ GPPDSNDFastSimAlg::initialize()
     std::cout << "get DataSvc " << m_svc->objName() << std::endl;
 
     m_pulse = m_svc->getObj<NeutronPulse>("/pulse");
-    m_hitcol = m_svc->getObj<HitList>("/pulse/hits");
+    m_hitcol = m_svc->getObj<SNDHitList>("/pulse/hits");
     m_evtcol = m_svc->getObj<EvtList>("/simulation/evts");
 
     return true;
@@ -114,7 +114,7 @@ void GPPDSNDFastSimAlg::simulation(uint32_t xchan, uint32_t ychan, uint32_t tdat
 
 void GPPDSNDFastSimAlg::calculation(uint32_t position, uint32_t timedata, bool addoffset){
 	uint32_t time_offset = uint32_t(rand()%10);
-	Hit* hit = m_hitcol->add_item();
+	SNDHit* hit = m_hitcol->add_item();
 	hit->setChannel(position);
         if(addoffset)timedata=timedata+time_offset;
 	hit->setTOF(timedata);

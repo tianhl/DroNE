@@ -1,5 +1,5 @@
-#ifndef DIFF_SCINTILLANT_H
-#define DIFF_SCINTILLANT_H
+#ifndef SNDHIT_H
+#define SNDHIT_H
 // @(#)DroNE/DataSvc:$Id$
 // Authors: H.L. TIAN 2017
 /**********************************************************************
@@ -23,11 +23,11 @@
 #include <stdint.h>
 #include "DroNECore/DataObject.h"
 
-class Hit:public DataObject{
+class SNDHit:public DataObject{
 	public:
-		Hit(){m_chn=0;m_tof=0;};
-		Hit(uint32_t chn, uint32_t tof){m_chn=chn;m_tof=tof;};
-		virtual ~Hit(){};
+		SNDHit(){m_chn=0;m_tof=0;};
+		SNDHit(uint32_t chn, uint32_t tof){m_chn=chn;m_tof=tof;};
+		virtual ~SNDHit(){};
 
 		const uint32_t getChannel() const { return m_chn; }
 		void  setChannel(uint32_t chn) { m_chn = chn; }
@@ -41,7 +41,7 @@ class Hit:public DataObject{
 
 };
 
-typedef DataList<Hit> HitList;
+typedef DataList<SNDHit> SNDHitList;
 
 
 #endif

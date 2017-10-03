@@ -23,7 +23,7 @@
 
 #include "DroNECore/DataInputSvc.h"
 #include "Data/Pulse.h"
-#include "Data/Hit.h"
+#include "Data/SNDHit.h"
 
 
 class DataSvc;
@@ -57,7 +57,7 @@ class SimNeutronGunInputSvc: public DataInputSvc
 	uint32_t* m_dmap;
 	uint32_t* m_tmap;
 
-	HitList* m_hitcol;
+	SNDHitList* m_hitcol;
 	NeutronPulse* m_pulse;
 
 	DataSvc* m_svc;

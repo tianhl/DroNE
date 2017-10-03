@@ -36,7 +36,6 @@
 #include <unistd.h>
 #include "Data/Pulse.h"
 #include "Data/Evt.h"
-#include "Data/Hit.h"
 
 DECLARE_SERVICE(EpicsInputSvc);
 
