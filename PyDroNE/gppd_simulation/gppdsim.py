@@ -22,7 +22,7 @@ if __name__ == "__main__":
 
     iSvc.property("InputFileName").set("Sample_refl_D_3.6.txt")
     iSvc.property("MaxTof").set(7375)
-    iSvc.property("MaxDet").set(6400)
+    iSvc.property("MaxDet").set(5328)
     iSvc.property("MaxEvt").set(1000)
     iSvc.show()
 
