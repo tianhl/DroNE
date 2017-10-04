@@ -27,7 +27,7 @@ if __name__ == "__main__":
     iSvc.show()
 
     import Algorithms
-    #task.property("algs").append("REFLMWPCFastSimAlg")
-    #    
+    task.property("algs").append("REFLMWPCFastSimAlg")
+        
     task.setEvtMax(-1)
     task.run()
