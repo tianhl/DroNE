@@ -32,6 +32,11 @@ class PixelCount:public DataObject{
 	public:
 		PixelCount(){};
 		virtual ~PixelCount(){};
+                
+		void clear(){
+                     m_map.clear();
+                     m_key.clear();
+		}
 
 		uint32_t addCount(uint32_t pixel_id, uint32_t count){
 			ICMAP::iterator it = m_map.find(pixel_id);
@@ -64,7 +69,7 @@ class PixelCount:public DataObject{
 
 
 class RunningInf:public DataObject{
-     public:
+	public:
 		RunningInf(){m_hitcnt=0;m_evtcnt=0;m_plscnt=0;};
 		virtual ~RunningInf(){};
 
@@ -79,7 +84,7 @@ class RunningInf:public DataObject{
 		const uint64_t getPulseCnt() const {return m_plscnt;}
 		void setPulseCnt(uint64_t plscnt){m_plscnt  = plscnt;}
 		void addPulseCnt(uint64_t plscnt){m_plscnt += plscnt;}
-     private:
+	private:
 		uint64_t m_hitcnt;
 		uint64_t m_evtcnt;
 		uint64_t m_plscnt;

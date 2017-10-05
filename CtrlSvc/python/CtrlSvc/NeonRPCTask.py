@@ -20,6 +20,12 @@ class RPCMethods(NEON.Neon.NeonService.NeonRPC.MethodCall):
         ic.fire('StopRun')
         return "Ready"
 
+    def Clear(self, params=None):
+        print "NEON RPC RECV & EVEC CLEAR COMMAND"
+        ic = PI.PyIncident("ClearDataSvc")
+        ic.fire('ClearDataSvc')
+        return "Ready"
+
 class NeonRPCTask(Task) :
 
     def __init__(self, name, rpcserver, remotedata = None) :
@@ -35,12 +41,17 @@ class NeonRPCTask(Task) :
             neonid, method, parameters = rpcitem
             print "uuid: ", neonid, " method: ", method, " parameters: ", parameters
             # NOW it is only for Stop
-            index = json.loads(self.remotedata.getData())['uuid']
-            heartbeatdata = HBI.HeartBeatCronIncident.encodeHeartBeat(status='stopping', \
-                                            hit = 0, event = 0, \
-                                            pulse = 0, idx = index)
-            print heartbeatdata, "============="
-            self.remotedata.setData(heartbeatdata)
-            self.remotedata.dump()
-            self.rpcserver.sndRSLT(neonid, result = "Stop OK", error = "None ERROR")
-            returnValue, errorCode = self.rpcmethod.execute(method, parameters)
+            if(method=="Stop"):
+                index = json.loads(self.remotedata.getData())['uuid']
+                heartbeatdata = HBI.HeartBeatCronIncident.encodeHeartBeat(status='stopping', \
+                                                hit = 0, event = 0, \
+                                                pulse = 0, idx = index)
+                print heartbeatdata, "============="
+                self.remotedata.setData(heartbeatdata)
+                self.remotedata.dump()
+                self.rpcserver.sndRSLT(neonid, result = "Stop OK", error = "None ERROR")
+                returnValue, errorCode = self.rpcmethod.execute(method, parameters)
+             else:
+                returnValue, errorCode = self.rpcmethod.execute(method, parameters)
+                self.rpcserver.sndRSLT(neonid, result = returnValue, error = errorCode)
+

@@ -20,6 +20,7 @@
 #include "CtrlSvc/PushMatrixHdl.h"
 #include "CtrlSvc/BeginEvtHdl.h"
 #include "CtrlSvc/EndEvtHdl.h"
+#include "CtrlSvc/ClearDataSvcHdl.h"
 #include "SniperKernel/SvcFactory.h"
 #include "SniperKernel/Task.h"
 #include <iostream>
@@ -61,6 +62,11 @@ bool CtrlSvc::initialize()
 	else mi->regist(par->scope() + par->objName() + ":PushMatrix");
 	mi->listening();
 
+	IIncidentHandler* ci = new ClearDataSvcHdl(par);
+	if ( par->isTop() ) ci->regist("ClearDataSvc");
+	else ci->regist(par->scope() + par->objName() + ":ClearDataSvc");
+	ci->listening();
+
 	IIncidentHandler* bi = new BeginEvtHdl(par);
 	bi->regist("BeginEvent");
 	bi->listening();
@@ -72,6 +78,8 @@ bool CtrlSvc::initialize()
 	m_icdts.push_back(hi);
 	m_icdts.push_back(di);
 	m_icdts.push_back(pi);
+	m_icdts.push_back(mi);
+	m_icdts.push_back(ci);
 	m_icdts.push_back(bi);
 	m_icdts.push_back(ei);
 
