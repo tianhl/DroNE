@@ -93,8 +93,8 @@ GPPDSNDRecAlg::execute()
 
     m_buffer.clear();
 
-    LogInfo << "Num of Pulse: " << m_count << " , includeing " 
-	    << m_hitcol->size() << " hits and " << m_evtcol->size() << " evts reconstruced" << std::endl;
+//    LogInfo << "Num of Pulse: " << m_count << " , includeing " 
+//	    << m_hitcol->size() << " hits and " << m_evtcol->size() << " evts reconstruced" << std::endl;
     return true;
 }
 

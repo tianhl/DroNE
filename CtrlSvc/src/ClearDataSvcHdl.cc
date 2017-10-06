@@ -39,9 +39,6 @@ ClearDataSvcHdl::ClearDataSvcHdl(Task* par)
 
 bool ClearDataSvcHdl::handle(Incident& incident)
 {
-	DroNEIncident* pIncident = getDroNEIncident(incident);
-	if(pIncident == NULL) return false;
-
 	PixelCount*     pc   = m_svc->getObj<PixelCount>("/statistic/pixel_count");
 	PixelCountList* pcs  = m_svc->getObj<PixelCountList>("/statistic/pixel_counts");
         pc->clear();
@@ -51,9 +48,5 @@ bool ClearDataSvcHdl::handle(Incident& incident)
            pcs->at(i)->clear();
 	}
 
-	//int pidstart(getInt("pidstart"));
-	//int pidsize(getInt("pidsize"));
-        std::string retval("true");
-	pIncident->setRetVal(retval);
 	return true;
 }

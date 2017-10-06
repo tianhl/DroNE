@@ -2,6 +2,24 @@
 
 # after v05
 
+class RedisRemoteData:
+    def __init__(self, ip, port, path):
+       import redis
+       self.server = redis.Redis(ip, port, db=0)
+       self.path   = path
+
+    def setData(self, data):
+       self.data = data
+
+    def dump(self):
+       self.server.set(self.path, self.data)
+
+    def getData(self):
+       return self.data 
+ 
+    def load(self):
+       self.data = self.server.get(self.path)
+
 from NEON.Neon import NeonData 
 
 class SingleValue(NeonData.BasedData, object):

@@ -51,7 +51,7 @@ class NeonRPCTask(Task) :
                 self.remotedata.dump()
                 self.rpcserver.sndRSLT(neonid, result = "Stop OK", error = "None ERROR")
                 returnValue, errorCode = self.rpcmethod.execute(method, parameters)
-             else:
+            else:
                 returnValue, errorCode = self.rpcmethod.execute(method, parameters)
                 self.rpcserver.sndRSLT(neonid, result = returnValue, error = errorCode)
 

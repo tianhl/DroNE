@@ -8,27 +8,11 @@ import DroNECore.PyIncident as PI
 import CtrlSvc.PushMatrixIncident as PMI
 import CtrlSvc.PushHistIncident as PHI
 import CtrlSvc.HeartBeatIncident  as HBI
-import redis
+import NEON
 import json
 import uuid
 
 
-class RedisRemoteData:
-    def __init__(self, ip, port, path):
-       self.server = redis.Redis(ip, port, db=0)
-       self.path   = path
-
-    def setData(self, data):
-       self.data = data
-
-    def dump(self):
-       self.server.set(self.path, self.data)
-
-    def getData(self):
-       return self.data 
- 
-    def load(self):
-       self.data = self.server.get(self.path)
 
 def App(in_module='', in_ip='', in_port=0, in_cron=1):
 
@@ -51,15 +35,15 @@ def App(in_module='', in_ip='', in_port=0, in_cron=1):
         
     path  = '/GPPD/workspace/detector/'+m_modulename
     print path
-    m_taskMatrix = RedisRemoteData(m_ipadress, m_port, path+"/value")
-    m_taskTOF    = RedisRemoteData(m_ipadress, m_port, path+"/tof")
-    m_taskPID    = RedisRemoteData(m_ipadress, m_port, path+"/pid")
+    m_taskMatrix = NEON.Data.RedisRemoteData(m_ipadress, m_port, path+"/value")
+    m_taskTOF    = NEON.Data.RedisRemoteData(m_ipadress, m_port, path+"/tof")
+    m_taskPID    = NEON.Data.RedisRemoteData(m_ipadress, m_port, path+"/pid")
     toflist = [m_tofstep+i*m_tofstep for i in xrange(m_tofbins+1)]
     m_taskTOF.setData(json.dumps(toflist))
     m_taskTOF.dump()
 
     import socket, os
-    m_taskheartbeat = RedisRemoteData(m_ipadress, m_port, \
+    m_taskheartbeat = NEON.Data.RedisRemoteData(m_ipadress, m_port, \
                     '/GPPD/heartbeat/detector/'+socket.gethostbyname(socket.gethostname())+':'+m_modulename)
     m_taskheartbeat.setData(HBI.HeartBeatCronIncident.encodeHeartBeat(status='configuring', \
                                     hit = 0, event = 0, pulse = 0, idx = os.getpid()))
