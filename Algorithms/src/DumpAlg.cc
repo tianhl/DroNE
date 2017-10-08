@@ -70,7 +70,7 @@ DumpAlg::execute()
 
 	//NeutronPulse* pulse  = m_svc->getObj<NeutronPulse>("/pulse");
 	//SNDHitList*   hitcol = m_svc->getObj<SNDHitList>("/pulse/hits");
-	EvtList*      evtcol = m_svc->getObj<EvtList>("/pulse/evts");
+	//EvtList*      evtcol = m_svc->getObj<EvtList>("/pulse/evts");
 	PixelCount*   pc     = m_svc->getObj<PixelCount>("/statistic/pixel_count");
 
         uint32_t pidstart = 0;
