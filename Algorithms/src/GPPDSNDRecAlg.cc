@@ -111,7 +111,6 @@ void GPPDSNDRecAlg::reconstruct(int time){
 		//std::cout << "======= add evt" << std::endl;
 		evt->setX(X);
 		evt->setY(Y);
-		//evt->setPixleID(int); waiting for MappingAlg
 		evt->setTOF(time);
 	}
 }
