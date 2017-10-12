@@ -32,18 +32,18 @@ DecodeHe3TRawData::DecodeHe3TRawData()
 
 //====================
 void DecodeHe3TRawData::U24to2U12(uint32_t *Input, uint32_t *Output_1, uint32_t *Output_2){
-	*Output_1 = (((((uint32_t)(*Input))&0xFF)<<24)&0xFF000000);
-	*Output_2 = (((((uint32_t)(*Input))&0xFF)<<24)&0xFF000000);
+	*Output_1 = (((((uint32_t)(*Input))&0xFFFFFF)>>12)&0xFFF);
+	*Output_2 =   (((uint32_t)(*Input))&0xFFF);
 };
 
 void DecodeHe3TRawData::U8to2U4(uint32_t *Input, uint32_t *Output_1, uint32_t *Output_2){
-	*Output_1 = (((((uint32_t)(*Input))&0xFF)<<24)&0xFF000000);
-	*Output_2 = (((((uint32_t)(*Input))&0xFF)<<24)&0xFF000000);
+	*Output_1 = (((((uint32_t)(*Input))&0xFF)>>4)&0xF);
+	*Output_2 =   (((uint32_t)(*Input))&0xF);
 };
 
 void DecodeHe3TRawData::U32toU12U20(uint32_t *Input, uint32_t *Output_1, uint32_t *Output_2){
-	*Output_1 = (((((uint32_t)(*Input))&0xFF)<<24)&0xFF000000);
-	*Output_2 = (((((uint32_t)(*Input))&0xFF)<<24)&0xFF000000);
+	*Output_1 = ((((uint32_t)(*Input))>>20)&0xFFF);
+	*Output_2 =  (((uint32_t)(*Input))&0xFFFFF);
 };
 
 //====================

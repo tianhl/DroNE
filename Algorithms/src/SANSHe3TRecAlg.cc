@@ -57,7 +57,6 @@ bool
 SANSHe3TRecAlg::execute()
 {
     ++m_count;
-    if((m_count%100000)==0) LogInfo << "Hello world: count: " << m_count << std::endl;
 
     uint32_t size = m_hitcol->size();
 
@@ -75,8 +74,8 @@ SANSHe3TRecAlg::execute()
 	    evt->setTOF(time);
     }
 
-    //    LogInfo << "Num of Pulse: " << m_count << " , includeing " 
-    //	    << m_hitcol->size() << " hits and " << m_evtcol->size() << " evts reconstruced" << std::endl;
+        LogInfo << "Num of Pulse: " << m_count << " , includeing " 
+    	    << m_hitcol->size() << " hits and " << m_evtcol->size() << " evts reconstruced" << std::endl;
     return true;
 }
 

@@ -37,8 +37,8 @@ if __name__ == "__main__":
 
     ## ===========================
     import Algorithms
-    #task.property("algs").append("GPPDSNDRecAlg")
-    #task.property("algs").append("GPPDSNDMapAlg")
+    task.property("algs").append("SANSHe3TRecAlg")
+    task.property("algs").append("SANSHe3TMapAlg")
     #task.property("algs").append("RunningInfAlg")
     #task.property("algs").append("DumpAlg")
 
