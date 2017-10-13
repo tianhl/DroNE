@@ -74,22 +74,23 @@ uint32_t DecodeHe3TRawData::Decode_PulseHit00(uint8_t *Input){
 	if(0xFB == *Input) m_status = PulseEnd00;
 	else{
 		m_return = (uint32_t)(*Input);
-		m_status = PulseHit00;
+                uint32_t value1, value2;
+                U8to2U4(&m_return, &value1, &value2);
+                if(0xE == value1) m_status = PulseHit00;
+                else m_status = PExecError; 
 	}
 	return m_return;
 };
 
 void DecodeHe3TRawData::Decode_PulseEnd00(uint8_t *Input){
 	if(0xFB == *Input)m_status = PulseEnd00;
-	else {
-		m_status = PExecError;
-		//std::cout << "Cannot find End: " << std::endl;
-		//printf("     Input %x\n",*Input);
-	}
+	else m_status = PExecError;
+	//std::cout << "Cannot find End: " << std::endl;
+	//printf("     Input %x\n",*Input);
 };
 
 uint32_t DecodeHe3TRawData::Decode_RawDataSegment(uint8_t *ReadRawData){
-        //printf("%x\n", *ReadRawData);
+	//printf("%x\n", *ReadRawData);
 
 	switch(m_status){
 		//================ Hdr ================
@@ -167,7 +168,7 @@ uint32_t DecodeHe3TRawData::Decode_RawDataSegment(uint8_t *ReadRawData){
 			m_status = PulseHdr14;
 			break;
 		case PulseHdr14:
-                        // the number of stage sample
+			// the number of stage sample
 			m_return = (uint32_t)(*ReadRawData);
 			m_status = PulseHdr15;
 			m_bcount = 16;
@@ -180,7 +181,7 @@ uint32_t DecodeHe3TRawData::Decode_RawDataSegment(uint8_t *ReadRawData){
 			m_return = Decode_PulseHit00(ReadRawData);
 			break;
 		case PulseHit00:
-                        // TOF
+			// TOF
 			m_return = 0x0;
 			U32_2ed(ReadRawData, &m_return);
 			m_status = PulseHit01;
@@ -195,68 +196,68 @@ uint32_t DecodeHe3TRawData::Decode_RawDataSegment(uint8_t *ReadRawData){
 			m_bcount += 4;
 			break;
 			//================ Hit 1================
-                case PulseHit03:
+		case PulseHit03:
 			m_return = 0x0;
 			U32_1st(ReadRawData, &m_return);
 			m_status = PulseHit04;
-                        break;
-                case PulseHit04:
+			break;
+		case PulseHit04:
 			U32_2ed(ReadRawData, &m_return);
 			m_status = PulseHit05;
-                        break;
-                case PulseHit05:
+			break;
+		case PulseHit05:
 			U32_3rd(ReadRawData, &m_return);
 			m_status = PulseHit06;
-                        break;
-                case PulseHit06:
+			break;
+		case PulseHit06:
 			U32_4th(ReadRawData, &m_return);
 			m_status = PulseHit07;
 			m_bcount += 4;
-                        break;
+			break;
 			//================ Hit 2================
-                case PulseHit07:
+		case PulseHit07:
 			m_return = 0x0;
 			U32_1st(ReadRawData, &m_return);
 			m_status = PulseHit08;
-                        break;
-                case PulseHit08:
+			break;
+		case PulseHit08:
 			U32_2ed(ReadRawData, &m_return);
 			m_status = PulseHit09;
-                        break;
-                case PulseHit09:
+			break;
+		case PulseHit09:
 			U32_3rd(ReadRawData, &m_return);
 			m_status = PulseHit10;
-                        break;
-                case PulseHit10:
+			break;
+		case PulseHit10:
 			U32_4th(ReadRawData, &m_return);
 			m_status = PulseHit11;
 			m_bcount += 4;
-                        break;
+			break;
 			//================ Hit 3================
-                case PulseHit11:
-                        // Q UP
+		case PulseHit11:
+			// Q UP
 			m_return = 0x0;
 			U32_3rd(ReadRawData, &m_return);
 			m_status = PulseHit12;
-                        break;
-                case PulseHit12:
+			break;
+		case PulseHit12:
 			U32_4th(ReadRawData, &m_return);
 			m_status = PulseHit13;
-                        break;
-                case PulseHit13:
-                        // Q DOWN
+			break;
+		case PulseHit13:
+			// Q DOWN
 			m_return = 0x0;
 			U32_3rd(ReadRawData, &m_return);
 			m_status = PulseHit14;
-                        break;
-                case PulseHit14:
+			break;
+		case PulseHit14:
 			U32_4th(ReadRawData, &m_return);
 			m_status = PulseHit15;
 			m_bcount += 4;
-                        break;
+			break;
 			//================ End ================
 		case PulseEnd00:
-                        // status
+			// status
 			m_return = 0x0;
 			U32_2ed(ReadRawData, &m_return);
 			m_status = PulseEnd01;
@@ -288,7 +289,7 @@ uint32_t DecodeHe3TRawData::Decode_RawDataSegment(uint8_t *ReadRawData){
 			m_status = PulseEnd07;
 			//if(16>abs(m_bcount - m_return)){
 			//	m_status = PExecError;
-		        //	std::cout << "Count Error: bcount/" << m_bcount << " rcount/" << m_return << std::endl;
+			//	std::cout << "Count Error: bcount/" << m_bcount << " rcount/" << m_return << std::endl;
 			//	m_return = (uint32_t)NULL;
 			//}
 			break;

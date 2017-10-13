@@ -190,8 +190,8 @@ STARTNEXT:
                                         break;
 				case DecodeHe3TRawData::PulseHit07:
                                         m_decoder->U32toU12U20(&value, &value1, &value2);
-					hit = hitcol->back();
-					//hit->setSu(value);
+					//hit = hitcol->back();
+					//hit->setSu(value2);
                                         break;
 				case DecodeHe3TRawData::PulseHit08:
                                         break;
@@ -201,8 +201,8 @@ STARTNEXT:
                                         break;
 				case DecodeHe3TRawData::PulseHit11:
                                         m_decoder->U32toU12U20(&value, &value1, &value2);
-					hit = hitcol->back();
-					//hit->setSl(value);
+					//hit = hitcol->back();
+					//hit->setSl(value2);
                                         break;
 				case DecodeHe3TRawData::PulseHit12:
                                         break;
