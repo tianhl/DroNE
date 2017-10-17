@@ -150,7 +150,8 @@ STARTNEXT:
 					break;
 				case DecodeHe3TRawData::PulseHdr11:
 					npulse->setT0(value);
-					//LogInfo << "T0 " << value << std::endl;
+					//std::cout << std::dec << "T0 " << value << std::endl;
+					//std::cout << std::hex << "T0 " << value << std::endl;
 					break;
 					//================ Rs1 ================
 				case DecodeHe3TRawData::PulseHdr12:
@@ -172,7 +173,8 @@ STARTNEXT:
                                         m_decoder->U8to2U4(&value, &value1, &value2);
 					hit = hitcol->add_item();
 					hit->setTube(value2);
-					//std::cout << std::dec << m_decoder->Get_ProStatus() << " CHN  " << value << std::endl;
+					//std::cout << std::dec << " TUBE  " << value2 << std::endl;
+					//std::cout << std::hex << " TUBE  " << value2 << std::endl;
 					break;
 				case DecodeHe3TRawData::PulseHit01:
 					break;
@@ -181,6 +183,8 @@ STARTNEXT:
 				case DecodeHe3TRawData::PulseHit03:
 					hit = hitcol->back();
 					hit->setTOF(value);
+					//std::cout << std::dec << " TOF  " << value << std::endl;
+					//std::cout << std::hex << " TOF  " << value << std::endl;
 					break;
 				case DecodeHe3TRawData::PulseHit04:
                                         break;
@@ -209,12 +213,16 @@ STARTNEXT:
 				case DecodeHe3TRawData::PulseHit13:
 					hit = hitcol->back();
 					hit->setQu(value);
+					//std::cout << std::dec << " QU  " << value << std::endl;
+					//std::cout << std::hex << " QU  " << value << std::endl;
                                         break;
 				case DecodeHe3TRawData::PulseHit14:
                                         break;
 				case DecodeHe3TRawData::PulseHit15:
 					hit = hitcol->back();
 					hit->setQl(value);
+					//std::cout << std::dec << " QL  " << value << std::endl;
+					//std::cout << std::hex << " QL  " << value << std::endl;
                                         status = hit1;
                                         break;
 					//================ End ================
