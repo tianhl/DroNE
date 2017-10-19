@@ -19,7 +19,7 @@
 #include <iostream>
 #include <list>
 
-//#include "Data/GPPDStatistic.h"
+#include "Data/GPPDStatistic.h"
 #include "Data/Pulse.h"
 #include "Data/Evt.h"
 #include "Data/He3THit.h"
@@ -57,6 +57,17 @@ bool SANSDataSvc::initialize()
 
   this->regObj("/simulation/evts", new EvtList);
 
+//============================
+// Statistic
+//============================
+  this->branch("statistic");
+  this->find("/statistic")->branch("running_inf");
+  this->find("/statistic")->branch("pixel_count");
+  this->find("/statistic")->branch("pixel_counts");
+
+  this->regObj("/statistic/running_inf",  new RunningInf);
+  this->regObj("/statistic/pixel_count",  new PixelCount);
+  this->regObj("/statistic/pixel_counts", new PixelCountList);
   return true;
 }
 

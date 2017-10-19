@@ -13,14 +13,14 @@ if __name__ == "__main__":
     task.setLogLevel(0)
     
     import DataSvc
-    task.property("svcs").append("GPPDDataSvc/DataSvc")
-    task.property("svcs").append("RawDataInputSvc/DataInputSvc")
+    task.property("svcs").append("SANSDataSvc/DataSvc")
+    task.property("svcs").append("He3TRawDataInputSvc/DataInputSvc")
     task.property("svcs").append("DimRecvSvc/DataProvideSvc")
     iSvc = task.find("DataInputSvc")
     iPvd = task.find("DataProvideSvc")
 
     iPvd.property("DataSize").set(1000000)
-    dimsrvname = "dimserver/TEST_SWAP_2"
+    dimsrvname = "dimserver/TEST_SWAP_1"
     iPvd.property("DimServerName").set(dimsrvname)
     iSvc.property("BuffSize").set(1000000)
 
@@ -28,8 +28,8 @@ if __name__ == "__main__":
     iPvd.show()
 
     import Algorithms
-    task.property("algs").append("GPPDSNDRecAlg")
-    task.property("algs").append("GPPDSNDMapAlg")
+    task.property("algs").append("SANSHe3TRecAlg")
+    task.property("algs").append("SANSHe3TMapAlg")
     #task.property("algs").append("DumpAlg")
     #task.property("algs").append("SaveNeXusAlg")
     #dumpalg = task.find("DumpAlg")

@@ -37,17 +37,18 @@ if __name__ == "__main__":
 
     ## ===========================
     import Algorithms
-    #task.property("algs").append("SANSHe3TRecAlg")
-    #task.property("algs").append("SANSHe3TMapAlg")
-    #task.property("algs").append("RunningInfAlg")
+    task.property("algs").append("SANSHe3TRecAlg")
+    task.property("algs").append("SANSHe3TMapAlg")
+    task.property("algs").append("RunningInfAlg")
     #task.property("algs").append("DumpAlg")
 
     #iMap = task.find("GPPDSNDMapAlg")
     #iMap.property("ConfigFileName").set("configure.xml")
 
-    #iRun = task.find("RunningInfAlg")
-    #iRun.property("TofBins").set(10000)
-    #iRun.property("TofStep").set(1000)
+    iRun = task.find("RunningInfAlg")
+    iRun.property("TofStart").set(1)
+    iRun.property("TofBins").set(10000)
+    iRun.property("TofStep").set(1000)
 
     ## ===========================
     task.setEvtMax(-1)
