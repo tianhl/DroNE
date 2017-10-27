@@ -38,6 +38,7 @@
 
 #include "Data/Pulse.h"
 #include "Data/Evt.h"
+#include "Data/ECal.h"
 #include "Data/He3THit.h"
 
 
@@ -101,6 +102,7 @@ bool He3TRawDataInputSvc::next() {
 STARTNEXT:
 	//std::cout << "=========== new pulse ready =============" << std::endl;
 	NeutronPulse* npulse = m_dataSvc->getObj<NeutronPulse>("/pulse");
+	ECal*         ecal   = m_dataSvc->getObj<ECal>("/pulse/ecal");
 	He3THitList*  hitcol = m_dataSvc->getObj<He3THitList>("/pulse/hits");
 	EvtList*      evtcol = m_dataSvc->getObj<EvtList>("/pulse/evts");
 	hitcol->clear();
@@ -160,11 +162,11 @@ STARTNEXT:
 					break;
 				case DecodeHe3TRawData::PulseHdr14:
                                         m_decoder->U24to2U12(&value, &value1, &value2);
-                                        //npulse->setNTube(value1);
-                                        //npulse->setNSample(value2);
+                                        ecal->setNTube(value1);
+                                        ecal->setNSample(value2);
 					break;
 				case DecodeHe3TRawData::PulseHdr15:
-                                        //npulse->setNStage(value);
+                                        ecal->setNStage(value);
 					status = hdr1;
 					break;
 					//================ Hit ================

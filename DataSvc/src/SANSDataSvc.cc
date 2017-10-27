@@ -22,6 +22,7 @@
 #include "Data/GPPDStatistic.h"
 #include "Data/Pulse.h"
 #include "Data/Evt.h"
+#include "Data/ECal.h"
 #include "Data/He3THit.h"
 
 DECLARE_SERVICE(SANSDataSvc);
@@ -42,12 +43,14 @@ bool SANSDataSvc::initialize()
 // Pulse/Hit/Evt
 //============================
   this->branch("pulse");
+  this->find("/pulse")->branch("ecal");
   this->find("/pulse")->branch("hits");
   this->find("/pulse")->branch("evts");
 
   this->regObj("/pulse",      new NeutronPulse);
   this->regObj("/pulse/hits", new He3THitList);
   this->regObj("/pulse/evts", new EvtList);
+  this->regObj("/pulse/ecal", new ECal);
 
 //============================
 // Simulation

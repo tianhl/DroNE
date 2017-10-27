@@ -46,7 +46,8 @@ SANSHe3TRecAlg::initialize()
     m_svc = pSvc.data();
     std::cout << "get DataSvc " << m_svc->objName() << std::endl;
 
-    m_pulse = m_svc->getObj<NeutronPulse>("/pulse");
+    m_pulse  = m_svc->getObj<NeutronPulse>("/pulse");
+    m_ecal   = m_svc->getObj<ECal>("/pulse/ecal");
     m_hitcol = m_svc->getObj<He3THitList>("/pulse/hits");
     m_evtcol = m_svc->getObj<EvtList>("/pulse/evts");
 
@@ -57,6 +58,9 @@ bool
 SANSHe3TRecAlg::execute()
 {
     ++m_count;
+    uint32_t ntube = m_ecal->getNTube();
+    uint32_t nsamp = m_ecal->getNSample();
+    uint32_t nstag = m_ecal->getNStage();
 
     uint32_t size = m_hitcol->size();
 
@@ -64,6 +68,8 @@ SANSHe3TRecAlg::execute()
 	    He3THit* hit = m_hitcol->at(i);
             uint32_t qa   = hit->getQu();
             uint32_t qb   = hit->getQl();
+            uint32_t su   = hit->getSu();
+            uint32_t sl   = hit->getSl();
             uint32_t time = hit->getTOF();
             uint32_t Y    = hit->getTube();
             uint32_t X    = uint32_t(double(qa-qb)/(qa+qb)+500);

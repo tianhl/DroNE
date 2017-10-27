@@ -20,6 +20,7 @@
 
 #include "Data/Pulse.h"
 #include "Data/Evt.h"
+#include "Data/ECal.h"
 #include "Data/He3THit.h"
 
 class DataSvc;
@@ -40,6 +41,7 @@ class SANSHe3TRecAlg: public AlgBase
 	He3THitList*  m_hitcol;
 	EvtList*      m_evtcol;
 	NeutronPulse* m_pulse;
+	ECal*         m_ecal;
 	DataSvc* m_svc;
 
 };

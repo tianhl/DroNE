@@ -35,6 +35,12 @@ class He3THit:public DataObject{
 		const uint32_t getTOF() const { return m_tof; }
 		void  setTOF(uint32_t tof) { m_tof = tof; }
 
+		const uint32_t getSu() const { return m_su; }
+		void  setSu(uint32_t su) { m_su = su; }
+
+		const uint32_t getSl() const { return m_sl; }
+		void  setSl(uint32_t sl) { m_sl = sl; }
+
 		const uint32_t getQu() const { return m_qu; }
 		void  setQu(uint32_t qu) { m_qu = qu; }
 
@@ -44,6 +50,8 @@ class He3THit:public DataObject{
 	private:
 		uint32_t m_tub;
 		uint32_t m_tof;
+		uint32_t m_su;
+		uint32_t m_sl;
 		uint32_t m_qu;
 		uint32_t m_ql;
 

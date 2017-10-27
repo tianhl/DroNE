@@ -2,7 +2,6 @@
 # -*- coding:utf-8 -*-
 # author: H.L. TIAN 2017
 
-#import Sniper
 import DroNECore
 import CtrlSvc
 import DataSvc
@@ -14,7 +13,6 @@ if __name__ == "__main__":
     ## ===========================
 
     task = DroNECore.DroNE("task")
-    #task = Sniper.Task("task")
     task.asTop()
     task.setLogLevel(0)
     
