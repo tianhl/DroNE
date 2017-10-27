@@ -367,6 +367,15 @@ class NeonRedis:
             else:
                 return response
 
+class NeonRedisSentinel(NeonRedis):
+    def __init__(self, sentinel_list, i_socket_timeout, master_name, master_timeout, master_password, idb=0, isWritable = False):
+        from redis.sentinel import Sentinel
+        sentinel=Sentinel(sentinel_list, socket_timeout = i_socket_timeout)
+
+        self.NeonConnectionError = 'Redis Sentinel('+str(sentinel_list)+') Connection Error'
+        self.isWritable = isWritable
+        self.redis = sentinel.master_for(master_name, socket_timeout = master_timeout, password=master_password, db=idb)
+
 
 class NeonService:
     class NeonRPC:
