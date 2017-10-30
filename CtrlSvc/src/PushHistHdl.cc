@@ -13,20 +13,20 @@
 //  Created by Haolai TIAN 31th May 2017.
 //
 //
-#include "CtrlSvc/PushHistHdl.h"
-#include "DroNECore/DataSvc.h"
-#include "DroNECore/DroNEIncident.h"
-#include "Data/GPPDStatistic.h"
+#include <stdio.h> 
+#include <sstream>
+#include <iostream>
+#include <Python.h>
 
 #include "SniperKernel/Task.h"
 #include "SniperKernel/SniperPtr.h"
 #include "SniperKernel/SniperException.h"
 #include "SniperKernel/SniperLog.h"
 
-#include <stdio.h> 
-#include <sstream>
-#include <iostream>
-#include <Python.h>
+#include "CtrlSvc/PushHistHdl.h"
+#include "DroNECore/DataSvc.h"
+#include "DroNECore/DroNEIncident.h"
+#include "Data/GPPDStatistic.h"
 
 PushHistHdl::PushHistHdl(Task* par)
 : DroNEIncidentHandler(par)

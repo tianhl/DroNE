@@ -13,20 +13,20 @@
 //  Created by Haolai TIAN 31th May 2017.
 //
 //
-#include "CtrlSvc/HelloDroNEHdl.h"
-#include "DroNECore/DataSvc.h"
-#include "DroNECore/DroNEIncident.h"
-#include "Data/GPPDStatistic.h"
-
-#include "SniperKernel/Task.h"
-#include "SniperKernel/SniperPtr.h"
-#include "SniperKernel/SniperException.h"
-
 #include <time.h>
 #include <stdio.h> 
 #include <sstream>
 #include <iostream>
 #include <Python.h>
+
+#include "SniperKernel/Task.h"
+#include "SniperKernel/SniperPtr.h"
+#include "SniperKernel/SniperException.h"
+
+#include "CtrlSvc/HelloDroNEHdl.h"
+#include "DroNECore/DataSvc.h"
+#include "DroNECore/DroNEIncident.h"
+#include "Data/GPPDStatistic.h"
 
 HelloDroNEHdl::HelloDroNEHdl(Task* par)
 : DroNEIncidentHandler(par)

@@ -16,8 +16,8 @@
 //
 //
 
-#include "SniperKernel/Incident.h"
 #include <Python.h>
+#include "SniperKernel/Incident.h"
 
 class DroNEIncident: public Incident
 {
