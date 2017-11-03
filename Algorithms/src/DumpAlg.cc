@@ -70,17 +70,12 @@ DumpAlg::execute()
 
 	//NeutronPulse* pulse  = m_svc->getObj<NeutronPulse>("/pulse");
 	//SNDHitList*   hitcol = m_svc->getObj<SNDHitList>("/pulse/hits");
-	//EvtList*      evtcol = m_svc->getObj<EvtList>("/pulse/evts");
-	PixelCount*   pc     = m_svc->getObj<PixelCount>("/statistic/pixel_count");
-
-        uint32_t pidstart = 0;
-        uint32_t pidstop  = 9999;
-	uint32_t c = 0;
-
-	for(uint32_t i = pidstart; i<pidstop; i++){
-		c = c+ pc->getCount(i);
+	EvtList*      evtcol = m_svc->getObj<EvtList>("/pulse/evts");
+	for( uint32_t i = 0; i < evtcol->size(); i++){
+             Evt* evt = evtcol->at(i);
+             std::cout << "PID: " << evt->getPixelID() << " TOF: " << evt->getTOF() << std::endl;
 	}
-        std::cout << " counts: " << c << std::endl;
+
 
 
 	return true;
