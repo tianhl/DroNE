@@ -24,8 +24,8 @@ class RPCMethods(NEON.Neon.NeonService.NeonRPC.MethodCall):
         print "NEON RPC RECV & EVEC CLEAR COMMAND"
         ic = PI.PyIncident("ClearDataSvc")
         ic.fire('ClearDataSvc')
-        ir = PI.PyIncident("ClearRemoteData")
-        ir.fire('ClearRemoteData')
+        ir = PI.PyIncident("UpdateRemoteData")
+        ir.fire('UpdateRemoteData')
         return "Ready"
 
 class NeonRPCTask(Task) :

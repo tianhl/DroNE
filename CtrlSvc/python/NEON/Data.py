@@ -2,6 +2,33 @@
 
 # after v05
 
+class LocalASCIIData:
+    def __init__(self, filename=None):
+       import time
+       opentime = str(time.asctime(time.localtime(time.time())))+'\n'
+       lines = [opentime, '\n']
+       self.filename = filename
+       f = open(self.filename, 'w')
+       f.writelines(lines)
+       f.close()
+
+    def setData(self, data):
+       self.data = data
+
+    def dump(self):
+       import time
+       opentime = str(time.asctime(time.localtime(time.time())))+'\n'
+       lines = [opentime, str(self.data)+'\n', '\n']
+       f = open(self.filename, 'w+')
+       f.writelines(lines)
+       f.close()
+
+    def getData(self):
+       return self.data 
+ 
+    def load(self):
+       pass
+
 class RedisRemoteData:
     def __init__(self, ip, port, path):
        import redis

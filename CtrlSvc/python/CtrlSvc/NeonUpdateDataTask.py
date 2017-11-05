@@ -9,11 +9,11 @@ import NEON
 import DroNECore.PyIncident as PI
 import json
 
-class NeonClearTask(Task) :
+class NeonUpdateDataTask(Task) :
 
     def __init__(self, name, remotedata = None, configure = None) :
         Task.__init__(self, name)
-        Task.regist(self, "ClearRemoteData")
+        Task.regist(self, "UpdateRemoteData")
         self.remotedata = remotedata
         self.configure  = configure
         self.incident   = PI.PyIncident("PushMatrix")
@@ -23,4 +23,3 @@ class NeonClearTask(Task) :
         if(retval):
             self.remotedata.setData(retval)
             self.remotedata.dump()
-        return retval
