@@ -10,6 +10,7 @@ import NEON
 import CtrlSvc.HeartBeatIncident  as HBI
 import CtrlSvc.NeonRPCIncident    as NRI
 import CtrlSvc.NeonRPCTask        as NRT
+import CtrlSvc.NeonClearTask      as NCT
 
 if __name__ == "__main__":
 
@@ -37,6 +38,12 @@ if __name__ == "__main__":
     servpob = NEON.Neon.NeonService.POBox(m_neonRedis, '/GPPD/process/detector', '192.168.0.1:drone01')
     servrpc = NEON.Neon.NeonService.NeonRPC(sendPOBox = servpob, recvPOBox = servpob, isServer=True)
     nr = NRT.NeonRPCTask("NeonRPC", servrpc, remotedata = m_taskheartbeat)
+
+
+
+    m_taskMatrix = NEON.Data.RedisRemoteData(m_ipadress, m_port, path+"/value")
+    m_configure = {"pidstart":idstart,"pidsize":idsize}
+    nc = NCT.NeonClearTask("ClearRemoteData", remotedata = m_taskMatrix, configure=m_configure)
 
     ct = DroNECore.CtrlTask("ctrl")
     hi = HBI.HeartBeatCronIncident("HeartBeat", cron = 2, repeatable = True, remotedata = m_taskheartbeat)

@@ -24,6 +24,8 @@ class RPCMethods(NEON.Neon.NeonService.NeonRPC.MethodCall):
         print "NEON RPC RECV & EVEC CLEAR COMMAND"
         ic = PI.PyIncident("ClearDataSvc")
         ic.fire('ClearDataSvc')
+        ir = PI.PyIncident("ClearRemoteData")
+        ir.fire('ClearRemoteData')
         return "Ready"
 
 class NeonRPCTask(Task) :
@@ -46,7 +48,6 @@ class NeonRPCTask(Task) :
                 heartbeatdata = HBI.HeartBeatCronIncident.encodeHeartBeat(status='stopping', \
                                                 hit = 0, event = 0, \
                                                 pulse = 0, idx = index)
-                print heartbeatdata, "============="
                 self.remotedata.setData(heartbeatdata)
                 self.remotedata.dump()
                 self.rpcserver.sndRSLT(neonid, result = "Stop OK", error = "None ERROR")
