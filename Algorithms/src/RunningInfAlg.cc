@@ -72,7 +72,7 @@ bool RunningInfAlg::execute()
 		pc->addCount(evt->getPixelID(), 1);
 		uint32_t time = evt->getTOF()-m_tofstart;
 		uint32_t chan = time/m_tofstep;
-		if(chan>m_tofbins)continue; 
+		if(chan>=m_tofbins)continue; 
 		//std::cout << "chan: " << chan << " pixle: " << evt->getPixelID() << std::endl;
 		pcs->at(chan)->addCount(evt->getPixelID(), 1);
 	}
