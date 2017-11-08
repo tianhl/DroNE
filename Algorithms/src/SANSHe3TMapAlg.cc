@@ -101,5 +101,10 @@ bool SANSHe3TMapAlg::finalize()
 
 uint64_t SANSHe3TMapAlg::getPixelID(uint32_t& module, uint32_t& x, uint32_t& y)
 {
-        return uint64_t(y*1000+uint64_t(x/8)+1);
+	// This is for SANS
+	
+        uint32_t tmp = 120-(12*(module-1)+y);
+  	return 100000+125*(tmp-1)+(uint64_t(x/8)+1);
+  	                        
+
 }
