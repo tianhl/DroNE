@@ -11,6 +11,7 @@
 //  
 //
 //  Created by Haolai TIAN 1st Oct. 2017.
+//  Supported by Du Rong since 1st Dec. 2017.
 //
 //
 #include "SANSHe3TMapAlg.h"
@@ -28,6 +29,7 @@ DECLARE_ALGORITHM(SANSHe3TMapAlg);
 SANSHe3TMapAlg::SANSHe3TMapAlg(const std::string& name)
     : AlgBase(name)
 {
+	declProp("bins",m_bins);
 	//declProp("ConfigFileName",m_configfile);
 }
 

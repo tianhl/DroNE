@@ -64,7 +64,7 @@ if __name__ == "__main__":
 
     filelist = []
     datafile = "data/BL18_RUN119_MODULE02_0000001_2017_11_2_19_31_27.dat"
-    for i in xrange(5):
+    for i in xrange(100):
       filelist.append(datafile)
     iPvd.property("InputFile").set(filelist) #"N_3Cdmaskslit.dat", 
     iSvc.property("BuffSize").set(5000)

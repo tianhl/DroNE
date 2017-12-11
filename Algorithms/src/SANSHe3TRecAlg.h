@@ -13,6 +13,7 @@
 //  
 //
 //  Created by Haolai TIAN 1st Oct. 2017.
+//  Supported by Du Rong since 1st Dec. 2017.
 //
 //
 
@@ -43,7 +44,8 @@ class SANSHe3TRecAlg: public AlgBase
 	NeutronPulse* m_pulse;
 	ECal*         m_ecal;
 	DataSvc* m_svc;
-
+	int m_threshold;
+        int m_bins;
 };
 
 #endif

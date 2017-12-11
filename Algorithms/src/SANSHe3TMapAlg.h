@@ -13,6 +13,7 @@
 //  
 //
 //  Created by Haolai TIAN 1st Oct. 2017.
+//  Supported by Du Rong since 1st Dec. 2017.
 //
 //
 
@@ -40,7 +41,7 @@ class SANSHe3TMapAlg: public AlgBase
 	NeutronPulse* m_pulse;
     private:
 	uint64_t getPixelID(uint32_t& module, uint32_t& x, uint32_t& y);
-
+	int m_bins;
 	//std::string m_configfile;
 	//typedef std::map<int, int> MODULE2PID;
 	//MODULE2PID m_m2p;
