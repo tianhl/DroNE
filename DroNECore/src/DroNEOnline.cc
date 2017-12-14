@@ -69,7 +69,7 @@ STARTNEXT:
 			//trigger the EndEvent incident
 			local_fire("CtrlTask");
                         usleep(10000); // suspend execution for 0.01 second
-                        std::cout << "waiting for input data" << std::endl;
+                        LogTest << "waiting for input data" << std::endl;
                         goto STARTNEXT;
 		}
 

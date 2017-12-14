@@ -13,10 +13,10 @@
 //  Created by Haolai TIAN 31th May 2017.
 //
 //
+#include <Python.h>
 #include <stdio.h> 
 #include <sstream>
 #include <iostream>
-#include <Python.h>
 
 #include "SniperKernel/Task.h"
 #include "SniperKernel/SniperPtr.h"

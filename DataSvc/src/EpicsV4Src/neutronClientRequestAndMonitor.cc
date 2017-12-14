@@ -128,7 +128,7 @@ void MyMonitorRequester::monitorConnect(Status const & status, MonitorPtr const 
 void MyMonitorRequester::monitorEvent(MonitorPtr const & monitor)
 {  
 
-	cout << "pass pass go  go " <<endl;
+	//cout << "pass pass go  go " <<endl;
 	shared_ptr<MonitorElement> update;
     while ((update = monitor->poll()))
     {
@@ -220,7 +220,7 @@ void MyMonitorRequester::monitorEvent(MonitorPtr const & monitor)
 	 delete mNeutronPulseDataTem.mMonitorNeutronEventData.pPixelID;
     }
     ++ monitors;
-    cout << " 222222...... "<<endl;
+    //cout << " 222222...... "<<endl;
     if (limit > 0  &&  monitors >= limit)
     {
 	    cout << "Received " << monitors << " monitors" << endl;
