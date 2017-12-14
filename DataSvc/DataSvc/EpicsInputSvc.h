@@ -47,7 +47,8 @@ class EpicsInputSvc : public DataInputSvc
 
     private :
       // main
-      void popDataItem(); 
+      //void popDataItem(); 
+      bool popDataItem(); 
       bool eraseDataItem();
       // thread
       void epicsClient();

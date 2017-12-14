@@ -80,7 +80,7 @@ bool EpicsInputSvc::next() {
 	evtcol->clear();
 	Evt* evt;
 
-	popDataItem();
+	if(false == popDataItem())return false;
 
 	MonitorData* pData = m_curDataItem->getData();
 	npulse->setInstrument(pData->pPulse->mSpecID);
@@ -142,8 +142,14 @@ void EpicsInputSvc::epicsClient(){
 //========================================================
 
 
-void EpicsInputSvc::popDataItem(){
+//void EpicsInputSvc::popDataItem(){
+//	m_curDataItem = dataQueue.get();
+//}
+
+bool EpicsInputSvc::popDataItem(){
 	m_curDataItem = dataQueue.get();
+        if(NULL == m_curDataItem)return false;
+        else return true;
 }
 
 bool EpicsInputSvc::eraseDataItem(){
