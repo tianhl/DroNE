@@ -80,62 +80,63 @@ bool DimRecvSvc::read(uint8_t* buff, uint32_t buffsize){
 	 
 	for(uint32_t i = 0; i < buffsize; i++)pBuff[i]=0x00; // initialize
 	//if(NULL == m_curDataItem) popDataItem(); // waiting for input stream
-	if(NULL == m_curDataItem) {
-            if(false == popDataItem())return false; // if there is noe data
+    if(NULL == m_curDataItem) {
+        if(false == popDataItem())return false; // if there is noe data
+    }
 
-	while(needsize>0){
-		if(NULL == m_curDataItem)return true;
-		else m_current = m_curDataItem->getData();
+    while(needsize>0){
+        if(NULL == m_curDataItem)return true;
+        else m_current = m_curDataItem->getData();
 
-		size_t length = m_curDataItem->getSize()-m_offset;
-		if(0 == length) return eraseDataItem(); //all data have been read in this item
-		size_t cpsize = (needsize < length)?needsize:length;
+        size_t length = m_curDataItem->getSize()-m_offset;
+        if(0 == length) return eraseDataItem(); //all data have been read in this item
+        size_t cpsize = (needsize < length)?needsize:length;
 
-		if(copyBuff(pBuff, cpsize, m_current+m_offset)){
-			pBuff      += cpsize;
-			m_currSize += cpsize;
-			needsize   -= cpsize;
-		}
-	}
+        if(copyBuff(pBuff, cpsize, m_current+m_offset)){
+            pBuff      += cpsize;
+            m_currSize += cpsize;
+            needsize   -= cpsize;
+        }
+    }
 
-	return true;
+    return true;
 }
 
 size_t DimRecvSvc::count() const{
-	return m_currSize;
+    return m_currSize;
 }
 
 //=========================================================
 //private method: thread
 //========================================================
 void DimRecvSvc::pushDataItem(uint8_t* item, size_t size) {
-	uint8_t* data = new uint8_t[size];
-	memcpy(data, (uint8_t*)item, size);
-	Item* dataItem = new Item(data, size);
-	dataQueue.put(dataItem);
+    uint8_t* data = new uint8_t[size];
+    memcpy(data, (uint8_t*)item, size);
+    Item* dataItem = new Item(data, size);
+    dataQueue.put(dataItem);
 }
 
 
 void functionWrapper(void* flag, void* buff, int* size){
-	if(1200 == *((int*)flag)) DimRecvSvc::pushDataItem((uint8_t*)buff, size_t(*size));
-        //for(int i = 0; i < *size; i++){
-        //    printf("functionWrapper: %x\n", *((unsigned char*)buff+i));
-        //}
+    if(1200 == *((int*)flag)) DimRecvSvc::pushDataItem((uint8_t*)buff, size_t(*size));
+    //for(int i = 0; i < *size; i++){
+    //    printf("functionWrapper: %x\n", *((unsigned char*)buff+i));
+    //}
 }
 
 void DimRecvSvc::dimClient(){
-	char* envNode = getenv("DIM_DNS_NODE");
-	char* envPort = getenv("DIM_DNS_PORT");
-	if(envNode and envPort) {
-		LogInfo << "DIM_DNS_NODE: " << envNode << std::endl; 
-		LogInfo << "DIM_DNS_PORT: " << envPort << std::endl; 
-		static int no_link = -1;
-		//static char aux[80];
-		//sprintf(aux,"%s",m_dimServer.c_str());
-		m_dimID = dic_info_service_stamped( m_dimServer.c_str(), MONITORED, 0, 0, 0, functionWrapper, 1200, &no_link, 4 );  
-		//m_dimID = dic_info_service_stamped( aux, MONITORED, 0, 0, 0, functionWrapper, 1200, &no_link, 4 );  
-	}
-	else throw SniperException("DIM_DNS_NODE or DIM_DNS_PORT undefined!");
+    char* envNode = getenv("DIM_DNS_NODE");
+    char* envPort = getenv("DIM_DNS_PORT");
+    if(envNode and envPort) {
+        LogInfo << "DIM_DNS_NODE: " << envNode << std::endl; 
+        LogInfo << "DIM_DNS_PORT: " << envPort << std::endl; 
+        static int no_link = -1;
+        //static char aux[80];
+        //sprintf(aux,"%s",m_dimServer.c_str());
+        m_dimID = dic_info_service_stamped( m_dimServer.c_str(), MONITORED, 0, 0, 0, functionWrapper, 1200, &no_link, 4 );  
+        //m_dimID = dic_info_service_stamped( aux, MONITORED, 0, 0, 0, functionWrapper, 1200, &no_link, 4 );  
+    }
+    else throw SniperException("DIM_DNS_NODE or DIM_DNS_PORT undefined!");
 }
 
 //=========================================================
@@ -148,14 +149,14 @@ void DimRecvSvc::dimClient(){
 //}
 
 bool DimRecvSvc::popDataItem(){
-	m_curDataItem = dataQueue.getUB();
-        if(NULL == m_curDataItem) return false; 
-	m_offset = 0;
-        return true;
+    m_curDataItem = dataQueue.getUB();
+    if(NULL == m_curDataItem) return false; 
+    m_offset = 0;
+    return true;
 }
 
 bool DimRecvSvc::copyBuff(uint8_t* destBuff, size_t size, uint8_t* srcBuff){
-	memcpy(destBuff, srcBuff, size);
-	m_offset += size;
-	return true;
+    memcpy(destBuff, srcBuff, size);
+    m_offset += size;
+    return true;
 }

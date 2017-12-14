@@ -61,7 +61,7 @@ class DynamicThreadedQueue
 		T getUB() {
                         // If queue size is zero, process returns NULL.
 			boost::unique_lock<boost::mutex> lock(mutex_); 
-			if(0 == queie_.size()) return NULL; 
+			if(0 == queue_.size()) return NULL; 
 			T front(queue_.front());
 			queue_.pop();
 			return front;
