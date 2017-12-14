@@ -32,9 +32,9 @@ DecodeHe3TRawDataV02::DecodeHe3TRawDataV02()
 
 //====================
 void DecodeHe3TRawDataV02::U32toU14U12U6(uint32_t *Input, uint32_t *Output_1, uint32_t *Output_2, uint32_t *Output_3){
-	*Output_1 = (((((uint32_t)(*Input))&0xFFFFFF)>>18)&0x4FFFF);
-	*Output_2 = (((((uint32_t)(*Input))&0x4FFFF)>>6)&0x4FF);
-	*Output_3 =   (((uint32_t)(*Input))&0x4F);
+	*Output_1 = (((((uint32_t)(*Input))&0xFFFFFFFF)>>18)&0x3FFF);
+	*Output_2 = (((((uint32_t)(*Input))&0x3FFFF)>>6)&0xFFF);
+	*Output_3 =   (((uint32_t)(*Input))&0x3F);
 };
 
 void DecodeHe3TRawDataV02::U24to2U12(uint32_t *Input, uint32_t *Output_1, uint32_t *Output_2){
