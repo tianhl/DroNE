@@ -50,6 +50,7 @@ class DynamicThreadedQueue
 		}
 
 		T get() {
+                        // If queue size is zero, process is blocked.
 			boost::unique_lock<boost::mutex> lock(mutex_); 
 			while(queue_.size()== 0) cond_.wait(lock);
 			T front(queue_.front());
@@ -57,16 +58,14 @@ class DynamicThreadedQueue
 			return front;
 		}
 
-		//T get(bool block = true) {
-		//	boost::unique_lock<boost::mutex> lock(mutex_); 
-		//	if(block) {
-		//		while(queue_.size()== 0) cond_.wait(lock);
-		//	}
-		//	else if(0 == queie_.size()) return NULL; 
-		//	T front(queue_.front());
-		//	queue_.pop();
-		//	return front;
-		//}
+		T getUB() {
+                        // If queue size is zero, process returns NULL.
+			boost::unique_lock<boost::mutex> lock(mutex_); 
+			if(0 == queie_.size()) return NULL; 
+			T front(queue_.front());
+			queue_.pop();
+			return front;
+		}
 
 		unsigned size() { return queue_.size(); }
 

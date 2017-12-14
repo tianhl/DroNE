@@ -64,7 +64,8 @@ class DimRecvSvc : public DataProvideSvc{
 		//friend void functionWrapper(int* tag, void* item, int* size);
 		// main
 		bool eraseDataItem();
-		void popDataItem();
+		//void popDataItem();
+		bool popDataItem();
 		bool copyBuff(uint8_t* destBuff, size_t size, uint8_t* srcBuff);
 	private:
 		static DynamicThreadedQueue<Item*> dataQueue;

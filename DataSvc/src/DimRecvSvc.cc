@@ -79,7 +79,9 @@ bool DimRecvSvc::read(uint8_t* buff, uint32_t buffsize){
 	m_currSize        = 0;
 	 
 	for(uint32_t i = 0; i < buffsize; i++)pBuff[i]=0x00; // initialize
-	if(NULL == m_curDataItem) popDataItem(); // waiting for input stream
+	//if(NULL == m_curDataItem) popDataItem(); // waiting for input stream
+	if(NULL == m_curDataItem) {
+            if(false == popDataItem())return false; // if there is noe data
 
 	while(needsize>0){
 		if(NULL == m_curDataItem)return true;
@@ -140,9 +142,16 @@ void DimRecvSvc::dimClient(){
 //private method: main
 //========================================================
 
-void DimRecvSvc::popDataItem(){
-	m_curDataItem = dataQueue.get();
+//void DimRecvSvc::popDataItem(){
+//	m_curDataItem = dataQueue.get();
+//	m_offset = 0;
+//}
+
+bool DimRecvSvc::popDataItem(){
+	m_curDataItem = dataQueue.getUB();
+        if(NULL == m_curDataItem) return false; 
 	m_offset = 0;
+        return true;
 }
 
 bool DimRecvSvc::copyBuff(uint8_t* destBuff, size_t size, uint8_t* srcBuff){

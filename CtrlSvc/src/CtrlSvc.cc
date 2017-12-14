@@ -19,6 +19,7 @@
 #include "CtrlSvc/PushHistHdl.h"
 #include "CtrlSvc/PushMatrixHdl.h"
 #include "CtrlSvc/BeginEvtHdl.h"
+#include "CtrlSvc/OnlineBeginEvtHdl.h"
 #include "CtrlSvc/EndEvtHdl.h"
 #include "CtrlSvc/ClearDataSvcHdl.h"
 #include "SniperKernel/SvcFactory.h"
@@ -70,6 +71,10 @@ bool CtrlSvc::initialize()
 	IIncidentHandler* bi = new BeginEvtHdl(par);
 	bi->regist("BeginEvent");
 	bi->listening();
+
+	IIncidentHandler* oi = new OnlineBeginEvtHdl(par);
+	oi->regist("OnlineBeginEvent");
+	oi->listening();
 
 	IIncidentHandler* ei = new EndEvtHdl(par);
 	ei->regist("EndEvent");
