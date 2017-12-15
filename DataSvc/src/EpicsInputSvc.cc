@@ -147,7 +147,7 @@ void EpicsInputSvc::epicsClient(){
 //}
 
 bool EpicsInputSvc::popDataItem(){
-	m_curDataItem = dataQueue.get();
+	m_curDataItem = dataQueue.getUB();
         if(NULL == m_curDataItem)return false;
         else return true;
 }
