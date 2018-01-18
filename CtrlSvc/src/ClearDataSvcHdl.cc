@@ -41,12 +41,17 @@ bool ClearDataSvcHdl::handle(Incident& incident)
 {
 	PixelCount*     pc   = m_svc->getObj<PixelCount>("/statistic/pixel_count");
 	PixelCountList* pcs  = m_svc->getObj<PixelCountList>("/statistic/pixel_counts");
+        RunningInf*     ri   = m_svc->getObj<RunningInf>("/statistic/running_inf");
+
         pc->clear();
 
         uint32_t        size = pcs->size();
 	for(uint32_t i = 0; i < size; i++){
            pcs->at(i)->clear();
 	}
+
+        ri->setEvtCnt(0);
+        ri->setPulseCnt(0);
 
 	return true;
 }
