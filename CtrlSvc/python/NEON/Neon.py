@@ -19,7 +19,7 @@ class NeonCore:
             raise TypeError('Pure virtual based class for GroupList')
         def push(self, peer_name, msgs):
             raise TypeError('Pure virtual based class for GroupList')
-        def push(self):
+        def pull(self):
             raise TypeError('Pure virtual based class for GroupList')
 
     class SortedSet:    

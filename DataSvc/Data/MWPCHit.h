@@ -38,10 +38,14 @@ class MWPCHit:public DataObject{
 		const uint32_t getCharge() const { return m_charge; }
 		void  setCharge(uint32_t charge) { m_charge = charge; }
 
+		const uint32_t getBaseline() const { return m_baseline; }
+		void  setBaseline(uint32_t baseline) { m_baseline = baseline; }
+
 	private:
 		uint32_t m_chn;
 		uint32_t m_tof;
 		uint32_t m_charge;
+		uint32_t m_baseline;
 
 };
 
