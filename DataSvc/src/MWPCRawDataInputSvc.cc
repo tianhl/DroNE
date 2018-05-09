@@ -151,7 +151,7 @@ STARTNEXT:
 					break;
 				case DecodeMWPCRawData::PulseHdr11:
 					npulse->setCount(value);
-					//std::cout << std::dec << "T0 " << value << std::endl;
+					//std::cout << std::dec << "bitcount " << value << std::endl;
 					//std::cout << std::hex << "T0 " << value << std::endl;
 					break;
 					//================ T0 ================
@@ -169,7 +169,8 @@ STARTNEXT:
 				case DecodeMWPCRawData::PulseHit00:
 					status = hit0;
 					hit = hitcol->add_item();
-					hit->setCharge(value);
+					hit->setChannel(value);
+					//std::cout << "Channel: " << hit->getChannel() << std::endl;
 					break;
 				case DecodeMWPCRawData::PulseHit01:
 					break;
@@ -178,10 +179,11 @@ STARTNEXT:
 				case DecodeMWPCRawData::PulseHit03:
 					hit = hitcol->back();
 					hit->setTOF(value);
+					//std::cout << "TOF: " << hit->getTOF() << std::endl;
 					break;
 				case DecodeMWPCRawData::PulseHit04:
 					hit = hitcol->back();
-					if(value != hit->getChannel()) std::cout << "Decodor ERROR!" << std::endl;
+					//if(value != hit->getChannel()) std::cout << "Decodor ERROR!" << std::endl;
                                         break;
 				case DecodeMWPCRawData::PulseHit05:
                                         break;
@@ -192,6 +194,8 @@ STARTNEXT:
 					hit = hitcol->back();
 					hit->setBaseline(value1);
 					hit->setCharge(value2);
+					//std::cout << "Baseline: " << hit->getBaseline() << std::endl;
+					//std::cout << "Charge:   " << hit->getCharge() << std::endl;
                                         status = hit1;
                                         break;
 					//================ End ================
