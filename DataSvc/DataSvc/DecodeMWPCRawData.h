@@ -31,6 +31,8 @@ class DecodeMWPCRawData : public DecodeRawDataBase{
 		enum ProStatus{
 			PExecReady = 0,
 			PExecError = 1,
+			PulsePre00 = 3,
+			PulsePre01 = 4,
 			PulseHdr00 = 10,
 			PulseHdr01 = 11,
 			PulseHdr02 = 12,
@@ -114,10 +116,14 @@ class DecodeMWPCRawData : public DecodeRawDataBase{
 		} m_status;
 	private:
                 
+		void     Decode_PulsePre00(uint8_t* Input);
+		void     Decode_PulsePre01(uint8_t* Input);
 		void     Decode_PulseHdr00(uint8_t* Input);
+		void     Decode_PulseHdr01(uint8_t* Input);
 		void     Decode_PulseHdr02(uint8_t* Input);
-		uint32_t Decode_PulseHit00(uint8_t* Input);
+		void     Decode_PulseHdr03(uint8_t* Input);
 		void     Decode_FrameHdr00(uint8_t* Input);
+		void     Decode_PulseHit00(uint8_t* Input);
 
 	public:
 		DecodeMWPCRawData();

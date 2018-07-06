@@ -34,17 +34,14 @@ DecodeMWPCRawData::DecodeMWPCRawData()
 void DecodeMWPCRawData::Decode_PulseHdr00(uint8_t *Input){
         // END
 	if(0xEE == *Input) m_status = PulseHdr00;
-	else m_status = PExecReady;
+	else m_status = PExecError;
 	//std::cout << "Pulse HDR00 " << std::endl;
 };
 
 void DecodeMWPCRawData::Decode_PulseHdr02(uint8_t *Input){
 	// BEGIN
-	if(0x34 == *Input) {
-		m_status = PulseHdr02;
-		//std::cout << "Pulse HDR02 " << std::endl;
-	}
-	else m_status = PExecReady;
+	if(0x34 == *Input) m_status = PulseHdr02;
+	else m_status = PExecError;
 };
 
 void DecodeMWPCRawData::Decode_FrameHdr00(uint8_t *Input){
@@ -53,24 +50,36 @@ void DecodeMWPCRawData::Decode_FrameHdr00(uint8_t *Input){
 	//std::cout << "Frame HDR " << std::endl;
 };
 
-uint32_t DecodeMWPCRawData::Decode_PulseHit00(uint8_t *Input){
-	//std::cout << "Hit " << std::endl;
-	m_return = 0x0;
-	if(0xEE == *Input) {
-		//std::cout << "Pulse HDR00 " << std::endl;
-		m_status = PulseHdr00;
-	}
-	else if(0xAA == *Input) {
-		//std::cout << "Frame HDR " << std::endl;
-		m_status = FrameHdr00;
-	}
-	else{
-		//std::cout << "Hit " << std::endl;
-		m_return = (uint32_t)(*Input);
-		m_status = PulseHit00;
-	}
-	return m_return;
+void DecodeMWPCRawData::Decode_PulsePre00(uint8_t *Input){
+        // PRE
+	if(0xEE == *Input) m_status = PulsePre00;
+	else m_status = PExecReady;
 };
+
+void DecodeMWPCRawData::Decode_PulsePre01(uint8_t *Input){
+	if(0x12 == *Input) m_status = PulsePre01;
+	else m_status = PExecReady;
+	//std::cout << "Frame HDR " << std::endl;
+};
+
+void DecodeMWPCRawData::Decode_PulseHdr01(uint8_t *Input){
+	if(0x12 == *Input) m_status = PulseHdr01;
+	else m_status = PExecError;
+};
+
+void DecodeMWPCRawData::Decode_PulseHdr03(uint8_t *Input){
+	if(0xEE == *Input) m_status = PulseHdr03;
+	else m_status = PExecError;
+};
+
+void DecodeMWPCRawData::Decode_PulseHit00(uint8_t *Input){
+	//std::cout << "Hit " << std::endl;
+	if(0xAA == *Input)      m_status = FrameHdr00;
+	else if(0xEE == *Input) m_status = PulseHdr00;
+	else                    m_status = PulseHit00;
+	m_return = (uint32_t)(*Input);
+};
+
 
 uint32_t DecodeMWPCRawData::Decode_RawDataSegment(uint8_t *ReadRawData){
 	//printf("%x\n", *ReadRawData);
@@ -78,15 +87,20 @@ uint32_t DecodeMWPCRawData::Decode_RawDataSegment(uint8_t *ReadRawData){
 	switch(m_status){
 		//================ Hdr ================
 		case PExecReady:
+			Decode_PulsePre00(ReadRawData);
+			break;
+		case PulsePre00:
+			Decode_PulsePre01(ReadRawData);
+			break;
+		case PulsePre01:
 			Decode_PulseHdr02(ReadRawData);
 			break;
 		case PulseHit07:
-			m_return = Decode_PulseHit00(ReadRawData);
+			Decode_PulseHit00(ReadRawData);
 			break;
 		case PulseHdr00:
 			// PulseHdr 1
-			if(0x12 == *ReadRawData) m_status = PulseHdr01;
-			else m_status = PExecError;
+			Decode_PulseHdr01(ReadRawData);
 			break;
 		case PulseHdr01:
 			// PulseHdr 2
@@ -94,8 +108,7 @@ uint32_t DecodeMWPCRawData::Decode_RawDataSegment(uint8_t *ReadRawData){
 			break;
 		case PulseHdr02:
 			// PulseHdr 3
-			if(0xEE == *ReadRawData) m_status = PulseHdr03;
-			else m_status = PExecError;
+			Decode_PulseHdr03(ReadRawData);
 			break;
 			//================ 01 line of hdr ================
 		case PulseHdr03:
@@ -439,7 +452,7 @@ uint32_t DecodeMWPCRawData::Decode_RawDataSegment(uint8_t *ReadRawData){
 			//================ Hit 1================
 		case FrameHdr07:
 			// Channel
-			m_return = Decode_PulseHit00(ReadRawData);
+			Decode_PulseHit00(ReadRawData);
 			break;
 		case PulseHit00:
 			// TData

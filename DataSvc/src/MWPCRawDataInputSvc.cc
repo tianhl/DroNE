@@ -120,6 +120,11 @@ STARTNEXT:
 
 			switch(m_decoder->Get_ProStatus()){
 				//================ Hdr line 00 ================
+				case DecodeMWPCRawData::PulsePre00:
+					status = hdr0;
+					break;
+				case DecodeMWPCRawData::PulsePre01:
+					break;
 				case DecodeMWPCRawData::PulseHdr00:
 					status = end0;
 					break;
