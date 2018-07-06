@@ -16,13 +16,17 @@
 //
 //
 
+#include "DecodeRawDataBase.h"
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 
 
-class DecodeMWPCRawData{
+class DecodeMWPCRawData : public DecodeRawDataBase{
+	private:
+		uint32_t  m_bcount;
+		uint32_t  m_return;
 	public:
 		enum ProStatus{
 			PExecReady = 0,
@@ -43,49 +47,87 @@ class DecodeMWPCRawData{
 			PulseHdr13 = 23,
 			PulseHdr14 = 24,
 			PulseHdr15 = 25,
-			PulseEnd00 = 40,
-			PulseEnd01 = 41,
-			PulseEnd02 = 42,
-			PulseEnd03 = 43,
-			PulseEnd04 = 44,
-			PulseEnd05 = 45,
-			PulseEnd06 = 46,
-			PulseEnd07 = 47,
-			PulseHit00 = 70,
-			PulseHit01 = 71,
-			PulseHit02 = 72,
-			PulseHit03 = 73,
-			PulseHit04 = 74,
-			PulseHit05 = 75,
-			PulseHit06 = 76,
-			PulseHit07 = 77,
-		};
+			PulseHdr16 = 26,
+			PulseHdr17 = 27,
+			PulseHdr18 = 28,
+			PulseHdr19 = 29,
+			PulseHdr20 = 30,
+			PulseHdr21 = 31,
+			PulseHdr22 = 32,
+			PulseHdr23 = 33,
+			PulseHdr24 = 34,
+			PulseHdr25 = 35,
+			PulseHdr26 = 36,
+			PulseHdr27 = 37,
+			PulseHdr28 = 38,
+			PulseHdr29 = 39,
+			PulseHdr30 = 40,
+			PulseHdr31 = 41,
+			PulseHdr32 = 42,
+			PulseHdr33 = 43,
+			PulseHdr34 = 44,
+			PulseHdr35 = 45,
+			PulseHdr36 = 46,
+			PulseHdr37 = 47,
+			PulseHdr38 = 48,
+			PulseHdr39 = 49,
+			PulseHdr40 = 50,
+			PulseHdr41 = 51,
+			PulseHdr42 = 52,
+			PulseHdr43 = 53,
+			PulseHdr44 = 54,
+			PulseHdr45 = 55,
+			PulseHdr46 = 56,
+			PulseHdr47 = 57,
+			PulseHdr48 = 58,
+			PulseHdr49 = 59,
+			PulseHdr50 = 60,
+			PulseHdr51 = 61,
+			PulseHdr52 = 62,
+			PulseHdr53 = 63,
+			PulseHdr54 = 64,
+			PulseHdr55 = 65,
+			PulseHdr56 = 66,
+			PulseHdr57 = 67,
+			PulseHdr58 = 68,
+			PulseHdr59 = 69,
+			PulseHdr60 = 70,
+			PulseHdr61 = 71,
+			PulseHdr62 = 72,
+			PulseHdr63 = 73,
+			FrameHdr00 = 80,
+			FrameHdr01 = 81,
+			FrameHdr02 = 82,
+			FrameHdr03 = 83,
+			FrameHdr04 = 84,
+			FrameHdr05 = 85,
+			FrameHdr06 = 86,
+			FrameHdr07 = 87,
+			PulseHit00 = 90,
+			PulseHit01 = 91,
+			PulseHit02 = 92,
+			PulseHit03 = 93,
+			PulseHit04 = 94,
+			PulseHit05 = 95,
+			PulseHit06 = 96,
+			PulseHit07 = 97,
+		} m_status;
 	private:
-		uint32_t  m_bcount;
-		ProStatus m_status;
-		uint32_t  m_return;
-	private:
-		void U32_1st(uint8_t* Input, uint32_t* Output);
-		void U32_2ed(uint8_t* Input, uint32_t* Output);
-		void U32_3rd(uint8_t* Input, uint32_t* Output);
-		void U32_4th(uint8_t* Input, uint32_t* Output);
                 
 		void     Decode_PulseHdr00(uint8_t* Input);
+		void     Decode_PulseHdr02(uint8_t* Input);
 		uint32_t Decode_PulseHit00(uint8_t* Input);
-		void     Decode_PulseEnd00(uint8_t* Input);
+		void     Decode_FrameHdr00(uint8_t* Input);
 
 	public:
 		DecodeMWPCRawData();
 		~DecodeMWPCRawData(){};
 
-		uint32_t Decode_RawDataSegment(uint8_t *buff);
-		DecodeMWPCRawData::ProStatus Get_ProStatus(){return m_status;}
+		ProStatus Get_ProStatus(){return m_status;}
 		void Set_ProStatus(ProStatus status){m_status = status;}
 
-                void U24to2U12(uint32_t* Input, uint32_t* Output_1, uint32_t* Ouput_2);
-                void U8to2U4(uint32_t* Input, uint32_t* Output_1, uint32_t* Ouput_2);
-                void U32toU12U20(uint32_t* Input, uint32_t* Output_1, uint32_t* Ouput_2);
-                void U32toU14U12U6(uint32_t* Input, uint32_t* Output_1, uint32_t* Ouput_2, uint32_t* Ouput_3);
+		uint32_t Decode_RawDataSegment(uint8_t *buff);
+
 };
 
 

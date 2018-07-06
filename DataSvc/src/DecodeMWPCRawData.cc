@@ -31,68 +31,45 @@ DecodeMWPCRawData::DecodeMWPCRawData()
 };
 
 //====================
-void DecodeMWPCRawData::U32toU14U12U6(uint32_t *Input, uint32_t *Output_1, uint32_t *Output_2, uint32_t *Output_3){
-	*Output_1 = (((((uint32_t)(*Input))&0xFFFFFFFF)>>18)&0x3FFF);
-	*Output_2 = (((((uint32_t)(*Input))&0x3FFFF)>>6)&0xFFF);
-	*Output_3 =   (((uint32_t)(*Input))&0x3F);
-};
-
-void DecodeMWPCRawData::U24to2U12(uint32_t *Input, uint32_t *Output_1, uint32_t *Output_2){
-	*Output_1 = (((((uint32_t)(*Input))&0xFFFFFF)>>12)&0xFFF);
-	*Output_2 =   (((uint32_t)(*Input))&0xFFF);
-};
-
-void DecodeMWPCRawData::U8to2U4(uint32_t *Input, uint32_t *Output_1, uint32_t *Output_2){
-	*Output_1 = (((((uint32_t)(*Input))&0xFF)>>4)&0xF);
-	*Output_2 =   (((uint32_t)(*Input))&0xF);
-};
-
-void DecodeMWPCRawData::U32toU12U20(uint32_t *Input, uint32_t *Output_1, uint32_t *Output_2){
-	*Output_1 = ((((uint32_t)(*Input))>>20)&0xFFF);
-	*Output_2 =  (((uint32_t)(*Input))&0xFFFFF);
-};
-
-//====================
-void DecodeMWPCRawData::U32_1st(uint8_t *Input, uint32_t *Output){
-	*Output = (((((uint32_t)(*Input))&0xFF)<<24)&0xFF000000);
-};
-
-void DecodeMWPCRawData::U32_2ed(uint8_t *Input, uint32_t *Output){
-	*Output |= (((((uint32_t)(*Input)&0xFF))<<16)&0xFF0000);
-};
-
-void DecodeMWPCRawData::U32_3rd(uint8_t *Input, uint32_t *Output){
-	*Output |= (((((uint32_t)(*Input)&0xFF))<<8)&0xFF00);
-};
-
-void DecodeMWPCRawData::U32_4th(uint8_t *Input, uint32_t *Output){
-	*Output |= ((((uint32_t)(*Input)&0xFF))&0xFF);
-};
-
-//====================
 void DecodeMWPCRawData::Decode_PulseHdr00(uint8_t *Input){
-	if(0xFA == *Input) m_status = PulseHdr00;
+        // END
+	if(0xEE == *Input) m_status = PulseHdr00;
+	else m_status = PExecReady;
+	//std::cout << "Pulse HDR00 " << std::endl;
+};
+
+void DecodeMWPCRawData::Decode_PulseHdr02(uint8_t *Input){
+	// BEGIN
+	if(0x34 == *Input) {
+		m_status = PulseHdr02;
+		//std::cout << "Pulse HDR02 " << std::endl;
+	}
 	else m_status = PExecReady;
 };
 
-uint32_t DecodeMWPCRawData::Decode_PulseHit00(uint8_t *Input){
-	m_return = 0x0;
-	if(0xFB == *Input) m_status = PulseEnd00;
-	else{
-		m_return = (uint32_t)(*Input);
-                //uint32_t value1, value2;
-                //U8to2U4(&m_return, &value1, &value2);
-                m_status = PulseHit00;
-                //else m_status = PExecError; 
-	}
-	return m_return;
+void DecodeMWPCRawData::Decode_FrameHdr00(uint8_t *Input){
+	if(0xAA == *Input)m_status = FrameHdr00;
+	else m_status = PExecError;
+	//std::cout << "Frame HDR " << std::endl;
 };
 
-void DecodeMWPCRawData::Decode_PulseEnd00(uint8_t *Input){
-	if(0xFB == *Input)m_status = PulseEnd00;
-	else m_status = PExecError;
-	//std::cout << "Cannot find End: " << std::endl;
-	//printf("     Input %x\n",*Input);
+uint32_t DecodeMWPCRawData::Decode_PulseHit00(uint8_t *Input){
+	//std::cout << "Hit " << std::endl;
+	m_return = 0x0;
+	if(0xEE == *Input) {
+		//std::cout << "Pulse HDR00 " << std::endl;
+		m_status = PulseHdr00;
+	}
+	else if(0xAA == *Input) {
+		//std::cout << "Frame HDR " << std::endl;
+		m_status = FrameHdr00;
+	}
+	else{
+		//std::cout << "Hit " << std::endl;
+		m_return = (uint32_t)(*Input);
+		m_status = PulseHit00;
+	}
+	return m_return;
 };
 
 uint32_t DecodeMWPCRawData::Decode_RawDataSegment(uint8_t *ReadRawData){
@@ -101,94 +78,371 @@ uint32_t DecodeMWPCRawData::Decode_RawDataSegment(uint8_t *ReadRawData){
 	switch(m_status){
 		//================ Hdr ================
 		case PExecReady:
-			Decode_PulseHdr00(ReadRawData);
+			Decode_PulseHdr02(ReadRawData);
 			break;
-		case PulseEnd07:
-			Decode_PulseHdr00(ReadRawData);
+		case PulseHit07:
+			m_return = Decode_PulseHit00(ReadRawData);
 			break;
 		case PulseHdr00:
-			// instrument id
-			m_return = (uint32_t)(*ReadRawData);
-			m_status = PulseHdr01;
+			// PulseHdr 1
+			if(0x12 == *ReadRawData) m_status = PulseHdr01;
+			else m_status = PExecError;
 			break;
 		case PulseHdr01:
-			// detector id
-			m_return = (uint32_t)(*ReadRawData);
-			m_status = PulseHdr02;
+			// PulseHdr 2
+			Decode_PulseHdr02(ReadRawData);
 			break;
 		case PulseHdr02:
-			// module id
-			m_return = (uint32_t)(*ReadRawData);
-			m_status = PulseHdr03;
+			// PulseHdr 3
+			if(0xEE == *ReadRawData) m_status = PulseHdr03;
+			else m_status = PExecError;
 			break;
+			//================ 01 line of hdr ================
 		case PulseHdr03:
-			// run
+			// instrument ID
 			m_return = (uint32_t)(*ReadRawData);
 			m_status = PulseHdr04;
 			break;
 		case PulseHdr04:
-			// frame 
+			// detector ID 
 			m_return = (uint32_t)(*ReadRawData);
 			m_status = PulseHdr05;
 			break;
 		case PulseHdr05:
-			// version
+			// reserve1[0]
 			m_return = (uint32_t)(*ReadRawData);
 			m_status = PulseHdr06;
 			break;
 		case PulseHdr06:
-			// data type 
+			// reserve1[1]
 			m_return = (uint32_t)(*ReadRawData);
 			m_status = PulseHdr07;
 			break;
-			//================ Byte Count ================
+			//================ 02 line of hdr ================
 		case PulseHdr07:
-			m_return = 0x0;
-			U32_1st(ReadRawData, &m_return);
+			// run mode
+			m_return = (uint32_t)(*ReadRawData);
 			m_status = PulseHdr08;
 			break;
 		case PulseHdr08:
-			U32_2ed(ReadRawData, &m_return);
+			// frame
+			m_return = (uint32_t)(*ReadRawData);
 			m_status = PulseHdr09;
 			break;
 		case PulseHdr09:
-			U32_3rd(ReadRawData, &m_return);
+			// version
+			m_return = (uint32_t)(*ReadRawData);
 			m_status = PulseHdr10;
 			break;
 		case PulseHdr10:
-			U32_4th(ReadRawData, &m_return);
+			// data type
+			m_return = (uint32_t)(*ReadRawData);
 			m_status = PulseHdr11;
 			break;
-			//================ T0 ================
+			//================ 03 line of hdr ================
 		case PulseHdr11:
-			m_return = 0x0;
-			U32_1st(ReadRawData, &m_return);
+			// m1 & m2 status
+			m_return = (uint32_t)(*ReadRawData);
 			m_status = PulseHdr12;
 			break;
 		case PulseHdr12:
-			U32_2ed(ReadRawData, &m_return);
+			// m3 & m4 status
+			m_return = (uint32_t)(*ReadRawData);
 			m_status = PulseHdr13;
 			break;
 		case PulseHdr13:
-			U32_3rd(ReadRawData, &m_return);
+			// m5 & m6 status
+			m_return = (uint32_t)(*ReadRawData);
 			m_status = PulseHdr14;
 			break;
 		case PulseHdr14:
-			U32_4th(ReadRawData, &m_return);
+			// reserve2
+			m_return = (uint32_t)(*ReadRawData);
 			m_status = PulseHdr15;
 			m_bcount = 16;
 			break;
-			//================ Hit 0================
+			//================ 04 line of hdr ================
+			//================ Module 1 Byte count ===========
 		case PulseHdr15:
-                        // channel
-			m_return = Decode_PulseHit00(ReadRawData);
+			m_return = 0x0;
+			U32_1st(ReadRawData, &m_return);
+			m_status = PulseHdr16;
 			break;
-		case PulseHit07:
-                        // channel
+		case PulseHdr16:
+			U32_2ed(ReadRawData, &m_return);
+			m_status = PulseHdr17;
+			break;
+		case PulseHdr17:
+			U32_3rd(ReadRawData, &m_return);
+			m_status = PulseHdr18;
+			break;
+		case PulseHdr18:
+			U32_4th(ReadRawData, &m_return);
+			m_status = PulseHdr19;
+			m_bcount += 4;
+			break;
+			//================ 05 line of hdr ================
+			//================ Module 2 Byte count ===========
+		case PulseHdr19:
+			m_return = 0x0;
+			U32_1st(ReadRawData, &m_return);
+			m_status = PulseHdr20;
+			break;
+		case PulseHdr20:
+			U32_2ed(ReadRawData, &m_return);
+			m_status = PulseHdr21;
+			break;
+		case PulseHdr21:
+			U32_3rd(ReadRawData, &m_return);
+			m_status = PulseHdr22;
+			break;
+		case PulseHdr22:
+			U32_4th(ReadRawData, &m_return);
+			m_status = PulseHdr23;
+			m_bcount += 4;
+			break;
+			//================ 06 line of hdr ================
+			//================ Module 3 Byte count ===========
+		case PulseHdr23:
+			m_return = 0x0;
+			U32_1st(ReadRawData, &m_return);
+			m_status = PulseHdr24;
+			break;
+		case PulseHdr24:
+			U32_2ed(ReadRawData, &m_return);
+			m_status = PulseHdr25;
+			break;
+		case PulseHdr25:
+			U32_3rd(ReadRawData, &m_return);
+			m_status = PulseHdr26;
+			break;
+		case PulseHdr26:
+			U32_4th(ReadRawData, &m_return);
+			m_status = PulseHdr27;
+			m_bcount += 4;
+			break;
+			//================ 07 line of hdr ================
+			//================ Module 4 Byte count ===========
+		case PulseHdr27:
+			m_return = 0x0;
+			U32_1st(ReadRawData, &m_return);
+			m_status = PulseHdr28;
+			break;
+		case PulseHdr28:
+			U32_2ed(ReadRawData, &m_return);
+			m_status = PulseHdr29;
+			break;
+		case PulseHdr29:
+			U32_3rd(ReadRawData, &m_return);
+			m_status = PulseHdr30;
+			break;
+		case PulseHdr30:
+			U32_4th(ReadRawData, &m_return);
+			m_status = PulseHdr31;
+			m_bcount += 4;
+			break;
+			//================ 08 line of hdr ================
+			//================ Module 5 Byte count ===========
+		case PulseHdr31:
+			m_return = 0x0;
+			U32_1st(ReadRawData, &m_return);
+			m_status = PulseHdr32;
+			break;
+		case PulseHdr32:
+			U32_2ed(ReadRawData, &m_return);
+			m_status = PulseHdr33;
+			break;
+		case PulseHdr33:
+			U32_3rd(ReadRawData, &m_return);
+			m_status = PulseHdr34;
+			break;
+		case PulseHdr34:
+			U32_4th(ReadRawData, &m_return);
+			m_status = PulseHdr35;
+			m_bcount += 4;
+			break;
+			//================ 09 line of hdr ================
+			//================ Module 6 Byte count ===========
+		case PulseHdr35:
+			m_return = 0x0;
+			U32_1st(ReadRawData, &m_return);
+			m_status = PulseHdr36;
+			break;
+		case PulseHdr36:
+			U32_2ed(ReadRawData, &m_return);
+			m_status = PulseHdr37;
+			break;
+		case PulseHdr37:
+			U32_3rd(ReadRawData, &m_return);
+			m_status = PulseHdr38;
+			break;
+		case PulseHdr38:
+			U32_4th(ReadRawData, &m_return);
+			m_status = PulseHdr39;
+			m_bcount += 4;
+			break;
+			//================ 10 line of hdr ================
+			//================ T0 count ======================
+		case PulseHdr39:
+			m_return = 0x0;
+			U32_1st(ReadRawData, &m_return);
+			m_status = PulseHdr40;
+			break;
+		case PulseHdr40:
+			U32_2ed(ReadRawData, &m_return);
+			m_status = PulseHdr41;
+			break;
+		case PulseHdr41:
+			U32_3rd(ReadRawData, &m_return);
+			m_status = PulseHdr42;
+			break;
+		case PulseHdr42:
+			U32_4th(ReadRawData, &m_return);
+			m_status = PulseHdr43;
+			m_bcount += 4;
+			break;
+			//================ 11 line of hdr ================
+			//================ Byte count ====================
+		case PulseHdr43:
+			m_return = 0x0;
+			U32_1st(ReadRawData, &m_return);
+			m_status = PulseHdr44;
+			break;
+		case PulseHdr44:
+			U32_2ed(ReadRawData, &m_return);
+			m_status = PulseHdr45;
+			break;
+		case PulseHdr45:
+			U32_3rd(ReadRawData, &m_return);
+			m_status = PulseHdr46;
+			break;
+		case PulseHdr46:
+			U32_4th(ReadRawData, &m_return);
+			m_status = PulseHdr47;
+			m_bcount += 4;
+			break;
+			//================ 12 line of hdr ================
+			//================ Number of Frame ===============
+		case PulseHdr47:
+			m_return = 0x0;
+			U32_1st(ReadRawData, &m_return);
+			m_status = PulseHdr48;
+			break;
+		case PulseHdr48:
+			U32_2ed(ReadRawData, &m_return);
+			m_status = PulseHdr49;
+			break;
+		case PulseHdr49:
+			U32_3rd(ReadRawData, &m_return);
+			m_status = PulseHdr50;
+			break;
+		case PulseHdr50:
+			U32_4th(ReadRawData, &m_return);
+			m_status = PulseHdr51;
+			m_bcount += 4;
+			break;
+			//================ 13 line of hdr ================
+			//================ reserve3       ===============
+		case PulseHdr51:
+			m_return = (uint32_t)(*ReadRawData);
+			m_status = PulseHdr52;
+			break;
+		case PulseHdr52:
+			m_return = (uint32_t)(*ReadRawData);
+			m_status = PulseHdr53;
+			break;
+		case PulseHdr53:
+			m_return = (uint32_t)(*ReadRawData);
+			m_status = PulseHdr54;
+			break;
+		case PulseHdr54:
+			m_return = (uint32_t)(*ReadRawData);
+			m_status = PulseHdr55;
+			m_bcount += 4;
+			break;
+			//================ 14 line of hdr ================
+			//================ reserve4       ===============
+		case PulseHdr55:
+			m_return = (uint32_t)(*ReadRawData);
+			m_status = PulseHdr56;
+			break;
+		case PulseHdr56:
+			m_return = (uint32_t)(*ReadRawData);
+			m_status = PulseHdr57;
+			break;
+		case PulseHdr57:
+			m_return = (uint32_t)(*ReadRawData);
+			m_status = PulseHdr58;
+			break;
+		case PulseHdr58:
+			m_return = (uint32_t)(*ReadRawData);
+			m_status = PulseHdr59;
+			m_bcount += 4;
+			break;
+			//================ 15 line of hdr ================
+			//================ reserve5       ===============
+		case PulseHdr59:
+			m_return = (uint32_t)(*ReadRawData);
+			m_status = PulseHdr60;
+			break;
+		case PulseHdr60:
+			m_return = (uint32_t)(*ReadRawData);
+			m_status = PulseHdr61;
+			break;
+		case PulseHdr61:
+			m_return = (uint32_t)(*ReadRawData);
+			m_status = PulseHdr62;
+			break;
+		case PulseHdr62:
+			m_return = (uint32_t)(*ReadRawData);
+			m_status = PulseHdr63;
+			m_bcount += 4;
+			break;
+			//================ Frame Hdr       ===============
+		case PulseHdr63:
+			Decode_FrameHdr00(ReadRawData);
+			break;
+		case FrameHdr00:
+			// TDataID
+			m_return = 0x0;
+			U32_2ed(ReadRawData, &m_return);
+			m_status = FrameHdr01;
+			break;
+		case FrameHdr01:
+			U32_3rd(ReadRawData, &m_return);
+			m_status = FrameHdr02;
+			break;
+		case FrameHdr02:
+			U32_4th(ReadRawData, &m_return);
+			m_status = FrameHdr03;
+			m_bcount += 4;
+			break;
+			//================ Number of Event ===============
+		case FrameHdr03:
+			m_return = 0x0;
+			U32_1st(ReadRawData, &m_return);
+			m_status = FrameHdr04;
+			break;
+		case FrameHdr04:
+			U32_2ed(ReadRawData, &m_return);
+			m_status = FrameHdr05;
+			break;
+		case FrameHdr05:
+			U32_3rd(ReadRawData, &m_return);
+			m_status = FrameHdr06;
+			break;
+		case FrameHdr06:
+			U32_4th(ReadRawData, &m_return);
+			m_status = FrameHdr07;
+			m_bcount += 4;
+			break;
+			//================ Hit 1================
+		case FrameHdr07:
+			// Channel
 			m_return = Decode_PulseHit00(ReadRawData);
 			break;
 		case PulseHit00:
-			// TOF
+			// TData
 			m_return = 0x0;
 			U32_2ed(ReadRawData, &m_return);
 			m_status = PulseHit01;
@@ -202,14 +456,14 @@ uint32_t DecodeMWPCRawData::Decode_RawDataSegment(uint8_t *ReadRawData){
 			m_status = PulseHit03;
 			m_bcount += 4;
 			break;
-			//================ Hit 1================
+			//================ Hit 2================
 		case PulseHit03:
-                        // Channel
+			// Channel
 			m_return = (uint32_t)(*ReadRawData);
 			m_status = PulseHit04;
 			break;
 		case PulseHit04:
-                        // Baseline(12bit) & Q(12bit)
+			// Baseline & QData
 			m_return = 0x0;
 			U32_2ed(ReadRawData, &m_return);
 			m_status = PulseHit05;
@@ -222,39 +476,6 @@ uint32_t DecodeMWPCRawData::Decode_RawDataSegment(uint8_t *ReadRawData){
 			U32_4th(ReadRawData, &m_return);
 			m_status = PulseHit07;
 			m_bcount += 4;
-			break;
-			//================ End ================
-		case PulseEnd00:
-			// status
-			m_return = 0x0;
-			U32_2ed(ReadRawData, &m_return);
-			m_status = PulseEnd01;
-			break;
-		case PulseEnd01:
-			U32_3rd(ReadRawData, &m_return);
-			m_status = PulseEnd02;
-			break;
-		case PulseEnd02:
-			U32_4th(ReadRawData, &m_return);
-			m_status = PulseEnd03;
-			m_bcount += 4;
-			break;
-			//================ Filling 0x0 ================
-		case PulseEnd03:
-			U32_1st(ReadRawData, &m_return);
-			m_status = PulseEnd04;
-			break;
-		case PulseEnd04:
-			U32_2ed(ReadRawData, &m_return);
-			m_status = PulseEnd05;
-			break;
-		case PulseEnd05:
-			U32_3rd(ReadRawData, &m_return);
-			m_status = PulseEnd06;
-			break;
-		case PulseEnd06:
-			U32_4th(ReadRawData, &m_return);
-			m_status = PulseEnd07;
 			break;
 		default:
 			m_status = PExecReady;

@@ -28,7 +28,7 @@ if __name__ == "__main__":
     iSvc = task.find("DataInputSvc")
     iPvd = task.find("DataProvideSvc")
 
-    filelist = ["data/HE3_rawdata_bin_10.1.31.70_24_20171011145145.dat"]
+    filelist = ["data/pack220180623212321.dat"]
     iPvd.property("InputFile").set(filelist) #"N_3Cdmaskslit.dat", 
     iSvc.property("BuffSize").set(5000)
 

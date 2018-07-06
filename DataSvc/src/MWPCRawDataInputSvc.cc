@@ -92,10 +92,12 @@ bool MWPCRawDataInputSvc::next() {
 	enum Status{
 		hdr0,
 		hdr1,
+                fam0,
+                fam1,
 		hit0,
 		hit1,
-		end0,
-		end1,
+                end0,
+                end1,
 		redy,
 	}status;
 
@@ -114,58 +116,202 @@ STARTNEXT:
 			value = m_decoder->Decode_RawDataSegment(ReadRawData);
 			//printf("MWPCRawDataInputSvc ReadRawData %x\n",*ReadRawData);
 			//LogInfo << "Pro Status: " << m_decoder->Get_ProStatus() << std::endl;
+                        //if(0xEE == *ReadRawData)std::cout << "NEXT PULSE" << std::endl;
 
 			switch(m_decoder->Get_ProStatus()){
-				//================ Hdr ================
+				//================ Hdr line 00 ================
 				case DecodeMWPCRawData::PulseHdr00:
-					status = hdr0;
-					//LogInfo << "HDR" << std::endl;
+					status = end0;
 					break;
 				case DecodeMWPCRawData::PulseHdr01:
-					npulse->setInstrument(value);
+					status = end1;
 					break;
 				case DecodeMWPCRawData::PulseHdr02:
-					npulse->setDetector(value);
+					//std::cout << "HDR02" << std::endl;
+					status = hdr0;
 					break;
 				case DecodeMWPCRawData::PulseHdr03:
-					npulse->setModule(value);
+					status = hdr1;
 					break;
+				//================ Hdr line 01 ================
 				case DecodeMWPCRawData::PulseHdr04:
-					npulse->setRunMode(value);
+					npulse->setInstrument(value);
 					break;
 				case DecodeMWPCRawData::PulseHdr05:
-					npulse->setFrame(value);
+					npulse->setDetector(value);
 					break;
 				case DecodeMWPCRawData::PulseHdr06:
-					npulse->setVersion(value);
 					break;
 				case DecodeMWPCRawData::PulseHdr07:
-					//npulse->setDataType(value);
 					break;
-					//================ Byte Cnt ================
+				//================ Hdr line 02 ================
 				case DecodeMWPCRawData::PulseHdr08:
+					npulse->setRunMode(value);
 					break;
 				case DecodeMWPCRawData::PulseHdr09:
+					npulse->setFrame(value);
 					break;
 				case DecodeMWPCRawData::PulseHdr10:
+					npulse->setVersion(value);
 					break;
 				case DecodeMWPCRawData::PulseHdr11:
-					npulse->setCount(value);
+					//npulse->setDataType(value);
+					break;
+				//================ Hdr line 03 ================
+				case DecodeMWPCRawData::PulseHdr12:
+                                        m_decoder->U8to2U4(&value, &value1, &value2);
+					break;
+				case DecodeMWPCRawData::PulseHdr13:
+                                        m_decoder->U8to2U4(&value, &value1, &value2);
+					break;
+				case DecodeMWPCRawData::PulseHdr14:
+                                        m_decoder->U8to2U4(&value, &value1, &value2);
+					break;
+				case DecodeMWPCRawData::PulseHdr15:
+					break;
+				//================ Hdr line 04 ================
+				case DecodeMWPCRawData::PulseHdr16:
+					break;
+				case DecodeMWPCRawData::PulseHdr17:
+					break;
+				case DecodeMWPCRawData::PulseHdr18:
+					break;
+				case DecodeMWPCRawData::PulseHdr19:
+					break;
+				//================ Hdr line 05 ================
+				case DecodeMWPCRawData::PulseHdr20:
+					break;
+				case DecodeMWPCRawData::PulseHdr21:
+					break;
+				case DecodeMWPCRawData::PulseHdr22:
+					break;
+				case DecodeMWPCRawData::PulseHdr23:
+					break;
+				//================ Hdr line 06 ================
+				case DecodeMWPCRawData::PulseHdr24:
+					break;
+				case DecodeMWPCRawData::PulseHdr25:
+					break;
+				case DecodeMWPCRawData::PulseHdr26:
+					break;
+				case DecodeMWPCRawData::PulseHdr27:
+					break;
+				//================ Hdr line 07 ================
+				case DecodeMWPCRawData::PulseHdr28:
+					break;
+				case DecodeMWPCRawData::PulseHdr29:
+					break;
+				case DecodeMWPCRawData::PulseHdr30:
+					break;
+				case DecodeMWPCRawData::PulseHdr31:
+					break;
+				//================ Hdr line 08 ================
+				case DecodeMWPCRawData::PulseHdr32:
+					break;
+				case DecodeMWPCRawData::PulseHdr33:
+					break;
+				case DecodeMWPCRawData::PulseHdr34:
+					break;
+				case DecodeMWPCRawData::PulseHdr35:
+					break;
+				//================ Hdr line 09 ================
+				case DecodeMWPCRawData::PulseHdr36:
+					break;
+				case DecodeMWPCRawData::PulseHdr37:
+					break;
+				case DecodeMWPCRawData::PulseHdr38:
+					break;
+				case DecodeMWPCRawData::PulseHdr39:
+					break;
+				//================ Hdr line 10 ================
+				//================ T0          ================
+				case DecodeMWPCRawData::PulseHdr40:
+					break;
+				case DecodeMWPCRawData::PulseHdr41:
+					break;
+				case DecodeMWPCRawData::PulseHdr42:
+					break;
+				case DecodeMWPCRawData::PulseHdr43:
+					npulse->setT0(value);
 					//std::cout << std::dec << "bitcount " << value << std::endl;
 					//std::cout << std::hex << "T0 " << value << std::endl;
 					break;
-					//================ T0 ================
-				case DecodeMWPCRawData::PulseHdr12:
+				//================ Hdr line 11 ================
+				//================ Count       ================
+				case DecodeMWPCRawData::PulseHdr44:
 					break;
-				case DecodeMWPCRawData::PulseHdr13:
+				case DecodeMWPCRawData::PulseHdr45:
 					break;
-				case DecodeMWPCRawData::PulseHdr14:
+				case DecodeMWPCRawData::PulseHdr46:
 					break;
-				case DecodeMWPCRawData::PulseHdr15:
-					npulse->setT0(value);
+				case DecodeMWPCRawData::PulseHdr47:
+					npulse->setCount(value);
+					break;
+				//================ Hdr line 12 ================
+				//================ Number of Frame ============
+				case DecodeMWPCRawData::PulseHdr48:
+					break;
+				case DecodeMWPCRawData::PulseHdr49:
+					break;
+				case DecodeMWPCRawData::PulseHdr50:
+					break;
+				case DecodeMWPCRawData::PulseHdr51:
+					break;
+				//================ Hdr line 13 ================
+				//================ Reserve 3   ================
+				case DecodeMWPCRawData::PulseHdr52:
+					break;
+				case DecodeMWPCRawData::PulseHdr53:
+					break;
+				case DecodeMWPCRawData::PulseHdr54:
+					break;
+				case DecodeMWPCRawData::PulseHdr55:
+					break;
+				//================ Hdr line 14 ================
+				//================ Reserve 4   ================
+				case DecodeMWPCRawData::PulseHdr56:
+					break;
+				case DecodeMWPCRawData::PulseHdr57:
+					break;
+				case DecodeMWPCRawData::PulseHdr58:
+					break;
+				case DecodeMWPCRawData::PulseHdr59:
+					break;
+				//================ Hdr line 15 ================
+				//================ Reserve 5   ================
+				case DecodeMWPCRawData::PulseHdr60:
+					break;
+				case DecodeMWPCRawData::PulseHdr61:
+					break;
+				case DecodeMWPCRawData::PulseHdr62:
+					break;
+				case DecodeMWPCRawData::PulseHdr63:
 					status = hdr1;
 					break;
-					//================ Hit ================
+			        //================ Frame Hdr 1 ================
+				//================ TData ID    ================
+				case DecodeMWPCRawData::FrameHdr00:
+                                        //std::cout << "Frame HDR" << std::endl;
+					status = fam0;
+					break;
+				case DecodeMWPCRawData::FrameHdr01:
+					break;
+				case DecodeMWPCRawData::FrameHdr02:
+					break;
+				case DecodeMWPCRawData::FrameHdr03:
+					break;
+			        //================ Frame Hdr 2 ================
+				//================ Number of Event ============
+				case DecodeMWPCRawData::FrameHdr04:
+					break;
+				case DecodeMWPCRawData::FrameHdr05:
+					break;
+				case DecodeMWPCRawData::FrameHdr06:
+					break;
+				case DecodeMWPCRawData::FrameHdr07:
+					status = fam1;
+					break;
+			        //================ Hit ================
 				case DecodeMWPCRawData::PulseHit00:
 					status = hit0;
 					hit = hitcol->add_item();
@@ -198,26 +344,6 @@ STARTNEXT:
 					//std::cout << "Charge:   " << hit->getCharge() << std::endl;
                                         status = hit1;
                                         break;
-					//================ End ================
-				case DecodeMWPCRawData::PulseEnd00:
-					status = end0;
-					break;
-				case DecodeMWPCRawData::PulseEnd01:
-					break;
-				case DecodeMWPCRawData::PulseEnd02:
-					break;
-				case DecodeMWPCRawData::PulseEnd03:
-					npulse->setStatus(value);
-					break;
-				case DecodeMWPCRawData::PulseEnd04:
-					break;
-				case DecodeMWPCRawData::PulseEnd05:
-					break;
-				case DecodeMWPCRawData::PulseEnd06:
-					break;
-				case DecodeMWPCRawData::PulseEnd07:
-					status = end1;
-					break;
 					//================ Exe ================
 				case DecodeMWPCRawData::PExecReady:
 					//std::cout << "Ready: " << std::endl;
