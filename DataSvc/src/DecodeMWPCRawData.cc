@@ -87,6 +87,7 @@ uint32_t DecodeMWPCRawData::Decode_RawDataSegment(uint8_t *ReadRawData){
 	switch(m_status){
 		//================ Hdr ================
 		case PExecReady:
+                        //std::cout << "Ready" << std::endl;
 			Decode_PulsePre00(ReadRawData);
 			break;
 		case PulsePre00:
