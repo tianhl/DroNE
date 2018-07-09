@@ -25,8 +25,10 @@
 
 class MWPCHit:public DataObject{
 	public:
-		MWPCHit(){m_chn=0;m_tof=0;m_charge=0;};
-		MWPCHit(uint32_t chn, uint32_t tof, uint32_t charge){m_chn=chn;m_tof=tof;m_charge=charge;};
+		MWPCHit(){m_chn=0;m_tof=0;m_charge=0;m_tdataid=0;};
+		MWPCHit(uint32_t chn, uint32_t tof, uint32_t charge, uint32_t tdataid){
+			m_chn=chn;m_tof=tof;m_charge=charge;m_tdataid=tdataid;
+		};
 		virtual ~MWPCHit(){};
 
 		const uint32_t getChannel() const { return m_chn; }
@@ -41,11 +43,15 @@ class MWPCHit:public DataObject{
 		const uint32_t getBaseline() const { return m_baseline; }
 		void  setBaseline(uint32_t baseline) { m_baseline = baseline; }
 
+		const uint32_t getTDataID() const { return m_tdataid; }
+		void  setTDataID(uint32_t tdataid) { m_tdataid = tdataid; }
+
 	private:
 		uint32_t m_chn;
 		uint32_t m_tof;
 		uint32_t m_charge;
 		uint32_t m_baseline;
+		uint32_t m_tdataid;
 
 };
 

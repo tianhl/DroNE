@@ -85,9 +85,10 @@ bool MWPCRawDataInputSvc::finalize() {
 
 bool MWPCRawDataInputSvc::next() {
 	uint8_t *ReadRawData = NULL;
-	uint32_t value  = 0x0;
-	uint32_t value1 = 0x0;
-	uint32_t value2 = 0x0;
+	uint32_t value   = 0x0;
+	uint32_t value1  = 0x0;
+	uint32_t value2  = 0x0;
+        uint32_t tdataid = 0;
 	MWPCHit* hit;
 	enum Status{
 		hdr0,
@@ -106,6 +107,7 @@ bool MWPCRawDataInputSvc::next() {
 	MWPCHitList*  hitcol = m_dataSvc->getObj<MWPCHitList>("/pulse/hits");
 	EvtList*      evtcol = m_dataSvc->getObj<EvtList>("/pulse/evts");
 STARTNEXT:
+        tdataid = 0;
 	hitcol->clear();
 	evtcol->clear();
 	if(m_decoder->Get_ProStatus() != DecodeMWPCRawData::PulseHdr01)
@@ -305,6 +307,8 @@ STARTNEXT:
 				case DecodeMWPCRawData::FrameHdr02:
 					break;
 				case DecodeMWPCRawData::FrameHdr03:
+                                        tdataid = value;
+                                        //std::cout << "Get TData ID: " << tdataid << std::endl;
 					break;
 					//================ Frame Hdr 2 ================
 					//================ Number of Event ============
@@ -322,6 +326,8 @@ STARTNEXT:
 					status = hit0;
 					hit = hitcol->add_item();
 					hit->setChannel(value);
+					hit->setTDataID(tdataid);
+                                        //std::cout << "Set TData ID: " << hit->getTDataID() << std::endl;
 					//std::cout << "Channel: " << hit->getChannel() << std::endl;
 					break;
 				case DecodeMWPCRawData::PulseHit01:
@@ -334,7 +340,7 @@ STARTNEXT:
 					//std::cout << "TOF: " << hit->getTOF() << std::endl;
 					break;
 				case DecodeMWPCRawData::PulseHit04:
-					hit = hitcol->back();
+					//hit = hitcol->back();
 					//if(value != hit->getChannel()) std::cout << "Decodor ERROR!" << std::endl;
 					break;
 				case DecodeMWPCRawData::PulseHit05:
