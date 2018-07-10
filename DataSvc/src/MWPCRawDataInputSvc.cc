@@ -134,6 +134,9 @@ STARTNEXT:
 				case DecodeMWPCRawData::PulseHdr01:
 					status = end1;
 					break;
+				case DecodeMWPCRawData::PulseEnd00:
+					status = end1;
+					break;
 				case DecodeMWPCRawData::PulseHdr02:
 					//std::cout << "HDR02" << std::endl;
 					status = hdr0;

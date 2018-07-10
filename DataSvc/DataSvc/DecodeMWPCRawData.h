@@ -33,6 +33,7 @@ class DecodeMWPCRawData : public DecodeRawDataBase{
 			PExecError = 1,
 			PulsePre00 = 3,
 			PulsePre01 = 4,
+			PulseEnd00 = 5,
 			PulseHdr00 = 10,
 			PulseHdr01 = 11,
 			PulseHdr02 = 12,
