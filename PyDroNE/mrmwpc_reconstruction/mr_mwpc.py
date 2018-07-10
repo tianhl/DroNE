@@ -29,6 +29,7 @@ if __name__ == "__main__":
     iPvd = task.find("DataProvideSvc")
 
     filelist = ["data/pack220180623212321.dat"]
+    #filelist = ["data/dimstorefile.dat"]
     iPvd.property("InputFile").set(filelist) #"N_3Cdmaskslit.dat", 
     iSvc.property("BuffSize").set(5000)
 
@@ -37,6 +38,7 @@ if __name__ == "__main__":
 
     ## ===========================
     import Algorithms
+    task.property("algs").append("MRMWPCRecAlg")
 
     ## ===========================
     task.setEvtMax(-1)
