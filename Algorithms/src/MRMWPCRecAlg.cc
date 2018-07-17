@@ -99,7 +99,7 @@ MRMWPCRecAlg::initialize()
 
 	m_pulse = m_svc->getObj<NeutronPulse>("/pulse");
 	m_hitcol = m_svc->getObj<MWPCHitList>("/pulse/hits");
-	m_evtcol = m_svc->getObj<EvtList>("/pulse/evts");
+	m_evtcol = m_svc->getObj<EvtDList>("/pulse/evts");
 
 	return true;
 }
@@ -114,6 +114,7 @@ MRMWPCRecAlg::execute()
         uint32_t base[size];
         uint32_t tof[size];
         uint32_t sliceId[size];
+        std::cout << "============================ hit col size: " << size << std::endl;
 	for(uint32_t i = 0; i < size; i++){
 		MWPCHit* hit = m_hitcol->at(i);
                 ch[i]      = hit->getChannel();
@@ -486,10 +487,10 @@ void MRMWPCRecAlg::matchNeutron() {
             //if(DEBUG) cout << dec << "neutron X range: " << ((rangeX>>8)&0xff) << ", " << (rangeX&0xff) << ", slice: " << sliceX << ", center: " << hitX.center << ", Y range: " << ((rangeY>>8)&0xff) << ", " << (rangeY&0xff) << ", slice: " << sliceY << ", center: " << hitY.center << endl;
             
             //if(DEBUG) cout << hex << "find neutron: " << neutron.x << ", " << neutron.y << ", " << neutron.t << endl;
-		Evt* evt = m_evtcol->add_item();
-		evt->setX(0);
-		evt->setY(0);
-		evt->setTOF(0);
+		EvtD* evt = m_evtcol->add_item();
+		evt->setX(0.0);
+		evt->setY(0.0);
+		evt->setTOF(0.0);
             
 
         }

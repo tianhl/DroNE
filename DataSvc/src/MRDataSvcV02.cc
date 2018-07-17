@@ -21,7 +21,7 @@
 
 #include "Data/GPPDStatistic.h"
 #include "Data/Pulse.h"
-#include "Data/Evt.h"
+#include "Data/EvtD.h"
 #include "Data/MWPCHit.h"
 
 DECLARE_SERVICE(MRDataSvcV02);
@@ -48,7 +48,7 @@ bool MRDataSvcV02::initialize()
 
   this->regObj("/pulse",      new NeutronPulse);
   this->regObj("/pulse/hits", new MWPCHitList);
-  this->regObj("/pulse/evts", new EvtList);
+  this->regObj("/pulse/evts", new EvtDList);
 
 //============================
 // Simulation
@@ -56,7 +56,7 @@ bool MRDataSvcV02::initialize()
   this->branch("simulation");
   this->find("/simulation")->branch("evts");
 
-  this->regObj("/simulation/evts", new EvtList);
+  this->regObj("/simulation/evts", new EvtDList);
 
 //============================
 // Statistic

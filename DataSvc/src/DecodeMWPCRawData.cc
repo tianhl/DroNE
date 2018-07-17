@@ -79,6 +79,9 @@ void DecodeMWPCRawData::Decode_PulseHit00(uint8_t *Input){
 	else if(0xEE == *Input) m_status = PulseHdr00;
 	else if(0x00 == *Input) m_status = PulseEnd00;
 	else                    m_status = PulseHit00;
+        //if(m_status==PulseHdr00)std::cout <<"HDR" << std::endl;
+        //if(m_status==FrameHdr00)std::cout <<"FRA" << std::endl;
+        //if(m_status==PulseEnd00)std::cout <<"END" << std::endl;
 	m_return = (uint32_t)(*Input);
 };
 
@@ -92,7 +95,7 @@ uint32_t DecodeMWPCRawData::Decode_RawDataSegment(uint8_t *ReadRawData){
 			Decode_PulsePre00(ReadRawData);
                         break;
 		case PExecReady:
-                        //std::cout << "Ready" << std::endl;
+	                //printf("Ready: %x\n", *ReadRawData);
 			Decode_PulsePre00(ReadRawData);
 			break;
 		case PulsePre00:

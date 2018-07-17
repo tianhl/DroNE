@@ -19,7 +19,7 @@
 #include "SniperKernel/AlgBase.h"
 
 #include "Data/Pulse.h"
-#include "Data/Evt.h"
+#include "Data/EvtD.h"
 #include "Data/MWPCHit.h"
 
 
@@ -52,7 +52,7 @@ class MRMWPCRecAlg: public AlgBase
 	private:
 		int m_count;
 		MWPCHitList*  m_hitcol;
-		EvtList*      m_evtcol;
+		EvtDList*     m_evtcol;
 		NeutronPulse* m_pulse;
 		DataSvc* m_svc;
 

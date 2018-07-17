@@ -37,7 +37,7 @@
 #include <stdlib.h>
 
 #include "Data/Pulse.h"
-#include "Data/Evt.h"
+#include "Data/EvtD.h"
 #include "Data/ECal.h"
 #include "Data/MWPCHit.h"
 
@@ -105,7 +105,7 @@ bool MWPCRawDataInputSvc::next() {
 	//std::cout << "=========== new pulse ready =============" << std::endl;
 	NeutronPulse* npulse = m_dataSvc->getObj<NeutronPulse>("/pulse");
 	MWPCHitList*  hitcol = m_dataSvc->getObj<MWPCHitList>("/pulse/hits");
-	EvtList*      evtcol = m_dataSvc->getObj<EvtList>("/pulse/evts");
+	EvtDList*     evtcol = m_dataSvc->getObj<EvtDList>("/pulse/evts");
 STARTNEXT:
         tdataid = 0;
 	hitcol->clear();
@@ -135,6 +135,7 @@ STARTNEXT:
 					status = end1;
 					break;
 				case DecodeMWPCRawData::PulseEnd00:
+                                        std::cout << "REMOVE 0x00" << std::endl;
 					status = end1;
 					break;
 				case DecodeMWPCRawData::PulseHdr02:
@@ -344,7 +345,7 @@ STARTNEXT:
 					break;
 				case DecodeMWPCRawData::PulseHit04:
 					//hit = hitcol->back();
-					//if(value != hit->getChannel()) std::cout << "Decodor ERROR!" << std::endl;
+					if(value != hit->getChannel()) std::cout << "Decodor ERROR!" << std::endl;
 					break;
 				case DecodeMWPCRawData::PulseHit05:
 					break;
