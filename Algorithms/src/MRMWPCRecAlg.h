@@ -25,10 +25,10 @@
 
 #define SLICESIZE 50000 //max slice(800ns) number in 40ms
 #define EVENTSIZE 1600000 // max event number in 40ms
-#define SIGNALSIZE 114 // XCHANNELNUM+YCHANNELNUM
+#define SIGNALSIZE 144 // XCHANNELNUM+YCHANNELNUM
 #define XCHANNELNUM 50
 #define YCHANNELNUM 94
-
+#define DEBUG 0
 typedef struct {
 	float center;
 	float charge;
@@ -52,7 +52,7 @@ class MRMWPCRecAlg: public AlgBase
 	private:
 		int m_count;
 		MWPCHitList*  m_hitcol;
-		EvtDList*     m_evtcol;
+		EvtDList*      m_evtcol;
 		NeutronPulse* m_pulse;
 		DataSvc* m_svc;
 
@@ -69,8 +69,7 @@ class MRMWPCRecAlg: public AlgBase
 		uint32_t *signalMapXT, *signalMapYT; // inordered tof record for each slice signal in X and Y
 		uint16_t *signalMapXM, *signalMapYM, *signalMapXS, *signalMapYS, *signalMapXR, *signalMapYR; // matchN, slice, range((strip_high<<8)|strip_low) for each tof from above record in X and Y 
 		uint32_t *signalMapXIdx, *signalMapYIdx; // end number of record for each slice signal in X and y
-		uint32_t *matchX; // idx of matched Y for X
-		uint32_t *matchY;
+		uint32_t *matchX, *matchY; // idx of matched Y for X
 		uint32_t matchIdx;
 
 		Hit hitX, hitY;
@@ -94,12 +93,12 @@ class MRMWPCRecAlg: public AlgBase
 			for(uint16_t iter=signalIdx1; iter<=signalIdx2; iter++) {
 				Q = (float)eventMapCS[iter];
 				sumQ += Q;
-				sumW += Q*((float)iter+1.); // weighted strip number
+				sumW += Q*((float)iter+0.5); // weighted strip number
 				//if(DEBUG) cout << hex << "event , ch: " << iter << ", charge: " << Q << endl;
 			}
 			hit.charge = sumQ;
 			hit.nstrip = signalIdx2-signalIdx1+1;
-			hit.center = sumW/(sumQ+0.000001)-1.; // for safty
+			hit.center = sumW/(sumQ+0.000001); // for safty
 		}
 
 
