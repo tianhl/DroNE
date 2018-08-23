@@ -97,7 +97,7 @@ MRMWPCRecAlg::initialize()
 	}
 
 	m_svc = pSvc.data();
-	std::cout << "get DataSvc " << m_svc->objName() << std::endl;
+	//std::cout << "get DataSvc " << m_svc->objName() << std::endl;
 
 	m_pulse = m_svc->getObj<NeutronPulse>("/pulse");
 	m_hitcol = m_svc->getObj<MWPCHitList>("/pulse/hits");
@@ -222,7 +222,7 @@ void MRMWPCRecAlg::scanSlice(unsigned int *ch, unsigned int *Q, unsigned int *ba
 
 void MRMWPCRecAlg::processMap() {
     int sliceNumber = eventMapIdx;
-    if(DEBUG) cout << hex << "slice total number: " << sliceNumber << endl; 
+    //if(DEBUG) cout << hex << "slice total number: " << sliceNumber << endl; 
 
     if(sliceNumber==0) {
         //pre_tDataId = 0;
@@ -240,7 +240,7 @@ void MRMWPCRecAlg::processMap() {
     for(int idx=0; idx<sliceNumber; idx++) {
         sliceIdx1 = eventMapSlice[idx];
         sliceIdx2 = sliceIdx1+1;
-        if(DEBUG) cout << hex << "process slice " << sliceIdx1 << endl;
+        //if(DEBUG) cout << hex << "process slice " << sliceIdx1 << endl;
         eventMapTS1 = &eventMapT[sliceIdx1*SIGNALSIZE];
         eventMapTS2 = &eventMapT[sliceIdx2*SIGNALSIZE];
         eventMapCS1 = &eventMapC[sliceIdx1*SIGNALSIZE];
@@ -257,7 +257,7 @@ void MRMWPCRecAlg::processMap() {
                 cur_TOF = (eventMapTS1[cIdx]|eventMapTS2[cIdx]);
                 pre_SigIdx = cur_SigIdx;
                 cur_SigIdx = cIdx;
-                if(DEBUG) cout <<hex << "find one strip(>QMAX) " << cIdx << ", tof: " << cur_TOF << ", Q: " << cQ << ", corss: " << cross1 << "|" << cross2 << endl;
+                //if(DEBUG) cout <<hex << "find one strip(>QMAX) " << cIdx << ", tof: " << cur_TOF << ", Q: " << cQ << ", corss: " << cross1 << "|" << cross2 << endl;
                 if(signalIdx1==-1) {
                     signalIdx1 = cur_SigIdx;
                     signalIdx2 = cur_SigIdx;
@@ -280,7 +280,7 @@ void MRMWPCRecAlg::processMap() {
                     }
                     else {
                         if(cross1>0) {
-                            if(DEBUG) cout << "find signal " << signalIdx1 << ", " << signalIdx2 << endl;
+                            //if(DEBUG) cout << "find signal " << signalIdx1 << ", " << signalIdx2 << endl;
                             if(cross2!=0) {
                                 memcpy(&eventMapCS1[signalIdx1], sBuffer, sBufferIdx*sizeof(uint16_t));
                                 memset(&eventMapCS2[signalIdx1], 0, sBufferIdx*sizeof(uint16_t));
@@ -316,7 +316,7 @@ void MRMWPCRecAlg::processMap() {
         }
         // last signal
         if(signalIdx1!=-1) {
-            if(DEBUG) cout << "find signal " << signalIdx1 << ", " << signalIdx2 << endl;
+            //if(DEBUG) cout << "find signal " << signalIdx1 << ", " << signalIdx2 << endl;
             if(cross1>0) {
                 if(cross2!=0) {
                     memcpy(&eventMapCS1[signalIdx1], sBuffer, sBufferIdx*sizeof(uint16_t));
@@ -344,7 +344,7 @@ void MRMWPCRecAlg::processMap() {
         }
         signalMapXIdx[idx] = sxIdx;
         signalMapYIdx[idx] = syIdx;
-        if(DEBUG&&(idx>1)) cout << dec << "slice " << sliceIdx1 << " accumulate signalX " << sxIdx-signalMapXIdx[idx-1] << ", signalY " << syIdx-signalMapYIdx[idx-1] << endl;
+        //if(DEBUG&&(idx>1)) cout << dec << "slice " << sliceIdx1 << " accumulate signalX " << sxIdx-signalMapXIdx[idx-1] << ", signalY " << syIdx-signalMapYIdx[idx-1] << endl;
     }
 
     // last slice
@@ -353,7 +353,7 @@ void MRMWPCRecAlg::processMap() {
     signalIdx1 = -1;
     signalIdx2 = -1;
     sliceIdx1 = eventMapSlice[sliceNumber];
-    if(DEBUG) cout << hex << "process list slice " << sliceIdx1 << endl;
+    //if(DEBUG) cout << hex << "process list slice " << sliceIdx1 << endl;
     eventMapCS1 = &eventMapC[sliceIdx1*SIGNALSIZE];
     eventMapTS1 = &eventMapT[sliceIdx1*SIGNALSIZE];
     for(int cIdx=eventMapMin[sliceNumber]; cIdx<=eventMapMax[sliceNumber]; cIdx++) {
@@ -376,7 +376,7 @@ void MRMWPCRecAlg::processMap() {
                     signalIdx2 = cur_SigIdx;
                 }
                 else {
-                    if(DEBUG) cout << "find signal " << signalIdx1 << ", " << signalIdx2 << endl;
+                    //if(DEBUG) cout << "find signal " << signalIdx1 << ", " << signalIdx2 << endl;
                     //processSignal(sliceIdx1, signalIdx1, signalIdx2); // [idx1, idx2]
                     {
                         center = (signalIdx1+signalIdx2)>>1;
@@ -403,7 +403,7 @@ void MRMWPCRecAlg::processMap() {
     }
     // last signal
     if(signalIdx1!=-1) {
-        if(DEBUG) cout << "find signal " << signalIdx1 << ", " << signalIdx2 << endl;
+        //if(DEBUG) cout << "find signal " << signalIdx1 << ", " << signalIdx2 << endl;
         //processSignal(sliceIdx1, signalIdx1, signalIdx2); // [signalIdx1, signalIdx2]
         {
             center = (signalIdx1+signalIdx2)>>1;
@@ -425,9 +425,9 @@ void MRMWPCRecAlg::processMap() {
     }
     signalMapXIdx[sliceNumber] = sxIdx;
     signalMapYIdx[sliceNumber] = syIdx;
-    if(DEBUG) cout << dec << "last slice " << sliceIdx1 << " accumulate signalX " << sxIdx-signalMapXIdx[sliceNumber-1] << ", signalY " << syIdx-signalMapYIdx[sliceNumber-1] << endl;
+    //if(DEBUG) cout << dec << "last slice " << sliceIdx1 << " accumulate signalX " << sxIdx-signalMapXIdx[sliceNumber-1] << ", signalY " << syIdx-signalMapYIdx[sliceNumber-1] << endl;
 
-    if(DEBUG) cout << "processMap end." << endl;
+    //if(DEBUG) cout << "processMap end." << endl;
 }
 
 void MRMWPCRecAlg::matchNeutron() {
@@ -466,13 +466,13 @@ void MRMWPCRecAlg::matchNeutron() {
                 }
             }
             //std::cout<<"xStart xEnd: "<<i<<"  "<<signalMapXM[i]<<std::endl;
-            if(DEBUG) cout << dec << "scan match X-" << i << " tof " << tx << "to Ys " << yStart << ", " << yEnd << ", ms " << signalMapXM[i] << endl;
+            //if(DEBUG) cout << dec << "scan match X-" << i << " tof " << tx << "to Ys " << yStart << ", " << yEnd << ", ms " << signalMapXM[i] << endl;
             if(signalMapXM[i]==1) {
                 
                 matchX[matchIdx] = i;
                 matchY[matchIdx] = m;
                 matchIdx++;
-                if(DEBUG) cout << "pre-match X-" << i << " tof " << tx << ", Y-" << m << " tof " << signalMapYT[m] << endl;
+               // if(DEBUG) cout << "pre-match X-" << i << " tof " << tx << ", Y-" << m << " tof " << signalMapYT[m] << endl;
             }
         }
     }
@@ -484,7 +484,7 @@ void MRMWPCRecAlg::matchNeutron() {
     for(int mIdx=0; mIdx<matchIdx; mIdx++) {
         xIdx = matchX[mIdx];
         yIdx = matchY[mIdx];
-        if(DEBUG) cout << "checking Y tof " << signalMapYT[yIdx] << " match number " << signalMapYM[yIdx] << endl;
+       // if(DEBUG) cout << "checking Y tof " << signalMapYT[yIdx] << " match number " << signalMapYM[yIdx] << endl;
         if(signalMapYM[yIdx]==1) {
             hitX.time = signalMapXT[xIdx];
             hitY.time = signalMapYT[yIdx];
@@ -498,12 +498,12 @@ void MRMWPCRecAlg::matchNeutron() {
             
             //std::cout << "find neutron: x[" << hitX.center << "], y[" << hitY.center <<"]"<< std::endl;
         if (hitX.center<50.0 && hitX.center>0.0 && hitY.center<141.0 && hitY.center>49.0){
-            std::cout<<"start set evtd"<<std::endl;
+            //std::cout<<"start set evtd"<<std::endl;
 		    EvtD* evt = m_evtcol->add_item();
 		    evt->setX((hitY.center-(float)XCHANNELNUM)*2.2);
 		    evt->setY(((float)XCHANNELNUM-hitX.center)*4.0);
 		    evt->setTOF((hitX.time+hitY.time)>>1);
-            std::cout<<"finish set evtd"<<std::endl;
+            //std::cout<<"finish set evtd"<<std::endl;
         }else{continue;}
 
         }

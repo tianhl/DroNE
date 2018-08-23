@@ -22,7 +22,6 @@
 #include "DroNECore/DataInputSvc.h"
 
 class DataSvc;
-class DataProvideSvc;
 class DecodeHe3TRawDataV02;
 
 class He3TRawDataInputSvcV02 : public DataInputSvc
@@ -37,22 +36,9 @@ class He3TRawDataInputSvcV02 : public DataInputSvc
       bool next();
 
     private :
-      size_t nextSegment();
-      uint8_t* readByte();
-
-    private :
 
       DataSvc*              m_dataSvc;
-      DataProvideSvc*       m_dataPvdSvc;
-
       DecodeHe3TRawDataV02* m_decoder;
-
-      uint8_t*          m_dataBuff;
-      uint32_t          m_offset;
-      uint32_t          m_buffsize;
-      uint32_t          m_currbuffsize;
-      bool              m_isLastSegment;
-      //std::vector<std::string> m_inputFile;
 
 };
 

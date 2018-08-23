@@ -19,6 +19,7 @@
 #include <string>
 
 #include "SniperKernel/SvcBase.h"
+#include "DroNECore/DataProvideSvc.h"
 
 
 class DataInputSvc : public SvcBase
@@ -31,6 +32,20 @@ class DataInputSvc : public SvcBase
       virtual bool initialize();
       virtual bool finalize();
       virtual bool next();
+    protected :
+      size_t nextSegment();
+      uint8_t* readByte();
+
+    protected :
+      DataProvideSvc*   m_dataPvdSvc;
+
+    protected :
+      uint8_t*          m_dataBuff;
+      uint32_t          m_offset;
+      uint32_t          m_buffsize;
+      uint32_t          m_currbuffsize;
+      bool              m_isLastSegment;
+
 
 };
 

@@ -16,7 +16,6 @@
 #include "DataSvc/RawDataInputSvc.h"
 #include "DataSvc/DecodeRawData.h"
 
-#include "DroNECore/DataProvideSvc.h"
 #include "DroNECore/DataSvc.h"
 
 #include "SniperKernel/Incident.h"
@@ -45,12 +44,8 @@ DECLARE_SERVICE(RawDataInputSvc);
 
 RawDataInputSvc::RawDataInputSvc(const std::string& name)
 : DataInputSvc(name) {
-	declProp("BuffSize",  m_buffsize);
 	m_decoder = new DecodeRawData();
 
-	m_isLastSegment = false;
-	m_offset = 0;
-	m_currbuffsize = 0;
 }
 
 RawDataInputSvc::~RawDataInputSvc() {
@@ -59,9 +54,6 @@ RawDataInputSvc::~RawDataInputSvc() {
 bool RawDataInputSvc::initialize() {
 
 	LogInfo << "InputSvc initialize " << std::endl;
-
-	m_dataBuff = new uint8_t[m_buffsize];
-	for(uint32_t i =0; i < m_buffsize; i++) m_dataBuff[i] = 0xFF;
 
 	SniperPtr<DataSvc> pDSvc("DataSvc");
 	if ( pDSvc.invalid()) throw SniperException("DataSvc is invalid!");
@@ -236,22 +228,3 @@ STARTNEXT:
 
 }
 
-//=====================================================================
-// Private Functions
-// ====================================================================
-
-uint8_t* RawDataInputSvc::readByte(){
-	if(m_offset == m_currbuffsize) m_currbuffsize = nextSegment();
-        //std::cout << "raw data input svc m_offset: " << m_offset << std::endl;
-	//printf("ReadByte %x\n",*(m_dataBuff+m_offset));
-	if(0 == m_currbuffsize)return (uint8_t*)NULL;
-	else return (uint8_t*)(m_dataBuff+(m_offset++));
-}
-
-size_t RawDataInputSvc::nextSegment() {
-        //std::cout << "nextSegment" << std::endl;
-	m_offset = 0;
-	if (not m_dataPvdSvc->read(m_dataBuff, m_buffsize)) m_isLastSegment = true;
-        //std::cout << "nSegment get count: " << m_dataPvdSvc->count() << std::endl;
-	return m_dataPvdSvc->count();
-}

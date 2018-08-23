@@ -75,7 +75,7 @@ bool MRMWPCMapAlg::execute()
     uint32_t module;
 	uint64_t pixelID;
 	uint32_t size = m_evtcol->size();
-    std::cout<<"mapping evt size: "<<size<<std::endl;
+    //std::cout<<"mapping evt size: "<<size<<std::endl;
 	for(uint32_t i = 0; i < size; i++){
 		EvtD* evt = m_evtcol->at(i);
 

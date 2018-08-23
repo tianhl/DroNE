@@ -40,17 +40,22 @@ class DynamicThreadedQueue
 :boost::noncopyable
 {
 	public:
-		DynamicThreadedQueue() : queue_(), cond_(), mutex_() {}
+		DynamicThreadedQueue() : queue_(), cond_(), mutex_(), m_maxSize(0) {}
 		~DynamicThreadedQueue(){}
 
+	        void setMaxSize(unsigned maxSize){
+                        m_maxSize = maxSize;
+		}
+
 		void put(const T& obj) {
+                        if(m_maxSize and (m_maxSize<=size()))return;
 			boost::unique_lock<boost::mutex> lock(mutex_); 
 			queue_.push(obj);
 			cond_.notify_all();
 		}
 
 		T get() {
-                        // If queue size is zero, process is blocked.
+			// If queue size is zero, process is blocked.
 			boost::unique_lock<boost::mutex> lock(mutex_); 
 			while(queue_.size()== 0) cond_.wait(lock);
 			T front(queue_.front());
@@ -59,7 +64,7 @@ class DynamicThreadedQueue
 		}
 
 		T getUB() {
-                        // If queue size is zero, process returns NULL.
+			// If queue size is zero, process returns NULL.
 			boost::unique_lock<boost::mutex> lock(mutex_); 
 			if(0 == queue_.size()) return NULL; 
 			T front(queue_.front());
@@ -71,9 +76,10 @@ class DynamicThreadedQueue
 
 		void notify_all() { cond_.notify_all(); }
 	private:
-		std::queue<T> queue_;
+		std::queue<T>                 queue_;
 		boost::condition_variable_any cond_;
-		boost::mutex mutex_;
+		boost::mutex                  mutex_;
+		unsigned                      m_maxSize;
 };
 
 

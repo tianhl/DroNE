@@ -39,6 +39,8 @@ DimRecvSvc::DimRecvSvc(const std::string& name)
 {
 	declProp("DataSize", m_dataSize);
         declProp("DimServerName", m_dimServer);
+        LogInfo << " Max Size of Queue: " << m_dataSize << std::endl;
+        if(m_dataSize>0)dataQueue.setMaxSize(m_dataSize);
 
 	m_client = NULL;
 	m_curDataItem = NULL;
