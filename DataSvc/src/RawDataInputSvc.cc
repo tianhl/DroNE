@@ -54,6 +54,7 @@ RawDataInputSvc::~RawDataInputSvc() {
 bool RawDataInputSvc::initialize() {
 
 	LogInfo << "InputSvc initialize " << std::endl;
+        DataInputSvc::initialize();
 
 	SniperPtr<DataSvc> pDSvc("DataSvc");
 	if ( pDSvc.invalid()) throw SniperException("DataSvc is invalid!");

@@ -39,6 +39,7 @@ class DumpAlg: public AlgBase
         bool finalize();
 
     private:
+        int      m_int;
         uint64_t m_count;
 	uint64_t m_evtnum;
 	uint64_t m_hitnum;

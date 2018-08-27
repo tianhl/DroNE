@@ -34,6 +34,7 @@ DumpAlg::DumpAlg(const std::string& name)
     : AlgBase(name)
 {
 	declProp("OutputFileName",m_outputfile);
+	declProp("IntExample",m_int);
 
 	m_count = 0;
 	m_evtnum = 0;
@@ -50,16 +51,17 @@ DumpAlg::~DumpAlg()
 DumpAlg::initialize()
 {
 	LogInfo << " initialized successfully" << std::endl;
+        std::cout << " int example: " << m_int << std::endl;
 
-	SniperPtr<DataSvc> pSvc("DataSvc");
-	if ( pSvc.invalid()) {
-		return false;
-	}
+	//SniperPtr<DataSvc> pSvc("DataSvc");
+	//if ( pSvc.invalid()) {
+	//	return false;
+	//}
 
-	m_svc = pSvc.data();
-	std::cout << "get DataSvc " << m_svc->objName() << std::endl;
+	//m_svc = pSvc.data();
+	//std::cout << "get DataSvc " << m_svc->objName() << std::endl;
 
-	m_start = clock();
+	//m_start = clock();
 	return true;
 }
 
@@ -67,14 +69,15 @@ DumpAlg::initialize()
 DumpAlg::execute()
 {
 	++m_count;
+	LogInfo << " execute successfully" << std::endl;
 
 	//NeutronPulse* pulse  = m_svc->getObj<NeutronPulse>("/pulse");
 	//SNDHitList*   hitcol = m_svc->getObj<SNDHitList>("/pulse/hits");
-	EvtList*      evtcol = m_svc->getObj<EvtList>("/pulse/evts");
-	for( uint32_t i = 0; i < evtcol->size(); i++){
-             Evt* evt = evtcol->at(i);
-             std::cout << "PID: " << evt->getPixelID() << " TOF: " << evt->getTOF() << std::endl;
-	}
+	//EvtList*      evtcol = m_svc->getObj<EvtList>("/pulse/evts");
+	//for( uint32_t i = 0; i < evtcol->size(); i++){
+        //     Evt* evt = evtcol->at(i);
+        //     std::cout << "PID: " << evt->getPixelID() << " TOF: " << evt->getTOF() << std::endl;
+	//}
 
 
 

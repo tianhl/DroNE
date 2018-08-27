@@ -54,6 +54,7 @@ He3TRawDataInputSvcV02::~He3TRawDataInputSvcV02() {
 bool He3TRawDataInputSvcV02::initialize() {
 
 	LogInfo << "InputSvc initialize " << std::endl;
+        DataInputSvc::initialize();
 
 	SniperPtr<DataSvc> pDSvc("DataSvc");
 	if ( pDSvc.invalid()) throw SniperException("DataSvc is invalid!");

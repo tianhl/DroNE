@@ -31,8 +31,6 @@ DECLARE_SERVICE(DataInputSvc);
 DataInputSvc::DataInputSvc(const std::string& name)
 : SvcBase(name) {
 	declProp("BuffSize",  m_buffsize);
-	m_dataBuff = new uint8_t[m_buffsize];
-	for(uint32_t i =0; i < m_buffsize; i++) m_dataBuff[i] = 0xFF;
 	m_isLastSegment = false;
 	m_offset = 0;
 	m_currbuffsize = 0;
@@ -42,6 +40,9 @@ DataInputSvc::~DataInputSvc() {
 }
 
 bool DataInputSvc::initialize() {
+        LogInfo << "DataInputSvc Creates Buffer, Size: " << m_buffsize << std::endl;
+	m_dataBuff = new uint8_t[m_buffsize];
+	for(uint32_t i =0; i < m_buffsize; i++) m_dataBuff[i] = 0xFF;
 	return true;
 }
 

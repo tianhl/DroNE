@@ -16,7 +16,7 @@ if __name__ == "__main__":
     task = DroNECore.DroNE("task")
     #task = Sniper.Task("task")
     task.asTop()
-    task.setLogLevel(0)
+    task.setLogLevel(4)
     
 
     ## ===========================
@@ -28,7 +28,8 @@ if __name__ == "__main__":
     iSvc = task.find("DataInputSvc")
     iPvd = task.find("DataProvideSvc")
 
-    filelist = ["data/pack220180623212321.dat","data/pack220180623212321.dat"]
+    #filelist = ["data/pack220180623212321.dat","data/pack220180623212321.dat"]
+    filelist = ['data/pack220180628102524.dat']
     #filelist = ["data/dimstorefile.dat"]
     #filelist = ["data/dimstorefile.dat","data/dimstorefile.dat"]
     iPvd.property("InputFile").set(filelist) #"N_3Cdmaskslit.dat", 
@@ -40,6 +41,10 @@ if __name__ == "__main__":
     ## ===========================
     import Algorithms
     task.property("algs").append("MRMWPCRecAlg")
+    task.property("algs").append("MRMWPCMapAlg")
+    task.property("algs").append("DumpAlg")
+    iAlg = task.find('DumpAlg')
+    iAlg.property('IntExample').set(10)
 
     ## ===========================
     task.setEvtMax(-1)
