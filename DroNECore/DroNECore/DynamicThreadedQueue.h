@@ -47,11 +47,12 @@ class DynamicThreadedQueue
                         m_maxSize = maxSize;
 		}
 
-		void put(const T& obj) {
-                        if(m_maxSize and (m_maxSize<=size()))return;
+		bool put(const T& obj) {
+                        if((0<m_maxSize) and (m_maxSize<=size()))return false;
 			boost::unique_lock<boost::mutex> lock(mutex_); 
 			queue_.push(obj);
 			cond_.notify_all();
+                        return true;
 		}
 
 		T get() {

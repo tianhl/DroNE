@@ -115,7 +115,12 @@ void DimRecvSvc::pushDataItem(uint8_t* item, size_t size) {
 	uint8_t* data = new uint8_t[size];
 	memcpy(data, (uint8_t*)item, size);
 	Item* dataItem = new Item(data, size);
-	dataQueue.put(dataItem);
+
+	bool status = dataQueue.put(dataItem);
+	if (status == false){
+		delete [] data;
+		delete dataItem;
+	}
 }
 
 
